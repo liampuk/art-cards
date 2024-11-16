@@ -233,8 +233,8 @@ const Artist = styled(motion.div)`
   transform: translateZ(2px);
   background-blend-mode: screen, multiply, normal;
   mix-blend-mode: lighten;
-  -webkit-mask-image: url("/art-cards/pngdiamondmask.png");
-  mask-image: url("/art-cards/pngdiamondmask.png");
+  -webkit-mask-image: url("pngdiamondmask.png");
+  mask-image: url("pngdiamondmask.png");
   -webkit-mask-size: cover;
   mask-size: cover;
   -webkit-mask-position: center center;
