@@ -133,7 +133,7 @@ export const MotionCard2: FC = () => {
             rotateY: rotateXSpring,
           }}
         >
-          <CardBackImage src="/back.png" />
+          <CardBackImage src="/back.jpg" />
           <Glare
             style={{
               backgroundImage: glareBackgroundImageReverse,

@@ -176,7 +176,7 @@ export const MotionCard3: FC = () => {
             rotateY: rotateXSpring,
           }}
         >
-          <CardBackImage src="/back.png" />
+          <CardBackImage src="/back.jpg" />
           <Glare
             style={{
               backgroundImage: glareBackgroundImageReverse,
@@ -233,8 +233,8 @@ const Artist = styled(motion.div)`
   transform: translateZ(2px);
   background-blend-mode: screen, multiply, normal;
   mix-blend-mode: lighten;
-  -webkit-mask-image: url("pngdiamondmask.png");
-  mask-image: url("pngdiamondmask.png");
+  -webkit-mask-image: url("/pngdiamondmask.png");
+  mask-image: url("/pngdiamondmask.png");
   -webkit-mask-size: cover;
   mask-size: cover;
   -webkit-mask-position: center center;
@@ -297,7 +297,6 @@ const CardContainer = styled(motion.div)`
   position: absolute;
   cursor: pointer;
   transform-style: preserve-3d;
-  border-radius: 4px;
 `
 
 const CardImage = styled.img`
