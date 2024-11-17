@@ -6,7 +6,15 @@ const STIFFNESS = 1000
 const DAMPENING = 10
 const CARD_HEIGHT = 70
 
-export const MotionCard4: FC = () => {
+type Props = {
+  cardImage: string
+  cardImageMask?: string
+}
+
+export const MotionCardComponent: FC<Props> = ({
+  cardImage,
+  cardImageMask,
+}) => {
   const [_tempForceUpdate, setTempForceUpdate] = useState(0)
   const [reverse, setReverse] = useState(false)
   const [hover, setHover] = useState(false)
@@ -31,8 +39,21 @@ export const MotionCard4: FC = () => {
     damping: DAMPENING,
   })
 
+  const backgroundPosX = useTransform(
+    () => cursorPosX.get() * 20 + 40 + reverseModSpring.get()
+  )
+  const backgroundPosY = useTransform(() => cursorPosY.get() * 20 + 40)
+
   const cursorPosXPercentage = useTransform(() => cursorPosX.get() * 100)
   const cursorPosYPercentage = useTransform(() => cursorPosY.get() * 100)
+  const cursorPosXSpring = useSpring(cursorPosXPercentage, {
+    stiffness: STIFFNESS,
+    damping: DAMPENING,
+  })
+  const cursorPosYSpring = useSpring(cursorPosYPercentage, {
+    stiffness: STIFFNESS,
+    damping: DAMPENING,
+  })
 
   const rotateX = useMotionValue(0)
   const rotateY = useMotionValue(0)
@@ -85,6 +106,32 @@ export const MotionCard4: FC = () => {
   const glareBackgroundImageReverse = `radial-gradient(farthest-corner circle at ${
     100 - cursorPosXPercentage.get()
   }% ${cursorPosYPercentage.get()}%, hsl(0, 0%, 100%) 0%, hsla(210, 3%, 54%, 0.33) 45%, hsla(0, 0%, 20%, 0.9) 130%)`
+  const shineBackgroundImage = `url("grain.webp"),
+    repeating-linear-gradient(
+      0deg,
+      hsl(2, 100%, 73%) calc(5% * 1),
+      hsl(53, 100%, 69%) calc(5% * 2),
+      hsl(93, 100%, 69%) calc(5% * 3),
+      hsl(176, 100%, 76%) calc(5% * 4),
+      hsl(228, 100%, 74%) calc(5% * 5),
+      hsl(283, 100%, 73%) calc(5% * 6),
+      hsl(2, 100%, 73%) calc(5% * 7)
+    ),
+    repeating-linear-gradient(
+      133deg,
+      #0e152e 0%,
+      hsl(180, 10%, 60%) 3.8%,
+      hsl(180, 29%, 66%) 4.5%,
+      hsl(180, 10%, 60%) 5.2%,
+      #0e152e 10%,
+      #0e152e 12%
+    ),
+    radial-gradient(
+      farthest-corner circle at ${cursorPosXSpring.get()}% ${cursorPosYSpring.get()}%,
+      hsla(0, 0%, 0%, 0.1) 12%,
+      hsla(0, 0%, 0%, 0.15) 20%,
+      hsla(0, 0%, 0%, 0.25) 120%
+    )`
 
   const artistBackground = `conic-gradient(
       from ${rotateX.get() * 2}deg at 50% 50%,
@@ -113,6 +160,14 @@ export const MotionCard4: FC = () => {
       rgba(66, 232, 255, 1) 63%,
       rgba(66, 255, 107, 1) 100%
     )`
+
+  const shineBackgroundPos = `center, 0% ${backgroundPosY.get()}%,
+    ${backgroundPosX.get()}% ${backgroundPosY.get()}%,
+    ${backgroundPosX.get()}% ${backgroundPosY.get()}%`
+
+  const shineBackgroundOverlayPos = `center, 0% ${backgroundPosY.get()}%,
+    -${backgroundPosX.get()}% -${backgroundPosY.get()}%,
+    ${backgroundPosX.get()}% ${backgroundPosY.get()}%`
 
   return (
     <Container>
@@ -150,10 +205,29 @@ export const MotionCard4: FC = () => {
               height: cardWidth / 10,
               top: cardHeight / 21,
               right: cardWidth / 15.8,
-              opacity: hover ? 0.7 : 0.2,
+              opacity: hover ? 0.65 : 0.2,
             }}
           />
-          <CardImage src="/gathering-almond-blossoms.jpg" />
+          <CardImage src={`/${cardImage}.jpg`} />
+          {cardImageMask && (
+            <Variables $maskImage={`${cardImageMask}.png`}>
+              <Shine
+                style={{
+                  backgroundImage: shineBackgroundImage,
+                  backgroundPosition: shineBackgroundPos,
+                }}
+              >
+                <ShineOverlay
+                  style={{
+                    backgroundImage: shineBackgroundImage,
+                    backgroundPosition: shineBackgroundOverlayPos,
+                  }}
+                />
+              </Shine>
+
+              <BrightBackground />
+            </Variables>
+          )}
 
           <Glare
             style={{
@@ -165,6 +239,10 @@ export const MotionCard4: FC = () => {
     </Container>
   )
 }
+
+const Variables = styled.div<{ $maskImage: string }>`
+  ${({ $maskImage }) => `--mask-image: url("${$maskImage}")`};
+`
 
 const Artist = styled(motion.div)`
   position: absolute;
@@ -179,7 +257,7 @@ const Artist = styled(motion.div)`
   mask-position: center center;
   transition: opacity 0.3s ease-out;
 
-  filter: brightness(1.5) contrast(0.8);
+  filter: brightness(1.8) contrast(0.8);
 `
 
 const FaceCardContainer = styled(motion.div)`
@@ -199,6 +277,26 @@ const BackCardContainer = styled(motion.div)`
   height: 70vh;
 `
 
+const BrightBackground = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-image: url("hdr_pixel.avif");
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: var(--mask-image);
+  mask-image: var(--mask-image);
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-position: center center;
+  mask-position: center center;
+  opacity: 0.05;
+  height: ${CARD_HEIGHT}vh;
+`
+
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -214,7 +312,6 @@ const CardContainer = styled(motion.div)`
   position: absolute;
   cursor: pointer;
   transform-style: preserve-3d;
-  border-radius: 4px;
 `
 
 const CardImage = styled.img`
@@ -240,4 +337,48 @@ const Glare = styled(motion.div)`
   opacity: 0.3;
   mix-blend-mode: hard-light;
   filter: brightness(0.9) contrast(1.75);
+`
+
+const Shine = styled(motion.div)`
+  height: ${CARD_HEIGHT}vh;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  height: ${CARD_HEIGHT}vh;
+  width: 100%;
+  border-radius: 4px;
+
+  background: transparent;
+  mix-blend-mode: color-dodge;
+
+  filter: brightness(0.7) contrast(2) saturate(0.5);
+
+  background-blend-mode: screen, hue, hard-light;
+  background-size: 500px 100%, 200% 700%, 300% 100%, 200% 100%;
+
+  background-blend-mode: screen, hue, hard-light;
+  filter: brightness(0.8) contrast(2.95) saturate(0.65);
+  -webkit-mask-image: var(--mask-image);
+  mask-image: var(--mask-image);
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-position: center center;
+  mask-position: center center;
+`
+
+const ShineOverlay = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  mix-blend-mode: color-dodge;
+  filter: brightness(0.7) contrast(2) saturate(0.5);
+  background-blend-mode: screen, hue, hard-light;
+  background-size: 500px 100%, 200% 400%, 195% 100%, 200% 100%;
+  background-blend-mode: screen, hue, hard-light;
+  filter: brightness(0.8) contrast(2.95) saturate(0.65);
+  content: "";
+  filter: brightness(1) contrast(2.5) saturate(1.75);
+  mix-blend-mode: soft-light;
 `

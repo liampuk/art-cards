@@ -256,8 +256,7 @@ const FaceCardContainer = styled(motion.div)`
 `
 
 const BackCardContainer = styled(motion.div)`
-  top: 0;
-  left: 0;
+  overflow: hidden;
   border-radius: 4px;
   height: 70vh;
 `

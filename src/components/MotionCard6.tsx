@@ -34,11 +34,6 @@ export const MotionCard6: FC = () => {
   const backgroundPosX = useTransform(
     () => cursorPosX.get() * 20 + 40 + reverseModSpring.get()
   )
-  console.log(
-    cursorPosX.get(),
-    cursorPosX.get() * 20,
-    backgroundPosX.get() * 20 + 40
-  )
   const backgroundPosY = useTransform(() => cursorPosY.get() * 20)
 
   const cursorPosXPercentage = useTransform(() => cursorPosX.get() * 100 - 3)
@@ -293,8 +288,7 @@ const FaceCardContainer = styled(motion.div)`
 `
 
 const BackCardContainer = styled(motion.div)`
-  top: 0;
-  left: 0;
+  overflow: hidden;
   border-radius: 4px;
   height: 70vh;
 `

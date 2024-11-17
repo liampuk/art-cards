@@ -1,16 +1,17 @@
-import { MotionCard4 } from "./components/MotionCard4"
-import { MotionCard5 } from "./components/MotionCard5"
-import { MotionCard6 } from "./components/MotionCard6"
-import { MotionCard7 } from "./components/MotionCard7"
+import { MotionCardComponent } from "./components/MotionCardComponent"
 
 function App() {
   return (
     <>
       <div>
+        <MotionCardComponent
+          cardImage="the-day-dream"
+          cardImageMask="the-day-dream-mask"
+        />
+        {/* <MotionCard7 />
         <MotionCard5 />
-        <MotionCard7 />
         <MotionCard6 />
-        <MotionCard4 />
+        <MotionCard4 /> */}
       </div>
     </>
   )
