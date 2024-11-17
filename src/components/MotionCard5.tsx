@@ -98,7 +98,7 @@ export const MotionCard5: FC = () => {
   const glareBackgroundImageReverse = `radial-gradient(farthest-corner circle at ${
     100 - cursorPosXPercentage.get()
   }% ${cursorPosYPercentage.get()}%, hsl(0, 0%, 100%) 0%, hsla(210, 3%, 54%, 0.33) 45%, hsla(0, 0%, 20%, 0.9) 130%)`
-  const shineBackgroundImage = `url("https://poke-holo.simey.me/img/grain.webp"),
+  const shineBackgroundImage = `url("grain.webp"),
     repeating-linear-gradient(
       0deg,
       hsl(2, 100%, 73%) calc(5% * 1),

@@ -108,7 +108,7 @@ const Shine = styled.div`
   background: transparent;
   mix-blend-mode: color-dodge;
 
-  background-image: url("https://poke-holo.simey.me/img/grain.webp"),
+  background-image: url("grain.webp"),
     repeating-linear-gradient(
       0deg,
       hsl(2, 100%, 73%) calc(5% * 1),
@@ -163,7 +163,7 @@ const ShineOverlay = styled(Shine)`
   background: transparent;
   mix-blend-mode: color-dodge;
 
-  background-image: url("https://poke-holo.simey.me/img/grain.webp"),
+  background-image: url("grain.webp"),
     repeating-linear-gradient(
       0deg,
       hsl(2, 100%, 73%) calc(5% * 1),
