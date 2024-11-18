@@ -119,10 +119,10 @@ export const MotionCard6: FC = () => {
       ),
       repeating-linear-gradient(
         90deg,
-        #000 calc(0.5px * 0),
-        #000 calc(0.5px * 2),
-        #666 calc(0.5px * 2),
-        #666 calc(0.5px * 4)
+        #000 0,
+        #000 1px,
+        #666 1px,
+        #666 2px
       )
   `
 
@@ -233,6 +233,7 @@ export const MotionCard6: FC = () => {
             style={{
               backgroundImage: shineBackgroundImage,
               backgroundPosition: shineBackgroundPos,
+              opacity: hover ? 0.8 : 0,
             }}
           >
             <ShineOverlay
@@ -250,11 +251,11 @@ export const MotionCard6: FC = () => {
 
           <BrightBackground />
 
-          {/* <Glare
+          <Glare
             style={{
               backgroundImage: glareBackgroundImage,
             }}
-          /> */}
+          />
         </FaceCardContainer>
       </CardContainer>
     </Container>
@@ -350,7 +351,7 @@ const Glare = styled(motion.div)`
   height: ${CARD_HEIGHT}vh;
   width: 100%;
   border-radius: 4px;
-  opacity: 0.3;
+  opacity: 0.2;
   mix-blend-mode: hard-light;
   filter: brightness(0.9) contrast(1.75);
 `
@@ -368,7 +369,7 @@ const Shine = styled(motion.div)`
 
   background-size: 400% 400%, 102%;
   background-blend-mode: overlay;
-  /* filter: brightness(1.1) contrast(1.1) saturate(1.2); */
+  /* filter: brightness(1.1) contrast(1.1) saturate(1.1); */
   mix-blend-mode: color-dodge;
 
   -webkit-mask-image: url("/joan-of-arc-2-mask.png");
@@ -378,6 +379,7 @@ const Shine = styled(motion.div)`
   -webkit-mask-position: center center;
   mask-position: center center;
   opacity: 0.8;
+  transition: opacity 0.3s ease;
 `
 
 const ShineOverlay = styled(motion.div)`
@@ -386,9 +388,9 @@ const ShineOverlay = styled(motion.div)`
   height: 100%;
   width: 100%;
   background: transparent;
-  background-size: 200% 200%, 200% 200%;
+  background-size: 150% 150%, 150% 150%;
   background-blend-mode: screen;
-  filter: brightness(1.15) contrast(1.1);
+  /* filter: brightness(1.15) contrast(1.1); */
   mix-blend-mode: hard-light;
 `
 
@@ -400,5 +402,6 @@ const ShineGlare = styled(motion.div)`
   background-position: center center;
   background-size: cover;
   mix-blend-mode: luminosity;
-  filter: brightness(0.9);
+  mix-blend-mode: hard-light;
+  filter: brightness(0.8) contrast(1.75);
 `

@@ -1,14 +1,31 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
-import { FC, useState } from "react"
+import { FC, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 
 const STIFFNESS = 1000
 const DAMPENING = 10
 const CARD_HEIGHT = 70
 
-export const MotionCard2: FC = () => {
+type Props = {
+  cardImage: string
+  cardImageMask?: string
+}
+
+export const MotionCard2: FC<Props> = ({ cardImage, cardImageMask }) => {
   const [_tempForceUpdate, setTempForceUpdate] = useState(0)
   const [reverse, setReverse] = useState(false)
+  const [hover, setHover] = useState(false)
+  const [cardWidth, setCardWidth] = useState(0)
+  const [cardHeight, setCardHeight] = useState(0)
+
+  const cardRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (cardRef.current) {
+      setCardWidth(cardRef.current.offsetWidth)
+      setCardHeight(cardRef.current.offsetHeight)
+    }
+  }, [window.innerWidth, window.innerHeight])
 
   const cursorPosX = useMotionValue(0)
   const cursorPosY = useMotionValue(0)
@@ -55,6 +72,7 @@ export const MotionCard2: FC = () => {
   }
 
   const handleMouseMove = (ev: React.MouseEvent<HTMLDivElement>) => {
+    setHover(true)
     const x = ev.clientX
     const y = ev.clientY
     const middleX = window.innerWidth / 2
@@ -75,6 +93,7 @@ export const MotionCard2: FC = () => {
   }
 
   const handleMouseLeave = (_ev: React.MouseEvent<HTMLDivElement>) => {
+    setHover(false)
     rotateX.set(0)
     rotateY.set(0)
     setTempForceUpdate(Math.random())
@@ -84,31 +103,76 @@ export const MotionCard2: FC = () => {
   const glareBackgroundImageReverse = `radial-gradient(farthest-corner circle at ${
     100 - cursorPosXPercentage.get()
   }% ${cursorPosYPercentage.get()}%, hsl(0, 0%, 100%) 0%, hsla(210, 3%, 54%, 0.33) 45%, hsla(0, 0%, 20%, 0.9) 130%)`
-  const shineBackgroundImage = `url("grain.webp"),
+  const shineBackgroundImage = `
+  url("/galaxy-1.png"),
     repeating-linear-gradient(
-      0deg,
-      hsl(2, 100%, 73%) calc(5% * 1),
-      hsl(53, 100%, 69%) calc(5% * 2),
-      hsl(93, 100%, 69%) calc(5% * 3),
-      hsl(176, 100%, 76%) calc(5% * 4),
-      hsl(228, 100%, 74%) calc(5% * 5),
-      hsl(283, 100%, 73%) calc(5% * 6),
-      hsl(2, 100%, 73%) calc(5% * 7)
+      172deg, 
+      hsl(53, 65%, 60%) calc(4% * 1), 
+      hsl(93, 56%, 50%) calc(4% * 2), 
+      hsl(176, 54%, 49%) calc(4% * 3), 
+      hsl(228, 59%, 55%) calc(4% * 4), 
+      hsl(283, 60%, 55%) calc(4% * 5), 
+      hsl(326, 59%, 51%) calc(4% * 6), 
+      hsl(326, 59%, 51%) calc(4% * 7), 
+      hsl(283, 60%, 55%) calc(4% * 8), 
+      hsl(228, 59%, 55%) calc(4% * 9), 
+      hsl(176, 54%, 49%) calc(4% * 10), 
+      hsl(93, 56%, 50%) calc(4% * 11), 
+      hsl(53, 65%, 60%) calc(4% * 12) 
+    ), 
+    radial-gradient( 
+      farthest-corner circle 
+      at ${cursorPosXPercentage.get()}% ${cursorPosYPercentage.get()}%, 
+      hsla(180, 100%, 89%, 0.5) 5%, 
+      hsla(180, 14%, 57%, 0.3) 40%, 
+      hsl(0, 0%, 0%) 130% 
+  )`
+
+  const shineOverlayBackgroundImage = `
+    background-image: url("/galaxy-2.png"),
+      repeating-linear-gradient(
+        82deg,
+        hsl(53, 65%, 60%) calc(4% * 1),
+        hsl(93, 56%, 50%) calc(4% * 2),
+        hsl(176, 54%, 49%) calc(4% * 3),
+        hsl(228, 59%, 55%) calc(4% * 4),
+        hsl(283, 60%, 55%) calc(4% * 5),
+        hsl(326, 59%, 51%) calc(4% * 6),
+        hsl(326, 59%, 51%) calc(4% * 7),
+        hsl(283, 60%, 55%) calc(4% * 8),
+        hsl(228, 59%, 55%) calc(4% * 9),
+        hsl(176, 54%, 49%) calc(4% * 10),
+        hsl(93, 56%, 50%) calc(4% * 11),
+        hsl(53, 65%, 60%) calc(4% * 12)
+      );
+  `
+
+  const artistBackground = `conic-gradient(
+      from ${rotateX.get() * 2}deg at 50% 50%,
+      rgba(0, 0, 0, 1) 0deg,
+      rgba(255, 255, 255, 0.7) 17deg,
+      rgba(0, 0, 0, 1) 88deg,
+      rgba(255, 255, 255, 0.7) 152deg,
+      rgba(0, 0, 0, 1) 225deg,
+      rgba(255, 255, 255, 0.7) 289deg,
+      rgba(0, 0, 0, 1) 360deg
     ),
-    repeating-linear-gradient(
-      133deg,
-      #0e152e 0%,
-      hsl(180, 10%, 60%) 3.8%,
-      hsl(180, 29%, 66%) 4.5%,
-      hsl(180, 10%, 60%) 5.2%,
-      #0e152e 10%,
-      #0e152e 12%
+    conic-gradient(
+      from ${180 - rotateY.get() * 2}deg at 50% 50%,
+      rgba(0, 0, 0, 1) 0deg,
+      rgba(255, 255, 255, 1) 30deg,
+      rgba(0, 0, 0, 1) 96deg,
+      rgba(255, 255, 255, 1) 169deg,
+      rgba(0, 0, 0, 1) 229deg,
+      rgba(255, 255, 255, 1) 285deg,
+      rgba(0, 0, 0, 1) 360deg
     ),
     radial-gradient(
-      farthest-corner circle at ${cursorPosXSpring.get()}% ${cursorPosYSpring.get()}%,
-      hsla(0, 0%, 0%, 0.1) 12%,
-      hsla(0, 0%, 0%, 0.15) 20%,
-      hsla(0, 0%, 0%, 0.25) 120%
+      88% 127% at 13% 13%,
+      rgba(248, 110, 251, 1) 8%,
+      rgba(115, 66, 255, 1) 35%,
+      rgba(66, 232, 255, 1) 63%,
+      rgba(66, 255, 107, 1) 100%
     )`
 
   const shineBackgroundPos = `center, 0% ${backgroundPosY.get()}%,
@@ -126,6 +190,7 @@ export const MotionCard2: FC = () => {
         onMouseMove={(ev) => handleMouseMove(ev)}
         onMouseLeave={(ev) => handleMouseLeave(ev)}
         whileHover={{ scale: 1.1, transition: { duration: 0.3 } }}
+        ref={cardRef}
       >
         <BackCardContainer
           style={{
@@ -147,22 +212,37 @@ export const MotionCard2: FC = () => {
             translateZ: 1,
           }}
         >
-          <CardImage src="/card.png" />
-          <Shine
+          <Artist
             style={{
-              backgroundImage: shineBackgroundImage,
-              backgroundPosition: shineBackgroundPos,
+              background: artistBackground,
+              width: cardWidth / 10,
+              height: cardWidth / 10,
+              top: cardHeight / 21,
+              right: cardWidth / 15.8,
+              opacity: hover ? 0.65 : 0.2,
             }}
-          >
-            <ShineOverlay
-              style={{
-                backgroundImage: shineBackgroundImage,
-                backgroundPosition: shineBackgroundOverlayPos,
-              }}
-            />
-          </Shine>
+          />
+          <CardImage src={`/${cardImage}.jpg`} />
+          {cardImageMask && (
+            <Variables $maskImage={`${cardImageMask}.png`}>
+              <Shine
+                style={{
+                  backgroundImage: shineBackgroundImage,
+                  backgroundPosition: shineBackgroundPos,
+                  opacity: hover ? 1 : 0,
+                }}
+              >
+                <ShineOverlay
+                  style={{
+                    backgroundImage: shineBackgroundImage,
+                    backgroundPosition: shineBackgroundOverlayPos,
+                  }}
+                />
+              </Shine>
 
-          <BrightBackground />
+              <BrightBackground />
+            </Variables>
+          )}
 
           <Glare
             style={{
@@ -175,6 +255,26 @@ export const MotionCard2: FC = () => {
   )
 }
 
+const Variables = styled.div<{ $maskImage: string }>`
+  ${({ $maskImage }) => `--mask-image: url("${$maskImage}")`};
+`
+
+const Artist = styled(motion.div)`
+  position: absolute;
+  transform: translateZ(2px);
+  background-blend-mode: screen, multiply, normal;
+  mix-blend-mode: lighten;
+  -webkit-mask-image: url("/pngdiamondmask.png");
+  mask-image: url("/pngdiamondmask.png");
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-position: center center;
+  mask-position: center center;
+  transition: opacity 0.3s ease-out;
+
+  filter: brightness(1.8) contrast(0.8);
+`
+
 const FaceCardContainer = styled(motion.div)`
   overflow: hidden;
   backface-visibility: hidden;
@@ -182,11 +282,14 @@ const FaceCardContainer = styled(motion.div)`
   top: 0;
   left: 0;
   z-index: 1000;
+  border-radius: 4px;
+  height: 70vh;
 `
 
 const BackCardContainer = styled(motion.div)`
-  top: 0;
-  left: 0;
+  overflow: hidden;
+  border-radius: 4px;
+  height: 70vh;
 `
 
 const BrightBackground = styled(motion.div)`
@@ -199,8 +302,8 @@ const BrightBackground = styled(motion.div)`
   width: 100%;
   position: absolute;
   mix-blend-mode: multiply;
-  -webkit-mask-image: url("/light.png");
-  mask-image: url("/light.png");
+  -webkit-mask-image: var(--mask-image);
+  mask-image: var(--mask-image);
   -webkit-mask-size: cover;
   mask-size: cover;
   -webkit-mask-position: center center;
@@ -224,7 +327,6 @@ const CardContainer = styled(motion.div)`
   position: absolute;
   cursor: pointer;
   transform-style: preserve-3d;
-  border-radius: 4px;
 `
 
 const CardImage = styled.img`
@@ -261,22 +363,18 @@ const Shine = styled(motion.div)`
   width: 100%;
   border-radius: 4px;
 
-  background: transparent;
-  mix-blend-mode: color-dodge;
+  background-blend-mode: color-burn, multiply;
+  background-size: cover, 100% 900%, cover;
+  filter: brightness(1) contrast(1) saturate(0.8);
+  mix-blend-mode: screen;
 
-  filter: brightness(0.7) contrast(2) saturate(0.5);
-
-  background-blend-mode: screen, hue, hard-light;
-  background-size: 500px 100%, 200% 700%, 300% 100%, 200% 100%;
-
-  background-blend-mode: screen, hue, hard-light;
-  filter: brightness(0.8) contrast(2.95) saturate(0.65);
-  -webkit-mask-image: url("/light.png");
-  mask-image: url("/light.png");
+  -webkit-mask-image: var(--mask-image);
+  mask-image: var(--mask-image);
   -webkit-mask-size: cover;
   mask-size: cover;
   -webkit-mask-position: center center;
   mask-position: center center;
+  transition: opacity 0.3s ease;
 `
 
 const ShineOverlay = styled(motion.div)`
@@ -285,13 +383,8 @@ const ShineOverlay = styled(motion.div)`
   height: 100%;
   width: 100%;
   background: transparent;
-  mix-blend-mode: color-dodge;
-  filter: brightness(0.7) contrast(2) saturate(0.5);
-  background-blend-mode: screen, hue, hard-light;
-  background-size: 500px 100%, 200% 400%, 195% 100%, 200% 100%;
-  background-blend-mode: screen, hue, hard-light;
-  filter: brightness(0.8) contrast(2.95) saturate(0.65);
-  content: "";
-  filter: brightness(1) contrast(2.5) saturate(1.75);
-  mix-blend-mode: soft-light;
+  background-blend-mode: lighten, multiply;
+  background-size: cover, 400% 900%, cover;
+  filter: brightness(1.25) contrast(1.75) saturate(0.8);
+  mix-blend-mode: overlay;
 `
