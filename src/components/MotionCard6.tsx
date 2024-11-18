@@ -38,14 +38,6 @@ export const MotionCard6: FC = () => {
 
   const cursorPosXPercentage = useTransform(() => cursorPosX.get() * 100 - 3)
   const cursorPosYPercentage = useTransform(() => cursorPosY.get() * 100 - 3)
-  const cursorPosXSpring = useSpring(cursorPosXPercentage, {
-    stiffness: STIFFNESS,
-    damping: DAMPENING,
-  })
-  const cursorPosYSpring = useSpring(cursorPosYPercentage, {
-    stiffness: STIFFNESS,
-    damping: DAMPENING,
-  })
 
   const rotateX = useMotionValue(0)
   const rotateY = useMotionValue(0)

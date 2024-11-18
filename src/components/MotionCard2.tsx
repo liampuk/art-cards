@@ -43,14 +43,6 @@ export const MotionCard2: FC<Props> = ({ cardImage, cardImageMask }) => {
 
   const cursorPosXPercentage = useTransform(() => cursorPosX.get() * 100)
   const cursorPosYPercentage = useTransform(() => cursorPosY.get() * 100)
-  const cursorPosXSpring = useSpring(cursorPosXPercentage, {
-    stiffness: STIFFNESS,
-    damping: DAMPENING,
-  })
-  const cursorPosYSpring = useSpring(cursorPosYPercentage, {
-    stiffness: STIFFNESS,
-    damping: DAMPENING,
-  })
 
   const rotateX = useMotionValue(0)
   const rotateY = useMotionValue(0)
@@ -127,25 +119,6 @@ export const MotionCard2: FC<Props> = ({ cardImage, cardImageMask }) => {
       hsla(180, 14%, 57%, 0.3) 40%, 
       hsl(0, 0%, 0%) 130% 
   )`
-
-  const shineOverlayBackgroundImage = `
-    background-image: url("/galaxy-2.png"),
-      repeating-linear-gradient(
-        82deg,
-        hsl(53, 65%, 60%) calc(4% * 1),
-        hsl(93, 56%, 50%) calc(4% * 2),
-        hsl(176, 54%, 49%) calc(4% * 3),
-        hsl(228, 59%, 55%) calc(4% * 4),
-        hsl(283, 60%, 55%) calc(4% * 5),
-        hsl(326, 59%, 51%) calc(4% * 6),
-        hsl(326, 59%, 51%) calc(4% * 7),
-        hsl(283, 60%, 55%) calc(4% * 8),
-        hsl(228, 59%, 55%) calc(4% * 9),
-        hsl(176, 54%, 49%) calc(4% * 10),
-        hsl(93, 56%, 50%) calc(4% * 11),
-        hsl(53, 65%, 60%) calc(4% * 12)
-      );
-  `
 
   const artistBackground = `conic-gradient(
       from ${rotateX.get() * 2}deg at 50% 50%,
