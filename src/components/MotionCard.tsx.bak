@@ -1,12 +1,35 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { FC, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
+import {
+  artistBackground,
+  diagonalShineBackground,
+  galaxyShineBackground,
+  glareBackgroundImage,
+  linesShineBackground,
+  linesShineBackgroundOverlay,
+  linesShineBackgroundOverlayPos,
+  linesShineBackgroundPos,
+  linesShineGlareBackground,
+  shineBackgroundOverlayPos,
+  shineBackgroundPos,
+} from "./HoloStyles"
 
 const STIFFNESS = 1000
 const DAMPENING = 10
 const CARD_HEIGHT = 70
 
-export const MotionCard6: FC = () => {
+type Props = {
+  cardImage: string
+  cardImageMask?: string
+  shineType: "diagonal" | "galaxy" | "lines"
+}
+
+export const MotionCard: FC<Props> = ({
+  cardImage,
+  cardImageMask,
+  shineType,
+}) => {
   const [_tempForceUpdate, setTempForceUpdate] = useState(0)
   const [reverse, setReverse] = useState(false)
   const [hover, setHover] = useState(false)
@@ -86,101 +109,6 @@ export const MotionCard6: FC = () => {
     setTempForceUpdate(Math.random())
   }
 
-  const glareBackgroundImage = `radial-gradient(farthest-corner circle at ${cursorPosXPercentage.get()}% ${cursorPosYPercentage.get()}%, hsl(0, 0%, 100%) 0%, hsla(210, 3%, 54%, 0.33) 45%, hsla(0, 0%, 20%, 0.9) 130%)`
-  const glareBackgroundImageReverse = `radial-gradient(farthest-corner circle at ${
-    100 - cursorPosXPercentage.get()
-  }% ${cursorPosYPercentage.get()}%, hsl(0, 0%, 100%) 0%, hsla(210, 3%, 54%, 0.33) 45%, hsla(0, 0%, 20%, 0.9) 130%)`
-  const shineBackgroundImage = `
-    repeating-linear-gradient(
-        110deg,
-        #c929f1,
-        #0dbde9,
-        #21e985,
-        #eedf10,
-        #f80e35,
-        #c929f1,
-        #0dbde9,
-        #21e985,
-        #eedf10,
-        #f80e35,
-        #c929f1,
-        #0dbde9,
-        #21e985,
-        #eedf10,
-        #f80e35
-      ),
-      repeating-linear-gradient(
-        90deg,
-        #000 0,
-        #000 1px,
-        #666 1px,
-        #666 2px
-      )
-  `
-
-  const shineBackgroundOverlayImage = `
-    repeating-linear-gradient(
-        90deg,
-        hsla(0, 0%, 0%, 1) calc(3% * 2),
-        hsla(0, 0%, 70%, 1) calc(3% * 3),
-        hsla(0, 0%, 0%, 1) calc(3% * 3.5),
-        hsla(0, 0%, 70%, 1) calc(3% * 4),
-        hsla(0, 0%, 0%, 1) calc(3% * 5),
-        hsla(0, 0%, 0%, 1) calc(3% * 14)
-      ),
-      repeating-linear-gradient(
-        90deg,
-        hsla(0, 0%, 0%, 1) calc(3% * 2),
-        hsla(0, 0%, 70%, 1) calc(3% * 3),
-        hsla(0, 0%, 0%, 1) calc(3% * 3.5),
-        hsla(0, 0%, 70%, 1) calc(3% * 4),
-        hsla(0, 0%, 0%, 1) calc(3% * 5),
-        hsla(0, 0%, 0%, 1) calc(3% * 10)
-      )
-  `
-
-  const artistBackground = `conic-gradient(
-      from ${rotateX.get() * 2}deg at 50% 50%,
-      rgba(0, 0, 0, 1) 0deg,
-      rgba(255, 255, 255, 0.7) 17deg,
-      rgba(0, 0, 0, 1) 88deg,
-      rgba(255, 255, 255, 0.7) 152deg,
-      rgba(0, 0, 0, 1) 225deg,
-      rgba(255, 255, 255, 0.7) 289deg,
-      rgba(0, 0, 0, 1) 360deg
-    ),
-    conic-gradient(
-      from ${180 - rotateY.get() * 2}deg at 50% 50%,
-      rgba(0, 0, 0, 1) 0deg,
-      rgba(255, 255, 255, 1) 30deg,
-      rgba(0, 0, 0, 1) 96deg,
-      rgba(255, 255, 255, 1) 169deg,
-      rgba(0, 0, 0, 1) 229deg,
-      rgba(255, 255, 255, 1) 285deg,
-      rgba(0, 0, 0, 1) 360deg
-    ),
-    radial-gradient(
-      88% 127% at 13% 13%,
-      rgba(248, 110, 251, 1) 8%,
-      rgba(115, 66, 255, 1) 35%,
-      rgba(66, 232, 255, 1) 63%,
-      rgba(66, 255, 107, 1) 100%
-    )`
-
-  const shineGlareBackgroundImage = `
-      radial-gradient(
-      farthest-corner circle
-        at ${cursorPosXPercentage.get()}% ${cursorPosYPercentage.get()}%,
-        hsla(0, 0%, 90%, 0.9) 0%,
-        hsla(0, 0%, 78%, 0.1) 50%,
-        hsl(0, 0%, 0%) 90%
-    )
-    `
-
-  const shineBackgroundPos = `calc(((50% - ${backgroundPosX.get()}%)* 2.6) + 50%) calc(((50% - ${backgroundPosY.get()}%)* 3.5) + 50%), center center`
-
-  const shineBackgroundOverlayPos = `calc((((50% - ${backgroundPosX.get()}%) * 1.65) + 50%) + (${backgroundPosY.get()}% * 0.5)) ${backgroundPosX.get()}%, calc((((50% - ${backgroundPosX.get()}%) * -0.9) + 50%) - (${backgroundPosY.get()}% * 0.75)) ${backgroundPosY.get()}%`
-
   return (
     <Container>
       <CardContainer
@@ -199,7 +127,11 @@ export const MotionCard6: FC = () => {
           <CardBackImage src="/back.jpg" />
           <Glare
             style={{
-              backgroundImage: glareBackgroundImageReverse,
+              backgroundImage: glareBackgroundImage(
+                cursorPosXPercentage.get(),
+                cursorPosYPercentage.get(),
+                { reverse: true }
+              ),
             }}
           />
         </BackCardContainer>
@@ -212,7 +144,7 @@ export const MotionCard6: FC = () => {
         >
           <Artist
             style={{
-              background: artistBackground,
+              background: artistBackground(rotateX.get(), rotateY.get()),
               width: cardWidth / 10,
               height: cardWidth / 10,
               top: cardHeight / 21,
@@ -220,32 +152,106 @@ export const MotionCard6: FC = () => {
               opacity: hover ? 0.65 : 0.2,
             }}
           />
-          <CardImage src="/joan-of-arc-2.jpg" />
-          <Shine
-            style={{
-              backgroundImage: shineBackgroundImage,
-              backgroundPosition: shineBackgroundPos,
-              opacity: hover ? 0.8 : 0,
-            }}
-          >
-            <ShineOverlay
-              style={{
-                backgroundImage: shineBackgroundOverlayImage,
-                backgroundPosition: shineBackgroundOverlayPos,
-              }}
-            />
-            <ShineGlare
-              style={{
-                backgroundImage: shineGlareBackgroundImage,
-              }}
-            />
-          </Shine>
+          <CardImage src={`/${cardImage}.jpg`} />
+          {cardImageMask && (
+            <Variables $maskImage={`${cardImageMask}.png`}>
+              {shineType === "lines" && (
+                <LinesShine
+                  style={{
+                    backgroundImage: linesShineBackground,
+                    backgroundPosition: linesShineBackgroundPos(
+                      backgroundPosX.get(),
+                      backgroundPosY.get()
+                    ),
+                    opacity: hover ? 0.8 : 0,
+                  }}
+                >
+                  <LinesShineOverlay
+                    style={{
+                      backgroundImage: linesShineBackgroundOverlay,
+                      backgroundPosition: linesShineBackgroundOverlayPos(
+                        backgroundPosX.get(),
+                        backgroundPosY.get()
+                      ),
+                    }}
+                  />
+                  <ShineGlare
+                    style={{
+                      backgroundImage: linesShineGlareBackground(
+                        cursorPosXPercentage.get(),
+                        cursorPosYPercentage.get()
+                      ),
+                    }}
+                  />
+                </LinesShine>
+              )}
+              {shineType === "diagonal" && (
+                <DiagonalShine
+                  style={{
+                    backgroundImage: diagonalShineBackground(
+                      cursorPosXPercentage.get(),
+                      cursorPosYPercentage.get()
+                    ),
+                    backgroundPosition: shineBackgroundPos(
+                      backgroundPosX.get(),
+                      backgroundPosY.get()
+                    ),
+                    opacity: hover ? 1 : 0,
+                  }}
+                >
+                  <DiagonalShineOverlay
+                    style={{
+                      backgroundImage: diagonalShineBackground(
+                        cursorPosXPercentage.get(),
+                        cursorPosYPercentage.get()
+                      ),
+                      backgroundPosition: shineBackgroundOverlayPos(
+                        backgroundPosX.get(),
+                        backgroundPosY.get()
+                      ),
+                    }}
+                  />
+                </DiagonalShine>
+              )}
+              {shineType === "galaxy" && (
+                <GalaxyShine
+                  style={{
+                    backgroundImage: galaxyShineBackground(
+                      cursorPosXPercentage.get(),
+                      cursorPosYPercentage.get()
+                    ),
+                    backgroundPosition: shineBackgroundPos(
+                      backgroundPosX.get(),
+                      backgroundPosY.get()
+                    ),
+                    opacity: hover ? 1 : 0,
+                  }}
+                >
+                  <GalaxyShineOverlay
+                    style={{
+                      backgroundImage: galaxyShineBackground(
+                        cursorPosXPercentage.get(),
+                        cursorPosYPercentage.get()
+                      ),
+                      backgroundPosition: shineBackgroundPos(
+                        backgroundPosX.get(),
+                        backgroundPosY.get()
+                      ),
+                    }}
+                  />
+                </GalaxyShine>
+              )}
 
-          <BrightBackground />
+              <BrightBackground />
+            </Variables>
+          )}
 
           <Glare
             style={{
-              backgroundImage: glareBackgroundImage,
+              backgroundImage: glareBackgroundImage(
+                cursorPosXPercentage.get(),
+                cursorPosYPercentage.get()
+              ),
             }}
           />
         </FaceCardContainer>
@@ -254,8 +260,13 @@ export const MotionCard6: FC = () => {
   )
 }
 
+const Variables = styled.div<{ $maskImage: string }>`
+  ${({ $maskImage }) => `--mask-image: url("${$maskImage}")`};
+`
+
 const Artist = styled(motion.div)`
   position: absolute;
+  transform: translateZ(2px);
   background-blend-mode: screen, multiply, normal;
   mix-blend-mode: lighten;
   -webkit-mask-image: url("/pngdiamondmask.png");
@@ -278,6 +289,7 @@ const FaceCardContainer = styled(motion.div)`
   z-index: 1000;
   border-radius: 4px;
   height: 70vh;
+  isolation: isolate;
 `
 
 const BackCardContainer = styled(motion.div)`
@@ -287,17 +299,13 @@ const BackCardContainer = styled(motion.div)`
 `
 
 const BrightBackground = styled(motion.div)`
-  position: absolute;
   top: 0;
-  height: 100%;
-  width: 100%;
   background-image: url("hdr_pixel.avif");
-  height: 100%;
   width: 100%;
   position: absolute;
   mix-blend-mode: multiply;
-  -webkit-mask-image: url("/joan-of-arc-2-mask.png");
-  mask-image: url("/joan-of-arc-2-mask.png");
+  -webkit-mask-image: var(--mask-image);
+  mask-image: var(--mask-image);
   -webkit-mask-size: cover;
   mask-size: cover;
   -webkit-mask-position: center center;
@@ -307,7 +315,6 @@ const BrightBackground = styled(motion.div)`
 `
 
 const Container = styled.div`
-  width: 100vw;
   height: 100vh;
   perspective: 1200px;
   display: flex;
@@ -336,42 +343,51 @@ const CardBackImage = styled.img`
 `
 
 const Glare = styled(motion.div)`
-  height: ${CARD_HEIGHT}vh;
   overflow: hidden;
   position: absolute;
   top: 0;
   height: ${CARD_HEIGHT}vh;
   width: 100%;
   border-radius: 4px;
-  opacity: 0.2;
+  opacity: 0.3;
   mix-blend-mode: hard-light;
   filter: brightness(0.9) contrast(1.75);
 `
 
 const Shine = styled(motion.div)`
-  will-change: transform, opacity, background-image, background-size,
-    background-position, background-blend-mode, filter;
-  height: ${CARD_HEIGHT}vh;
   overflow: hidden;
   position: absolute;
   top: 0;
   height: ${CARD_HEIGHT}vh;
   width: 100%;
   border-radius: 4px;
-
-  background-size: 400% 400%, 102%;
-  background-blend-mode: overlay;
-  /* filter: brightness(1.1) contrast(1.1) saturate(1.1); */
-  mix-blend-mode: color-dodge;
-
-  -webkit-mask-image: url("/joan-of-arc-2-mask.png");
-  mask-image: url("/joan-of-arc-2-mask.png");
+  -webkit-mask-image: var(--mask-image);
+  mask-image: var(--mask-image);
   -webkit-mask-size: cover;
   mask-size: cover;
   -webkit-mask-position: center center;
   mask-position: center center;
-  opacity: 0.8;
   transition: opacity 0.3s ease;
+`
+
+const DiagonalShine = styled(Shine)`
+  mix-blend-mode: color-dodge;
+  background-size: 500px 100%, 200% 700%, 300% 100%, 200% 100%;
+  background-blend-mode: screen, hue, hard-light;
+  filter: brightness(0.8) contrast(2.95) saturate(0.65);
+`
+
+const GalaxyShine = styled(Shine)`
+  mix-blend-mode: screen;
+  background-size: cover, 100% 900%, cover;
+  background-blend-mode: color-burn, multiply;
+  filter: brightness(1) contrast(1) saturate(0.8);
+`
+
+const LinesShine = styled(Shine)`
+  background-size: 400% 400%, 102%;
+  background-blend-mode: overlay;
+  mix-blend-mode: color-dodge;
 `
 
 const ShineOverlay = styled(motion.div)`
@@ -379,10 +395,25 @@ const ShineOverlay = styled(motion.div)`
   top: 0;
   height: 100%;
   width: 100%;
-  background: transparent;
+`
+
+const DiagonalShineOverlay = styled(ShineOverlay)`
+  background-blend-mode: screen, hue, hard-light;
+  background-size: 500px 100%, 200% 400%, 195% 100%, 200% 100%;
+  filter: brightness(1) contrast(2.5) saturate(1.75);
+  mix-blend-mode: soft-light;
+`
+
+const GalaxyShineOverlay = styled(ShineOverlay)`
+  background-blend-mode: overlay, multiply;
+  background-size: cover, 400% 900%, cover;
+  filter: brightness(1.1) contrast(1.4) saturate(0.8);
+  mix-blend-mode: hard-light;
+`
+
+const LinesShineOverlay = styled(ShineOverlay)`
   background-size: 150% 150%, 150% 150%;
   background-blend-mode: screen;
-  /* filter: brightness(1.15) contrast(1.1); */
   mix-blend-mode: hard-light;
 `
 

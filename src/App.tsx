@@ -1,23 +1,51 @@
+import styled from "styled-components"
+import { BorderTest } from "./components/BorderTest"
 import { MotionCard } from "./components/MotionCard"
-import { MotionCard2 } from "./components/MotionCard2"
-import { MotionCard6 } from "./components/MotionCard6"
+import { Sidebar } from "./components/Sidebar"
 
 function App() {
   return (
-    <>
-      <div>
-        <MotionCard2 cardImage="mariana" cardImageMask="mariana-mask" />
+    <Container>
+      <Cards>
+        <BorderTest />
+        <MotionCard
+          cardImage="joan-of-arc-2"
+          cardImageMask="joan-of-arc-2-mask"
+          shineType="lines"
+        />
+        <MotionCard
+          cardImage="mariana"
+          cardImageMask="mariana-mask"
+          shineType="galaxy"
+        />
         <MotionCard
           cardImage="the-day-dream"
           cardImageMask="the-day-dream-mask"
+          shineType="diagonal"
         />
-        <MotionCard cardImage="joan-of-arc" cardImageMask="joan-of-arc-mask" />
-        <MotionCard cardImage="gathering-almond-blossoms" />
-
-        <MotionCard6 />
-      </div>
-    </>
+        <MotionCard
+          cardImage="joan-of-arc"
+          cardImageMask="joan-of-arc-mask"
+          shineType="diagonal"
+        />
+        <MotionCard
+          cardImage="gathering-almond-blossoms"
+          shineType="diagonal"
+        />
+      </Cards>
+      <Sidebar />
+    </Container>
   )
 }
+
+const Container = styled.div`
+  display: flex;
+`
+
+const Cards = styled.div`
+  width: 80vw;
+  height: 100vh;
+  margin-left: 20vw;
+`
 
 export default App
