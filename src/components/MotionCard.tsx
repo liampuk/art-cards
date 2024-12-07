@@ -110,7 +110,7 @@ export const MotionCard: FC<Props> = ({
   }
 
   return (
-    <Container>
+    <Container $cardMaskImage={`${cardImageMask}.png`}>
       <CardContainer
         onClick={() => handleClick()}
         onMouseMove={(ev) => handleMouseMove(ev)}
@@ -143,7 +143,7 @@ export const MotionCard: FC<Props> = ({
             translateZ: 1,
           }}
         >
-          <Artist
+          <ArtistShine
             style={{
               background: artistBackground(rotateX.get(), rotateY.get()),
               width: cardWidth / 9.8,
@@ -154,112 +154,108 @@ export const MotionCard: FC<Props> = ({
             }}
           />
           <CardImage src={`/${cardImage}.jpg`} />
-          {cardImageMask && (
-            <Variables $maskImage={`${cardImageMask}.png`}>
-              {shineType === "lines" && (
-                <LinesShine
-                  style={{
-                    backgroundImage: linesShineBackground,
-                    backgroundPosition: linesShineBackgroundPos(
-                      backgroundPosX.get(),
-                      backgroundPosY.get()
-                    ),
-                    opacity: hover ? 0.8 : 0,
-                  }}
-                >
-                  <LinesShineOverlay
-                    style={{
-                      backgroundImage: linesShineBackgroundOverlay,
-                      backgroundPosition: linesShineBackgroundOverlayPos(
-                        backgroundPosX.get(),
-                        backgroundPosY.get()
-                      ),
-                    }}
-                  />
-                  <ShineGlare
-                    style={{
-                      backgroundImage: linesShineGlareBackground(
-                        cursorPosXPercentage.get(),
-                        cursorPosYPercentage.get()
-                      ),
-                    }}
-                  />
-                </LinesShine>
-              )}
-              {shineType === "diagonal" && (
-                <DiagonalShine
-                  style={{
-                    backgroundImage: diagonalShineBackground(
-                      cursorPosXPercentage.get(),
-                      cursorPosYPercentage.get()
-                    ),
-                    backgroundPosition: shineBackgroundPos(
-                      backgroundPosX.get(),
-                      backgroundPosY.get()
-                    ),
-                    opacity: hover ? 1 : 0,
-                  }}
-                >
-                  <DiagonalShineOverlay
-                    style={{
-                      backgroundImage: diagonalShineBackground(
-                        cursorPosXPercentage.get(),
-                        cursorPosYPercentage.get()
-                      ),
-                      backgroundPosition: shineBackgroundOverlayPos(
-                        backgroundPosX.get(),
-                        backgroundPosY.get()
-                      ),
-                    }}
-                  />
-                </DiagonalShine>
-              )}
-              {shineType === "galaxy" && (
-                <GalaxyShine
-                  style={{
-                    backgroundImage: galaxyShineBackground(
-                      cursorPosXPercentage.get(),
-                      cursorPosYPercentage.get()
-                    ),
-                    backgroundPosition: shineBackgroundPos(
-                      backgroundPosX.get(),
-                      backgroundPosY.get()
-                    ),
-                    opacity: hover ? 1 : 0,
-                  }}
-                >
-                  <GalaxyShineOverlay
-                    style={{
-                      backgroundImage: galaxyShineBackground(
-                        cursorPosXPercentage.get(),
-                        cursorPosYPercentage.get()
-                      ),
-                      backgroundPosition: shineBackgroundPos(
-                        backgroundPosX.get(),
-                        backgroundPosY.get()
-                      ),
-                    }}
-                  />
-                </GalaxyShine>
-              )}
-
-              <BrightBackground2
+          {cardImageMask && shineType === "lines" && (
+            <LinesShine
+              style={{
+                backgroundImage: linesShineBackground,
+                backgroundPosition: linesShineBackgroundPos(
+                  backgroundPosX.get(),
+                  backgroundPosY.get()
+                ),
+                opacity: hover ? 0.8 : 0,
+              }}
+            >
+              <LinesShineOverlay
                 style={{
-                  opacity: hover ? 0.1 : 0.05,
-                  width: cardWidth / 10,
-                  height: cardWidth / 10,
-                  top: cardHeight / 21.2,
-                  right: cardWidth / 15.5,
+                  backgroundImage: linesShineBackgroundOverlay,
+                  backgroundPosition: linesShineBackgroundOverlayPos(
+                    backgroundPosX.get(),
+                    backgroundPosY.get()
+                  ),
                 }}
               />
-
-              <BrightBackground
+              <ShineGlare
                 style={{
-                  opacity: hover ? 0.2 : 0.1,
+                  backgroundImage: linesShineGlareBackground(
+                    cursorPosXPercentage.get(),
+                    cursorPosYPercentage.get()
+                  ),
                 }}
               />
-            </Variables>
+            </LinesShine>
           )}
+          {shineType === "diagonal" && (
+            <DiagonalShine
+              style={{
+                backgroundImage: diagonalShineBackground(
+                  cursorPosXPercentage.get(),
+                  cursorPosYPercentage.get()
+                ),
+                backgroundPosition: shineBackgroundPos(
+                  backgroundPosX.get(),
+                  backgroundPosY.get()
+                ),
+                opacity: hover ? 1 : 0,
+              }}
+            >
+              <DiagonalShineOverlay
+                style={{
+                  backgroundImage: diagonalShineBackground(
+                    cursorPosXPercentage.get(),
+                    cursorPosYPercentage.get()
+                  ),
+                  backgroundPosition: shineBackgroundOverlayPos(
+                    backgroundPosX.get(),
+                    backgroundPosY.get()
+                  ),
+                }}
+              />
+            </DiagonalShine>
+          )}
+          {shineType === "galaxy" && (
+            <GalaxyShine
+              style={{
+                backgroundImage: galaxyShineBackground(
+                  cursorPosXPercentage.get(),
+                  cursorPosYPercentage.get()
+                ),
+                backgroundPosition: shineBackgroundPos(
+                  backgroundPosX.get(),
+                  backgroundPosY.get()
+                ),
+                opacity: hover ? 1 : 0,
+              }}
+            >
+              <GalaxyShineOverlay
+                style={{
+                  backgroundImage: galaxyShineBackground(
+                    cursorPosXPercentage.get(),
+                    cursorPosYPercentage.get()
+                  ),
+                  backgroundPosition: shineBackgroundPos(
+                    backgroundPosX.get(),
+                    backgroundPosY.get()
+                  ),
+                }}
+              />
+            </GalaxyShine>
+          )}
+
+          <ArtistBrightBackground
+            style={{
+              opacity: hover ? 0.1 : 0.05,
+              width: cardWidth / 10,
+              height: cardWidth / 10,
+              top: cardHeight / 21.2,
+              right: cardWidth / 15.5,
+            }}
+          />
+
+          <BrightBackground
+            style={{
+              opacity: hover ? 0.2 : 0.1,
+            }}
+          />
 
           <Glare
             style={{
@@ -276,11 +272,7 @@ export const MotionCard: FC<Props> = ({
   )
 }
 
-const Variables = styled.div<{ $maskImage: string }>`
-  ${({ $maskImage }) => `--card-mask-image: url("${$maskImage}")`};
-`
-
-const Artist = styled(motion.div)`
+const ArtistShine = styled(motion.div)`
   position: absolute;
   transform: translateZ(2px);
   background-blend-mode: screen, multiply, normal;
@@ -332,7 +324,7 @@ const BrightBackground = styled(motion.div)`
   transition: opacity 0.6s ease;
 `
 
-const BrightBackground2 = styled(motion.div)`
+const ArtistBrightBackground = styled(motion.div)`
   top: 0;
   background-image: url("hdr_pixel.avif");
   width: 100%;
@@ -351,11 +343,8 @@ const BrightBackground2 = styled(motion.div)`
 
 const Container = styled.div<{
   $cardMaskImage: string
-  $artistMaskImage: string
 }>`
   ${({ $cardMaskImage }) => `--card-mask-image: url("${$cardMaskImage}")`};
-  ${({ $artistMaskImage }) =>
-    `--artist-mask-image: url("${$artistMaskImage}")`};
 
   height: 100vh;
   perspective: 1200px;

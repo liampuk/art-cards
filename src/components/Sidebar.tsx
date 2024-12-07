@@ -4,11 +4,30 @@ import styled from "styled-components"
 export const Sidebar: FC = () => {
   return (
     <Container>
-      {/* <h1>Art Cards</h1> */}
-      {/* <ExLibris src="/block.jpg" /> */}
+      <SidebarTopImage src="border.svg" />
+      <SidebarMiddleImage src="middle.svg" />
+      <SidebarBottomImage src="border.svg" />
     </Container>
   )
 }
+
+const SidebarTopImage = styled.img`
+  height: 30%;
+  object-fit: cover;
+  object-position: top;
+`
+
+const SidebarMiddleImage = styled.img`
+  object-fit: fill;
+  flex: 1;
+  width: 100%;
+`
+
+const SidebarBottomImage = styled.img`
+  height: 30%;
+  object-fit: cover;
+  object-position: bottom;
+`
 
 const Container = styled.div`
   position: fixed;
@@ -16,16 +35,8 @@ const Container = styled.div`
   height: 100%;
   padding: 24px;
   display: flex;
-  flex-direction: column-reverse;
-  justify-content: space-between;
+  flex-direction: column;
   left: 0;
-
-  border-image-slice: 316.5 321 316.5 321;
-  border-image-width: 400px;
-  border-image-outset: 0px 0px 0px 0px;
-  border-image-repeat: stretch stretch;
-  border-image-source: url("border3.svg");
-  border-style: solid;
 
   h1,
   h2,
@@ -39,8 +50,4 @@ const Container = styled.div`
     font-style: normal;
     margin: 0;
   }
-`
-
-const ExLibris = styled.img`
-  width: 100%;
 `
