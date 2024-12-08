@@ -25,6 +25,8 @@ type Props = {
   shineType: "diagonal" | "galaxy" | "lines"
 }
 
+const BASE_URL = import.meta.env.BASE_URL
+
 export const MotionCard: FC<Props> = ({
   cardImage,
   cardImageMask,
@@ -110,7 +112,7 @@ export const MotionCard: FC<Props> = ({
   }
 
   return (
-    <Container $cardMaskImage={`${cardImageMask}.png`}>
+    <Container $cardMaskImage={`${BASE_URL}${cardImageMask}.png`}>
       <CardContainer
         onClick={() => handleClick()}
         onMouseMove={(ev) => handleMouseMove(ev)}
@@ -124,7 +126,7 @@ export const MotionCard: FC<Props> = ({
             rotateY: rotateXSpring,
           }}
         >
-          <CardBackImage src="/back.jpg" />
+          <CardBackImage src={`${BASE_URL}back.jpg`} />
           <Glare
             style={{
               backgroundImage: glareBackgroundImage(
@@ -153,7 +155,7 @@ export const MotionCard: FC<Props> = ({
               opacity: hover ? 0.65 : 0.2,
             }}
           />
-          <CardImage src={`/${cardImage}.jpg`} />
+          <CardImage src={`${BASE_URL}${cardImage}.jpg`} />
           {cardImageMask && shineType === "lines" && (
             <LinesShine
               style={{
@@ -277,8 +279,8 @@ const ArtistShine = styled(motion.div)`
   transform: translateZ(2px);
   background-blend-mode: screen, multiply, normal;
   mix-blend-mode: lighten;
-  -webkit-mask-image: url("/pngdiamondmask.png");
-  mask-image: url("/pngdiamondmask.png");
+  -webkit-mask-image: url("${BASE_URL}pngdiamondmask.png");
+  mask-image: url("${BASE_URL}pngdiamondmask.png");
   -webkit-mask-size: cover;
   mask-size: cover;
   -webkit-mask-position: center center;
@@ -309,7 +311,7 @@ const BackCardContainer = styled(motion.div)`
 
 const BrightBackground = styled(motion.div)`
   top: 0;
-  background-image: url("hdr_pixel.avif");
+  background-image: url("${BASE_URL}hdr_pixel.avif");
   width: 100%;
   position: absolute;
   mix-blend-mode: multiply;
@@ -326,12 +328,12 @@ const BrightBackground = styled(motion.div)`
 
 const ArtistBrightBackground = styled(motion.div)`
   top: 0;
-  background-image: url("hdr_pixel.avif");
+  background-image: url("${BASE_URL}hdr_pixel.avif");
   width: 100%;
   position: absolute;
   mix-blend-mode: multiply;
-  -webkit-mask-image: url("/pngdiamondmask.png");
-  mask-image: url("/pngdiamondmask.png");
+  -webkit-mask-image: url("${BASE_URL}pngdiamondmask.png");
+  mask-image: url("${BASE_URL}pngdiamondmask.png");
   -webkit-mask-size: cover;
   mask-size: cover;
   -webkit-mask-position: center center;
@@ -352,15 +354,6 @@ const Container = styled.div<{
   justify-content: center;
   align-items: center;
   user-select: none;
-
-  /* margin: 24px;
-  border-image-slice: 316.5 321 316.5 321;
-  margin-left: 100px;
-  border-image-width: 200px;
-  border-image-outset: 0px 0px 0px 0px;
-  border-image-repeat: stretch stretch;
-  border-image-source: url("border3.svg");
-  border-style: solid; */
 `
 
 const CardContainer = styled(motion.div)`

@@ -40,6 +40,13 @@ const Container = styled.div`
   overflow: scroll;
   position: relative;
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
   &::after {
     content: "";
     position: fixed;

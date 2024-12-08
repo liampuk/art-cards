@@ -1,12 +1,14 @@
 import { FC } from "react"
 import styled from "styled-components"
 
+const BASE_URL = import.meta.env.BASE_URL
+
 export const Sidebar: FC = () => {
   return (
     <Container>
-      <SidebarTopImage src="sidebar-top.svg" />
-      <SidebarMiddleImage src="sidebar-middle.svg" />
-      <SidebarBottomImage src="sidebar-bottom.svg" />
+      <SidebarTopImage src={`${BASE_URL}sidebar-top.svg`} />
+      <SidebarMiddleImage src={`${BASE_URL}sidebar-middle.svg`} />
+      <SidebarBottomImage src={`${BASE_URL}sidebar-bottom.svg`} />
     </Container>
   )
 }
