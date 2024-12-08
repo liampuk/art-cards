@@ -4,39 +4,36 @@ import styled from "styled-components"
 export const Sidebar: FC = () => {
   return (
     <Container>
-      <SidebarTopImage src="border.svg" />
-      <SidebarMiddleImage src="middle.svg" />
-      <SidebarBottomImage src="border.svg" />
+      <SidebarTopImage src="sidebar-top.svg" />
+      <SidebarMiddleImage src="sidebar-middle.svg" />
+      <SidebarBottomImage src="sidebar-bottom.svg" />
     </Container>
   )
 }
 
 const SidebarTopImage = styled.img`
-  height: 30%;
-  object-fit: cover;
-  object-position: top;
-`
-
-const SidebarMiddleImage = styled.img`
-  object-fit: fill;
-  flex: 1;
   width: 100%;
 `
 
+const SidebarMiddleImage = styled.img`
+  width: 100%;
+  flex: 1;
+`
+
 const SidebarBottomImage = styled.img`
-  height: 30%;
-  object-fit: cover;
-  object-position: bottom;
+  width: 100%;
 `
 
 const Container = styled.div`
-  position: fixed;
-  width: 23vw;
-  height: 100%;
   padding: 24px;
   display: flex;
-  flex-direction: column;
-  left: 0;
+  flex-direction: column; /* Or row, depending on stacking */
+  align-items: center; /* Aligns items horizontally */
+  justify-content: center; /* Aligns items vertically */
+  top: 0;
+  position: fixed;
+  height: 100%;
+  width: 400px;
 
   h1,
   h2,

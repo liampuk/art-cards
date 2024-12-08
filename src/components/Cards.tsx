@@ -31,7 +31,28 @@ export const Cards: FC = () => {
 }
 
 const Container = styled.div`
-  width: 80vw;
-  height: 100vh;
-  margin-left: 20vw;
+  left: 400px;
+  width: calc(100vw - 400px - 52px);
+  height: calc(100vh - 52px);
+  top: 0;
+  flex-direction: column;
+  margin: 26px;
+  overflow: scroll;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: fixed;
+    pointer-events: none;
+    margin: 24px 0 0 0;
+
+    width: calc(100vw - 400px - 48px);
+    height: calc(100vh - 48px);
+    top: 0;
+    border-image-slice: 200;
+    border-image-width: 180px;
+    border-image-repeat: stretch stretch;
+    border-image-source: url("main-border.svg");
+    border-style: solid;
+  }
 `

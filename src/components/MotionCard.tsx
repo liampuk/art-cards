@@ -353,13 +353,14 @@ const Container = styled.div<{
   align-items: center;
   user-select: none;
 
+  /* margin: 24px;
   border-image-slice: 316.5 321 316.5 321;
   margin-left: 100px;
   border-image-width: 200px;
   border-image-outset: 0px 0px 0px 0px;
   border-image-repeat: stretch stretch;
   border-image-source: url("border3.svg");
-  border-style: solid;
+  border-style: solid; */
 `
 
 const CardContainer = styled(motion.div)`
