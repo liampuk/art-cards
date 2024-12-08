@@ -31,6 +31,7 @@ export const Cards: FC = () => {
 }
 
 const Container = styled.div`
+  z-index: 2;
   left: 400px;
   width: calc(100vw - 400px - 52px);
   height: calc(100vh - 52px);
