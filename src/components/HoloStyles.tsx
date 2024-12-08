@@ -1,5 +1,7 @@
 // COMMON
 
+const BASE_URL = import.meta.env.BASE_URL
+
 export const glareBackgroundImage = (
   cursorPosXPercentage: number,
   cursorPosYPercentage: number,
@@ -146,7 +148,7 @@ export const galaxyShineBackground = (
   cursorPosXPercentage: number,
   cursorPosYPercentage: number
 ) => {
-  return `url("/galaxy-1.png"),
+  return `url("${BASE_URL}galaxy-1.png"),
     repeating-linear-gradient(
       172deg, 
       hsl(53, 65%, 60%) calc(4% * 1), 
