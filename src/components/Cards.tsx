@@ -6,6 +6,16 @@ export const Cards: FC = () => {
   return (
     <Container>
       <MotionCard
+        cardImage="proserpine"
+        cardImageMask="proserpine-mask"
+        shineType="lines"
+      />
+      <MotionCard
+        cardImage="mariana-by-the-south"
+        cardImageMask="mariana-by-the-south-mask"
+        shineType="diagonal"
+      />
+      <MotionCard
         cardImage="joan-of-arc-2"
         cardImageMask="joan-of-arc-2-mask"
         shineType="lines"
