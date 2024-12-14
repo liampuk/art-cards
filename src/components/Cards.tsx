@@ -1,41 +1,20 @@
 import { FC } from "react"
 import styled from "styled-components"
+import { cardsList } from "../cardsList"
+import { Card } from "../types"
 import { MotionCard } from "./MotionCard"
 
 export const Cards: FC = () => {
   return (
     <Container>
-      <MotionCard
-        cardImage="proserpine"
-        cardImageMask="proserpine-mask"
-        shineType="lines"
-      />
-      <MotionCard
-        cardImage="mariana-by-the-south"
-        cardImageMask="mariana-by-the-south-mask"
-        shineType="diagonal"
-      />
-      <MotionCard
-        cardImage="joan-of-arc-2"
-        cardImageMask="joan-of-arc-2-mask"
-        shineType="lines"
-      />
-      <MotionCard
-        cardImage="mariana"
-        cardImageMask="mariana-mask"
-        shineType="galaxy"
-      />
-      <MotionCard
-        cardImage="the-day-dream"
-        cardImageMask="the-day-dream-mask"
-        shineType="diagonal"
-      />
-      <MotionCard
-        cardImage="joan-of-arc"
-        cardImageMask="joan-of-arc-mask"
-        shineType="diagonal"
-      />
-      <MotionCard cardImage="gathering-almond-blossoms" shineType="diagonal" />
+      {cardsList.map((card: Card, index: number) => (
+        <MotionCard
+          key={`${card.image}-${index}`}
+          cardImage={`${card.artist}/${card.image}`}
+          cardImageMask={card.mask ? `${card.artist}/${card.mask}` : undefined}
+          shineType={card.effect}
+        />
+      ))}
     </Container>
   )
 }

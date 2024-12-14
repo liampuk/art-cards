@@ -1,6 +1,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { FC, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
+import { Effect } from "../types"
 import {
   artistBackground,
   diagonalShineBackground,
@@ -22,7 +23,7 @@ const CARD_HEIGHT = 70
 type Props = {
   cardImage: string
   cardImageMask?: string
-  shineType: "diagonal" | "galaxy" | "lines"
+  shineType?: Effect
 }
 
 const BASE_URL = import.meta.env.BASE_URL
@@ -116,7 +117,7 @@ export const MotionCard: FC<Props> = ({
   }
 
   return (
-    <Container $cardMaskImage={`${BASE_URL}${cardImageMask}.png`}>
+    <Container $cardMaskImage={`${BASE_URL}${cardImageMask}.jpg`}>
       <CardContainer
         onClick={() => handleClick()}
         onMouseMove={(ev) => handleMouseMove(ev)}
@@ -321,6 +322,7 @@ const BrightBackground = styled(motion.div)`
   mix-blend-mode: multiply;
   -webkit-mask-image: var(--card-mask-image);
   mask-image: var(--card-mask-image);
+  mask-mode: luminance;
   -webkit-mask-size: cover;
   mask-size: cover;
   -webkit-mask-position: center center;
@@ -401,6 +403,7 @@ const Shine = styled(motion.div)`
   border-radius: 4px;
   -webkit-mask-image: var(--card-mask-image);
   mask-image: var(--card-mask-image);
+  mask-mode: luminance;
   -webkit-mask-size: cover;
   mask-size: cover;
   -webkit-mask-position: center center;
