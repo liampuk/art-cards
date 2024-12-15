@@ -4,7 +4,7 @@ import { useWindowSize } from "../hooks/general"
 
 export const LeavesOverlay: FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [documentWidth, documentHeight] = useWindowSize()
+  const { width: documentWidth, height: documentHeight } = useWindowSize()
   const pixelRatio = window.devicePixelRatio
   const documentWidthPixel = documentWidth * pixelRatio
   const documentHeightPixel = documentHeight * pixelRatio

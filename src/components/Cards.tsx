@@ -1,12 +1,35 @@
-import { FC } from "react"
+import { FC, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { cardsList } from "../cardsList"
+import { useScrollContext } from "../ScrollProvider"
 import { Card } from "../types"
 import { MotionCard } from "./MotionCard"
 
 export const Cards: FC = () => {
+  const { updateScrollPosition } = useScrollContext()
+
+  const divRef = useRef<HTMLDivElement>(null)
+
+  const handleScroll = () => {
+    if (divRef.current) {
+      updateScrollPosition(divRef.current.scrollTop)
+    }
+  }
+
+  useEffect(() => {
+    if (divRef.current) {
+      divRef.current.addEventListener("scroll", handleScroll)
+    }
+
+    return () => {
+      if (divRef.current) {
+        divRef.current.removeEventListener("scroll", handleScroll)
+      }
+    }
+  }, [updateScrollPosition])
+
   return (
-    <Container>
+    <Container ref={divRef}>
       {cardsList.map((card: Card, index: number) => (
         <MotionCard
           key={`${card.image}-${index}`}

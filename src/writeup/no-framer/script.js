@@ -3,7 +3,6 @@ const handleMouseMove = (ev) => {
   if (!isAnimating) {
     isAnimating = true
     requestAnimationFrame(() => {
-      console.log(ev.target)
       const x = ev.clientX
       const y = ev.clientY
       const middleX = window.innerWidth / 2

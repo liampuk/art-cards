@@ -37,9 +37,7 @@ export const MotionCard: FC<Props> = ({
   const [reverse, setReverse] = useState(false)
   const [hover, setHover] = useState(false)
   const [cardWidth, setCardWidth] = useState(0)
-  const cardWidthRef = useRef(0)
   const [cardHeight, setCardHeight] = useState(0)
-  const cardHeightRef = useRef(0)
 
   const cardRef = useRef<HTMLDivElement>(null)
 
@@ -47,10 +45,8 @@ export const MotionCard: FC<Props> = ({
     if (cardRef.current) {
       setCardWidth(cardRef.current.offsetWidth)
       setCardHeight(cardRef.current.offsetHeight)
-      cardWidthRef.current = cardRef.current.offsetWidth
-      cardHeightRef.current = cardRef.current.offsetHeight
     }
-  }, [window.innerWidth, window.innerHeight])
+  }, [cardRef.current, window.innerWidth, window.innerHeight])
 
   const cursorPosX = useMotionValue(0)
   const cursorPosY = useMotionValue(0)
@@ -153,10 +149,10 @@ export const MotionCard: FC<Props> = ({
           <ArtistShine
             style={{
               background: artistBackground(rotateX.get(), rotateY.get()),
-              width: cardWidthRef.current / 9.8,
-              height: cardWidthRef.current / 9.8,
-              top: cardHeightRef.current / 21.8,
-              right: cardWidthRef.current / 15.7,
+              width: cardWidth / 9.8,
+              height: cardWidth / 9.8,
+              top: cardHeight / 21.8,
+              right: cardWidth / 15.7,
               opacity: hover ? 0.65 : 0.2,
             }}
           />
@@ -247,14 +243,13 @@ export const MotionCard: FC<Props> = ({
               />
             </GalaxyShine>
           )}
-
           <ArtistBrightBackground
             style={{
               opacity: hover ? 0.1 : 0.05,
-              width: cardWidthRef.current / 10,
-              height: cardWidthRef.current / 10,
-              top: cardHeightRef.current / 21.2,
-              right: cardHeightRef.current / 21.9,
+              width: cardWidth / 10,
+              height: cardWidth / 10,
+              top: cardHeight / 21.2,
+              right: cardHeight / 21.9,
             }}
           />
 
@@ -335,7 +330,6 @@ const BrightBackground = styled(motion.div)`
 const ArtistBrightBackground = styled(motion.div)`
   top: 0;
   background-image: url("${BASE_URL}hdr_pixel.avif");
-  width: 100%;
   position: absolute;
   mix-blend-mode: multiply;
   -webkit-mask-image: url("${BASE_URL}pngdiamondmask.png");
@@ -345,7 +339,6 @@ const ArtistBrightBackground = styled(motion.div)`
   -webkit-mask-position: center center;
   mask-position: center center;
   opacity: 0.1;
-  height: ${CARD_HEIGHT}vh;
   transition: opacity 0.6s ease;
 `
 

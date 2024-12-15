@@ -1,12 +1,11 @@
 import { useLayoutEffect, useState } from "react"
 
-//TODO return object
 export const useWindowSize = () => {
-  const [size, setSize] = useState([0, 0])
+  const [size, setSize] = useState({ width: 0, height: 0 })
 
   useLayoutEffect(() => {
     const updateSize = () => {
-      setSize([window.innerWidth, window.innerHeight])
+      setSize({ width: window.innerWidth, height: window.innerHeight })
     }
 
     window.addEventListener("resize", updateSize)
@@ -15,10 +14,12 @@ export const useWindowSize = () => {
     return () => window.removeEventListener("resize", updateSize)
   }, [])
 
-  return size[0] > 0 && size[1] > 0 ? size : [window.innerWidth, window.innerHeight]
+  return size.width > 0 && size.height > 0
+    ? size
+    : { width: window.innerWidth, height: window.innerHeight }
 }
 
 export const usePortrait = () => {
-  const [width, height] = useWindowSize()
+  const { width, height } = useWindowSize()
   return width < height
 }

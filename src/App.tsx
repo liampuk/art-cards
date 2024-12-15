@@ -1,17 +1,21 @@
 import styled from "styled-components"
+import { BranchOverlay } from "./components/BranchOverlay"
 import { Cards } from "./components/Cards"
 import { GrainOverlay } from "./components/Grain"
-import { LeavesOverlay } from "./components/LeavesOverlay"
 import { Sidebar } from "./components/Sidebar"
+import { ScrollProvider } from "./ScrollProvider"
 
 function App() {
   return (
-    <Container>
-      <Sidebar />
-      <Cards />
-      <GrainOverlay />
-      <LeavesOverlay />
-    </Container>
+    <ScrollProvider>
+      <Container>
+        <Sidebar />
+        <Cards />
+        <GrainOverlay />
+        {/* <LeavesOverlay /> */}
+        <BranchOverlay />
+      </Container>
+    </ScrollProvider>
   )
 }
 
