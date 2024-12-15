@@ -9,7 +9,7 @@ import {
 
 const ScrollContext = createContext({
   scrollPosition: 0,
-  updateScrollPosition: (position: number) => {},
+  updateScrollPosition: (_position: number) => {},
 })
 
 export const ScrollProvider: FC<{ children?: ReactNode }> = ({ children }) => {

@@ -4,52 +4,54 @@ import { useScrollContext } from "../ScrollProvider"
 import { useWindowSize } from "../hooks/general"
 
 const EXPONENT = 2.5
+const NUM_PAGES = 2
 
 export const BranchOverlay: FC = () => {
   const { scrollPosition } = useScrollContext()
   const { height } = useWindowSize()
+  console.log(scrollPosition)
 
   return (
     <Container>
       <Branch
-        src="branch.png"
+        src="branch3.png"
         style={{
           marginTop: `${
-            -10 - Math.pow(scrollPosition / height, EXPONENT) * 400
+            -200 - Math.pow(scrollPosition / height, EXPONENT) * 400
           }px`,
           rotate: `${
             Math.pow(scrollPosition / (height - 200), EXPONENT) * 30
           }deg`,
           opacity: `${
-            0.45 - Math.pow(scrollPosition / (height - 200), 2) * 0.45
+            0.4 - Math.pow(scrollPosition / (height - 200), 2) * 0.45
           }`,
         }}
       />
       <Branch2
-        src="branch.png"
+        src="branch3.png"
         style={{
-          marginTop: `${
-            200 - Math.pow(scrollPosition / height, EXPONENT) * 800
+          marginTop: `-${
+            Math.pow(scrollPosition / height, EXPONENT - 0.2) * 800
           }px`,
           rotate: `${
-            Math.pow(scrollPosition / (height - 200), EXPONENT) * 20
+            Math.pow(scrollPosition / (height - 200), EXPONENT - 0.2) * 35
           }deg`,
           opacity: `${
-            0.4 - Math.pow(scrollPosition / (height - 200), 2) * 0.4
+            0.35 - Math.pow(scrollPosition / (height - 200), 2.4) * 0.4
           }`,
         }}
       />
       <Branch3
-        src="branch.png"
+        src="branch3.png"
         style={{
           marginTop: `${
-            400 - Math.pow(scrollPosition / height, EXPONENT) * 900
+            200 - Math.pow(scrollPosition / height, EXPONENT - 0.4) * 900
           }px`,
           rotate: `${
-            Math.pow(scrollPosition / (height - 200), EXPONENT) * 20
+            Math.pow(scrollPosition / (height - 200), EXPONENT - 0.4) * 40
           }deg`,
           opacity: `${
-            0.4 - Math.pow(scrollPosition / (height - 200), 2) * 0.4
+            0.35 - Math.pow(scrollPosition / (height - 200), 2.8) * 0.4
           }`,
         }}
       />
@@ -62,6 +64,8 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   pointer-events: none;
+  overflow: hidden;
+  overscroll-behavior: none;
 `
 
 const Branch = styled.img`
@@ -71,7 +75,7 @@ const Branch = styled.img`
   filter: saturate(0) blur(10px);
   mix-blend-mode: multiply;
   opacity: 0.45;
-  height: 50%;
+  height: 80%;
   margin-right: -80px;
   animation-name: wave;
   animation-duration: 10s;

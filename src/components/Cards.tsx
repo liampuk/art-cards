@@ -43,6 +43,7 @@ export const Cards: FC = () => {
 }
 
 const Container = styled.div`
+  overscroll-behavior: none;
   left: 400px;
   width: calc(100vw - 400px - 52px);
   height: calc(100vh - 52px);
