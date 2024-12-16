@@ -62,6 +62,8 @@ export const BranchOverlay: FC = () => {
 
 const Container = styled.div`
   position: absolute;
+  top: 0;
+  right: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;

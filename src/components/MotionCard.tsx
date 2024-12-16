@@ -18,7 +18,7 @@ import {
 
 const STIFFNESS = 1000
 const DAMPENING = 10
-const CARD_HEIGHT = 70
+const CARD_HEIGHT = 60
 
 type Props = {
   cardImage: string
@@ -298,14 +298,14 @@ const FaceCardContainer = styled(motion.div)`
   left: 0;
   z-index: 1000;
   border-radius: 4px;
-  height: 70vh;
+  height: ${CARD_HEIGHT}vh;
   isolation: isolate;
 `
 
 const BackCardContainer = styled(motion.div)`
   overflow: hidden;
   border-radius: 4px;
-  height: 70vh;
+  height: ${CARD_HEIGHT}vh;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 0px 40px 15px;
 `
 
@@ -346,8 +346,7 @@ const Container = styled.div<{
   $cardMaskImage: string
 }>`
   ${({ $cardMaskImage }) => `--card-mask-image: url("${$cardMaskImage}")`};
-
-  height: 100vh;
+  width: 100%;
   perspective: 1200px;
   display: flex;
   justify-content: center;

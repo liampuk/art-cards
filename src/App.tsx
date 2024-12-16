@@ -1,26 +1,39 @@
 import styled from "styled-components"
 import { BranchOverlay } from "./components/BranchOverlay"
-import { Cards } from "./components/Cards"
 import { GrainOverlay } from "./components/Grain"
+import { MainContent } from "./components/MainContent"
 import { Sidebar } from "./components/Sidebar"
 import { ScrollProvider } from "./ScrollProvider"
 
 function App() {
   return (
-    <ScrollProvider>
-      <Container>
-        <Sidebar />
-        <Cards />
-        <GrainOverlay />
-        {/* <LeavesOverlay /> */}
+    <FixedContainer>
+      <ScrollProvider>
+        <Container>
+          <Sidebar />
+          <MainContent />
+          {/* <Cards /> */}
+          <GrainOverlay />
+        </Container>
         <BranchOverlay />
-      </Container>
-    </ScrollProvider>
+      </ScrollProvider>
+    </FixedContainer>
   )
 }
 
 const Container = styled.div`
   display: flex;
+  background-color: #e8e2d0;
+`
+
+const FixedContainer = styled.div`
+  /* position: absolute; */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #e8e2d0;
 `
 
 export default App
