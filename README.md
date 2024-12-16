@@ -4,7 +4,6 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 
 <img width="783" alt="image" src="https://github.com/user-attachments/assets/9fc95e9c-3103-4f98-9cce-cf16b8780d2d" />
 
-
 ## TODO
 
 - [ ] Main page
@@ -20,6 +19,10 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 - Title and description on the left
 - Card on the right
 - With scroll, description animates out and card moves to centre. Card animates through shine with scroll with css fixed before finally scrolling off screen to the top
+- [ ] Smooth scroll with Lenis scroll
+- [ ] Build title section
+- [ ] Sticky position section
+- [ ]
 
 ### Open pack page
 
@@ -69,3 +72,5 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
   - display rates
   - full refund
   - low price
+- Mobile
+  - Start with sidebar border and zoom to fullscreen on scroll?

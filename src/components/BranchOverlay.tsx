@@ -8,13 +8,14 @@ const NUM_PAGES = 2
 
 export const BranchOverlay: FC = () => {
   const { scrollPosition } = useScrollContext()
-  const { height } = useWindowSize()
+  const { height: windowHeight } = useWindowSize()
   console.log(scrollPosition)
+  const height = windowHeight * NUM_PAGES
 
   return (
     <Container>
       <Branch
-        src="branch3.png"
+        src="branch4.jpg"
         style={{
           marginTop: `${
             -200 - Math.pow(scrollPosition / height, EXPONENT) * 400
@@ -28,7 +29,7 @@ export const BranchOverlay: FC = () => {
         }}
       />
       <Branch2
-        src="branch3.png"
+        src="branch4.jpg"
         style={{
           marginTop: `-${
             Math.pow(scrollPosition / height, EXPONENT - 0.2) * 800
@@ -42,7 +43,7 @@ export const BranchOverlay: FC = () => {
         }}
       />
       <Branch3
-        src="branch3.png"
+        src="branch4.jpg"
         style={{
           marginTop: `${
             200 - Math.pow(scrollPosition / height, EXPONENT - 0.4) * 900
@@ -74,7 +75,7 @@ const Branch = styled.img`
   position: absolute;
   filter: saturate(0) blur(10px);
   mix-blend-mode: multiply;
-  opacity: 0.45;
+  opacity: 0.4;
   height: 80%;
   margin-right: -80px;
   animation-name: wave;
@@ -84,16 +85,16 @@ const Branch = styled.img`
   @keyframes wave {
     0%,
     100% {
-      transform: scaleX(-1) rotate(0deg); /* Neutral position */
+      transform: scaleX(-1.2) rotate(0deg); /* Neutral position */
     }
     25% {
-      transform: scaleX(-1) rotate(-2deg) translateY(-10px); /* Slight rotation upward */
+      transform: scaleX(-1.2) rotate(-3deg) translateY(-20px); /* Slight rotation upward */
     }
     50% {
-      transform: scaleX(-1) rotate(2deg) translateY(10px); /* Slight rotation downward */
+      transform: scaleX(-1.2) rotate(3deg) translateY(20px); /* Slight rotation downward */
     }
     75% {
-      transform: scaleX(-1) rotate(-1deg); /* Gentle recovery */
+      transform: scaleX(-1.2) rotate(-2deg); /* Gentle recovery */
     }
   }
 `
