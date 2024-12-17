@@ -36,9 +36,9 @@ export const MotionCard: FC<Props> = ({
   const [_tempForceUpdate, setTempForceUpdate] = useState(0)
   const [reverse, setReverse] = useState(false)
   const [hover, setHover] = useState(false)
-  const [cardWidth, setCardWidth] = useState(0)
+  const [_cardWidth, setCardWidth] = useState(0)
   const cardWidthRef = useRef(0)
-  const [cardHeight, setCardHeight] = useState(0)
+  const [_cardHeight, setCardHeight] = useState(0)
   const cardHeightRef = useRef(0)
 
   const cardRef = useRef<HTMLDivElement>(null)
