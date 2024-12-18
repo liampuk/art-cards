@@ -51,6 +51,7 @@ const ContentContainer = styled.div`
   justify-content: space-between;
   height: 90%;
   min-height: 800px;
+  /* overscroll-behavior: contain; */
 `
 
 const ExLibris = styled.img`

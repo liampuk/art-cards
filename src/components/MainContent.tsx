@@ -43,8 +43,7 @@ const Container = styled.div`
   margin: 26px;
   overflow: scroll;
   position: relative;
-  overscroll-behavior: contain;
-  overflow-x: hidden;
+  overscroll-behavior: auto;
 
   &::-webkit-scrollbar {
     display: none;

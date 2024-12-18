@@ -30,12 +30,12 @@ const Container = styled.div`
 
 const AccountButtonContainer = styled.div`
   position: absolute;
-  top: 550px;
-  left: 360px;
+  top: 58vh;
+  left: 21vw;
 `
 
 const HeroImage = styled.img`
   mix-blend-mode: darken;
-  height: 500px;
-  margin-left: 150px;
+  height: 60vh;
+  margin-left: 8vw;
 `

@@ -7,17 +7,15 @@ import { ScrollProvider } from "./ScrollProvider"
 
 function App() {
   return (
-    <FixedContainer>
-      <ScrollProvider>
-        <Container>
-          <Sidebar />
-          <MainContent />
-          {/* <Cards /> */}
-          <GrainOverlay />
-        </Container>
+    <ScrollProvider>
+      <Container>
+        <Sidebar />
+        <MainContent />
+        {/* <Cards /> */}
+        <GrainOverlay />
         <BranchOverlay />
-      </ScrollProvider>
-    </FixedContainer>
+      </Container>
+    </ScrollProvider>
   )
 }
 
@@ -26,16 +24,9 @@ const Container = styled.div`
   background-color: #e8e2d0;
   overflow: hidden;
   height: 100vh;
-`
-
-const FixedContainer = styled.div`
-  /* position: absolute; */
-  top: 0;
-  left: 0;
   width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background-color: #e8e2d0;
+  position: fixed;
+  top: 0;
 `
 
 export default App
