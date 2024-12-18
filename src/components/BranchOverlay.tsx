@@ -4,7 +4,7 @@ import { useScrollContext } from "../ScrollProvider"
 import { useWindowSize } from "../hooks/general"
 
 const EXPONENT = 2.5
-const NUM_PAGES = 2
+const NUM_PAGES = 1
 
 export const BranchOverlay: FC = () => {
   const { scrollPosition } = useScrollContext()

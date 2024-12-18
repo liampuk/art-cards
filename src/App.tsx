@@ -24,6 +24,8 @@ function App() {
 const Container = styled.div`
   display: flex;
   background-color: #e8e2d0;
+  overflow: hidden;
+  height: 100vh;
 `
 
 const FixedContainer = styled.div`

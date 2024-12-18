@@ -7,7 +7,7 @@ export const HeroPage: FC = () => {
   return (
     <Container>
       <div>
-        <HeroImage src="hero4.jpg" />
+        <HeroImage src="hero7.jpg" />
         <AccountButtonContainer>
           <Button />
         </AccountButtonContainer>

@@ -6,6 +6,54 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 
 ## TODO
 
+- [ ] Fix layout/scroll
+- [ ] Fix border overflow
+- [ ] Optimise images
+- [ ] Lenis smooth scroll
+
+### Main Page
+
+- [x] Hero section with title and call to action button, and card to the right
+- [ ] With scroll, description animates out and card moves to centre. Card animates through shine with scroll with css fixed before finally scrolling off screen to the top
+- [ ] Smooth scroll with Lenis scroll
+- [ ] If CTA button clicked, skip sticky scroll section, but still scroll
+
+### Sidebar
+
+- [x] Title
+- [x] Buttons
+- [x] link to portfolio
+
+### Open pack page
+
+- 3d pack?
+- Challenges -> collect cards in series (hearts are trumps etc.) to get extra coins
+
+### Collection page
+
+- grid of cards
+- showcase view
+
+### Tutorial page
+
+- writeup of
+  - How the cards work
+  - the leaves overlay
+- link to blog
+
+### Mobile
+
+- Simple version, title and one card with suggestion to view on desktop
+- gyrometer
+
+## Old Plan
+
+<details>
+
+<summary>Expand</summary>
+
+## TODO
+
 - [ ] Main page
 - [ ] Side bar
 - [ ] Set up backend server
@@ -74,3 +122,5 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
   - low price
 - Mobile
   - Start with sidebar border and zoom to fullscreen on scroll?
+
+</details>
