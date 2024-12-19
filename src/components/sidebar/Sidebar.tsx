@@ -109,7 +109,7 @@ const ExLibris = styled.img`
   width: auto;
   margin-left: 100px;
   margin-top: 24px;
-  rotate: ${Math.random() * 20 - 10}deg;
+  rotate: ${10 - Math.round(Math.random()) * 20 + Math.random() * 4 - 2}deg;
 `
 
 const ButtonSection = styled.div`

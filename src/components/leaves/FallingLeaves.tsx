@@ -18,7 +18,7 @@ export const FallingLeaves: FC = () => {
   const createLeaf = () => {
     leaves.current.push({
       x: 100 + Math.random() * (canvasWidth - 200),
-      y: 100 + Math.random() * 600,
+      y: 200 + Math.random() * 600,
       rotate: Math.random() * 360,
       rnd: Math.random(),
       size: 80 + Math.random() * 30,
@@ -109,7 +109,7 @@ const Container = styled.div`
   /* background-color: green; */
   /* mix-blend-mode: multiply; */
   filter: blur(10px);
-  opacity: 0.2;
+  opacity: 0.18;
   mask-image: linear-gradient(
     180deg,
     rgba(0, 0, 0, 1) 25%,
