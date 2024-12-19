@@ -86,21 +86,17 @@ export const MotionCard: FC<Props> = ({
 
   const handleMouseMove = (ev: React.MouseEvent<HTMLDivElement>) => {
     setHover(true)
-    const x = ev.clientX
-    const y = ev.clientY
-    const middleX = window.innerWidth / 2
-    const middleY = window.innerHeight / 2
-    const offsetX = ((x - middleX) / middleX) * 45
-    const offsetY = ((y - middleY) / middleY) * 45
-    const offsetLeft = ev.currentTarget.getBoundingClientRect().left
-    const offsetTop = ev.currentTarget.getBoundingClientRect().top
-    const width = ev.currentTarget.offsetWidth
-    const height = ev.currentTarget.offsetHeight
+    const { left, top, width, height } =
+      ev.currentTarget.getBoundingClientRect()
+    const relativeX = ev.clientX - left
+    const relativeY = ev.clientY - top
+    const offsetX = (relativeY / height - 0.5) * 2 * 30
+    const offsetY = (relativeX / width - 0.5) * 2 * 30
 
-    rotateX.set(-offsetX)
-    rotateY.set(offsetY)
-    cursorPosX.set((x - offsetLeft) / width)
-    cursorPosY.set((y - offsetTop) / height)
+    rotateX.set(-offsetY)
+    rotateY.set(offsetX)
+    cursorPosX.set(relativeX / width)
+    cursorPosY.set(relativeY / height)
 
     setTempForceUpdate(Math.random())
   }
@@ -346,17 +342,14 @@ const Container = styled.div<{
   $cardMaskImage: string
 }>`
   ${({ $cardMaskImage }) => `--card-mask-image: url("${$cardMaskImage}")`};
-  width: 100%;
   perspective: 1200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: fit-content;
+  height: fit-content;
   user-select: none;
 `
 
 const CardContainer = styled(motion.div)`
   height: ${CARD_HEIGHT}vh;
-  position: absolute;
   cursor: pointer;
   transform-style: preserve-3d;
 `

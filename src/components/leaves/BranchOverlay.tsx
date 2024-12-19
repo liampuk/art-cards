@@ -1,7 +1,8 @@
 import { FC } from "react"
 import styled from "styled-components"
-import { useWindowSize } from "../hooks/general"
-import { useScrollContext } from "./ScrollProvider"
+import { useWindowSize } from "../../hooks/general"
+import { useScrollContext } from "../ScrollProvider"
+import { FallingLeaves } from "./FallingLeaves"
 
 const EXPONENT = 2.5
 const NUM_PAGES = 1
@@ -55,6 +56,7 @@ export const BranchOverlay: FC = () => {
           }`,
         }}
       />
+      <FallingLeaves />
     </Container>
   )
 }

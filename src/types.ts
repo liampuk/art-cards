@@ -15,4 +15,13 @@ interface StandardCard extends BaseCard {
   effect?: never
 }
 
+export type Leaf = {
+  x: number
+  y: number
+  rotate: number
+  rnd: number
+  size: number
+  fadeIn: number
+}
+
 export type Card = HoloCard | StandardCard

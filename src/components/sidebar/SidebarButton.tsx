@@ -50,7 +50,7 @@ export const SidebarButton: FC<{ label: string }> = ({ label }) => {
       onMouseDown={() => setClicking(true)}
       onMouseUp={() => setClicking(false)}
     >
-      <ButtonBox hover={hover}>
+      <ButtonBox $hover={hover}>
         <LabelImage src={`sidebar-${label}.png`} />
       </ButtonBox>
       <Glare
@@ -66,7 +66,7 @@ export const SidebarButton: FC<{ label: string }> = ({ label }) => {
   )
 }
 
-const ButtonBox = styled.div<{ hover?: boolean }>`
+const ButtonBox = styled.div<{ $hover?: boolean }>`
   width: 200px;
   height: 50px;
   border-radius: 10px;
@@ -80,7 +80,7 @@ const ButtonBox = styled.div<{ hover?: boolean }>`
     width: 100%;
     height: 100%;
     background-color: #c6c6c6;
-    opacity: ${(props) => (props.hover ? 0.9 : 0)};
+    opacity: ${(props) => (props.$hover ? 0.9 : 0)};
     transition: opacity 0.2s ease;
     border-radius: 10px;
   }

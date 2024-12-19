@@ -10,7 +10,9 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 - [x] Fix border overflow
 - [ ] Optimise images
 - [x] Lenis smooth scroll
-- [ ] Falling leaves with scroll
+- [x] Falling leaves with scroll
+- [ ] Sticky scroll section
+- [ ] Open pack section
 
 ### Main Page
 
@@ -46,6 +48,13 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 
 - Simple version, title and one card with suggestion to view on desktop
 - gyrometer
+
+### Saving collection
+
+- Let user change their name
+  - auto generate random name from greek myths?
+- Save collection to local state, hashed with last card opened date time and name.
+- QR code/option to copy url to collection
 
 ## Old Plan
 

@@ -1,12 +1,20 @@
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/all"
 import Lenis from "lenis"
 import { FC, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { useScrollContext } from "../ScrollProvider"
+import { HeroCard } from "./HeroCard"
 import { HeroPage } from "./pages/hero-page/HeroPage"
+import { StickyScrollSection } from "./pages/StickyScroll/StickyScrollSection"
+gsap.registerPlugin(ScrollTrigger)
 
 export const MainContent: FC = () => {
   const fixedDivRef = useRef<HTMLDivElement>(null)
   const scrollDivRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLDivElement>(null)
+  const triggerRef2 = useRef<HTMLDivElement>(null)
+  const cardRef = useRef<HTMLDivElement>(null)
   const { updateScrollPosition } = useScrollContext()
 
   useEffect(() => {
@@ -17,6 +25,7 @@ export const MainContent: FC = () => {
 
     const raf = (time: number) => {
       lenis.raf(time)
+      ScrollTrigger.update()
       requestAnimationFrame(raf)
     }
 
@@ -25,6 +34,21 @@ export const MainContent: FC = () => {
     lenis.on("scroll", (e) => {
       updateScrollPosition(e.scroll)
     })
+
+    gsap.to(cardRef.current, {
+      scrollTrigger: {
+        scroller: fixedDivRef.current,
+        trigger: triggerRef.current,
+        // markers: true,
+        start: "top center",
+        end: "bottom center",
+        scrub: true,
+      },
+      x: -600,
+      ease: "power2",
+    })
+
+    console.log(triggerRef.current)
 
     return () => {
       lenis.destroy()
@@ -35,7 +59,17 @@ export const MainContent: FC = () => {
     <Container ref={fixedDivRef}>
       <Content ref={scrollDivRef}>
         <HeroPage />
-        <BlankPage />
+        <StickyScrollSection
+          alignSelf="flex-end"
+          imgSrc="sticky-text-packs2.jpg"
+          ref={triggerRef}
+        />
+        <StickyScrollSection
+          alignSelf="flex-start"
+          imgSrc="sticky-text-tutorial2.jpg"
+          ref={triggerRef2}
+        />
+        <HeroCard cardRef={cardRef} />
       </Content>
     </Container>
   )
@@ -84,9 +118,4 @@ const Container = styled.div`
 const Content = styled.div`
   width: 100%;
   height: 100%;
-`
-
-const BlankPage = styled.div`
-  height: 200vh;
-  width: 100vw;
 `

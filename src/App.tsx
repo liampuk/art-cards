@@ -1,6 +1,6 @@
 import { FC } from "react"
-import { BranchOverlay } from "./components/BranchOverlay"
 import { GrainOverlay } from "./components/Grain"
+import { BranchOverlay } from "./components/leaves/BranchOverlay"
 import { MainContent } from "./components/main-content/MainContent"
 import { ScrollProvider } from "./components/ScrollProvider"
 import { Sidebar } from "./components/sidebar/Sidebar"

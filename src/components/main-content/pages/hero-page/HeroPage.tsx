@@ -1,6 +1,5 @@
 import { FC } from "react"
 import styled from "styled-components"
-import { MotionCard } from "../../../card/MotionCard"
 import { Button } from "./Button"
 
 export const HeroPage: FC = () => {
@@ -12,11 +11,6 @@ export const HeroPage: FC = () => {
           <Button />
         </AccountButtonContainer>
       </div>
-      <MotionCard
-        cardImage="rossetti/proserpine"
-        cardImageMask="rossetti/proserpine-mask"
-        shineType="lines"
-      />
     </Container>
   )
 }
