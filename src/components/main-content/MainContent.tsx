@@ -1,7 +1,7 @@
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/all"
 import Lenis from "lenis"
-import { FC, useEffect, useRef } from "react"
+import { FC, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import { useScrollContext } from "../ScrollProvider"
 import { HeroCard } from "./HeroCard"
@@ -16,6 +16,34 @@ export const MainContent: FC = () => {
   const triggerRef2 = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
   const { updateScrollPosition } = useScrollContext()
+
+  const [rotateX, setRotateX] = useState<null | number>(null)
+  const [rotateY, setRotateY] = useState<null | number>(null)
+  const [bgX, setBgX] = useState<null | number>(null)
+  const [bgY, setBgY] = useState<null | number>(null)
+
+  // x 40 to 60 y 0 to 20
+
+  const updateRotateAnimationOne = (progress: number) => {
+    if (progress === 0) {
+      setRotateX(null)
+      setRotateY(null)
+      setBgX(null)
+      setBgY(null)
+    } else {
+      setRotateX(25 * progress)
+      setRotateY(10 * progress)
+      setBgX(progress * 0.8)
+      setBgY(progress * 0.8)
+    }
+  }
+
+  const updateRotateAnimationTwo = (progress: number) => {
+    setRotateX(25 - 50 * progress)
+    setRotateY(10 - 20 * progress)
+    setBgX((1 - progress) * 0.8)
+    setBgY((1 - progress) * 0.8)
+  }
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -43,12 +71,29 @@ export const MainContent: FC = () => {
         start: "top center",
         end: "bottom center",
         scrub: true,
+        onUpdate: (self) => updateRotateAnimationOne(self.progress),
       },
-      x: -600,
+      x: -500,
       ease: "power2",
     })
 
-    console.log(triggerRef.current)
+    gsap.fromTo(
+      cardRef.current,
+      { x: -500 },
+      {
+        immediateRender: false,
+        scrollTrigger: {
+          scroller: fixedDivRef.current,
+          trigger: triggerRef2.current,
+          start: "top center",
+          end: "bottom center",
+          scrub: true,
+          onUpdate: (self) => updateRotateAnimationTwo(self.progress),
+        },
+        x: 0,
+        ease: "power2",
+      }
+    )
 
     return () => {
       lenis.destroy()
@@ -69,7 +114,13 @@ export const MainContent: FC = () => {
           imgSrc="sticky-text-tutorial2.jpg"
           ref={triggerRef2}
         />
-        <HeroCard cardRef={cardRef} />
+        <HeroCard
+          cardRef={cardRef}
+          rotateX={rotateX}
+          rotateY={rotateY}
+          bgX={bgX}
+          bgY={bgY}
+        />
       </Content>
     </Container>
   )

@@ -24,6 +24,10 @@ type Props = {
   cardImage: string
   cardImageMask?: string
   shineType?: Effect
+  externalRotateX?: number | null
+  externalRotateY?: number | null
+  externalBgX?: number | null
+  externalBgY?: number | null
 }
 
 const BASE_URL = import.meta.env.BASE_URL
@@ -32,14 +36,26 @@ export const MotionCard: FC<Props> = ({
   cardImage,
   cardImageMask,
   shineType,
+  externalRotateX,
+  externalRotateY,
+  externalBgX,
+  externalBgY,
 }) => {
   const [_tempForceUpdate, setTempForceUpdate] = useState(0)
   const [reverse, setReverse] = useState(false)
   const [hover, setHover] = useState(false)
   const [cardWidth, setCardWidth] = useState(0)
   const [cardHeight, setCardHeight] = useState(0)
+  const externalControlActive = externalRotateX || externalRotateY
 
   const cardRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    externalRotateX && rotateX.set(externalRotateX)
+    externalRotateY && rotateY.set(externalRotateY)
+    externalBgX && cursorPosX.set(externalBgX)
+    externalBgY && cursorPosY.set(externalBgY)
+  }, [externalRotateX, externalRotateY])
 
   useEffect(() => {
     if (cardRef.current) {
@@ -72,6 +88,11 @@ export const MotionCard: FC<Props> = ({
 
   const rotateXSpring = useSpring(rotateXMod, { stiffness: 100, damping: 20 })
   const rotateYSpring = useSpring(rotateY, { stiffness: 100, damping: 20 })
+
+  // console.log(rotateX.get())
+  // console.log(rotateY.get())
+
+  console.log(cursorPosX.get(), cursorPosY.get())
 
   const handleClick = () => {
     if (reverse) {
@@ -131,7 +152,7 @@ export const MotionCard: FC<Props> = ({
                 cursorPosYPercentage.get(),
                 { reverse: true }
               ),
-              opacity: hover ? 0.3 : 0,
+              opacity: hover || externalControlActive ? 0.3 : 0,
             }}
           />
         </BackCardContainer>
@@ -149,7 +170,7 @@ export const MotionCard: FC<Props> = ({
               height: cardWidth / 9.8,
               top: cardHeight / 21.8,
               right: cardWidth / 15.7,
-              opacity: hover ? 0.65 : 0.2,
+              opacity: hover || externalControlActive ? 0.65 : 0.2,
             }}
           />
           <CardImage src={`${BASE_URL}${cardImage}.jpg`} />
@@ -161,7 +182,7 @@ export const MotionCard: FC<Props> = ({
                   backgroundPosX.get(),
                   backgroundPosY.get()
                 ),
-                opacity: hover ? 0.8 : 0,
+                opacity: hover || externalControlActive ? 0.8 : 0,
               }}
             >
               <LinesShineOverlay
@@ -194,7 +215,7 @@ export const MotionCard: FC<Props> = ({
                   backgroundPosX.get(),
                   backgroundPosY.get()
                 ),
-                opacity: hover ? 1 : 0,
+                opacity: hover || externalControlActive ? 1 : 0,
               }}
             >
               <DiagonalShineOverlay
@@ -222,7 +243,7 @@ export const MotionCard: FC<Props> = ({
                   backgroundPosX.get(),
                   backgroundPosY.get()
                 ),
-                opacity: hover ? 1 : 0,
+                opacity: hover || externalControlActive ? 1 : 0,
               }}
             >
               <GalaxyShineOverlay
@@ -241,7 +262,7 @@ export const MotionCard: FC<Props> = ({
           )}
           <ArtistBrightBackground
             style={{
-              opacity: hover ? 0.1 : 0.05,
+              opacity: hover || externalControlActive ? 0.1 : 0.05,
               width: cardWidth / 10,
               height: cardWidth / 10,
               top: cardHeight / 21.2,
@@ -251,7 +272,7 @@ export const MotionCard: FC<Props> = ({
 
           <BrightBackground
             style={{
-              opacity: hover ? 0.2 : 0.05,
+              opacity: hover || externalControlActive ? 0.2 : 0.05,
             }}
           />
 
