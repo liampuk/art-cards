@@ -1,32 +1,19 @@
-import styled from "styled-components"
+import { FC } from "react"
 import { BranchOverlay } from "./components/BranchOverlay"
 import { GrainOverlay } from "./components/Grain"
-import { MainContent } from "./components/MainContent"
-import { Sidebar } from "./components/Sidebar"
-import { ScrollProvider } from "./ScrollProvider"
+import { MainContent } from "./components/main-content/MainContent"
+import { ScrollProvider } from "./components/ScrollProvider"
+import { Sidebar } from "./components/sidebar/Sidebar"
 
-function App() {
+export const App: FC = () => {
   return (
-    <ScrollProvider>
-      <Container>
+    <>
+      <ScrollProvider>
         <Sidebar />
         <MainContent />
-        {/* <Cards /> */}
         <GrainOverlay />
         <BranchOverlay />
-      </Container>
-    </ScrollProvider>
+      </ScrollProvider>
+    </>
   )
 }
-
-const Container = styled.div`
-  display: flex;
-  background-color: #e8e2d0;
-  overflow: hidden;
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  top: 0;
-`
-
-export default App

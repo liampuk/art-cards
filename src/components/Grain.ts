@@ -1,7 +1,6 @@
 import styled from "styled-components"
 
 export const GrainOverlay = styled.div`
-  position: absolute;
   top: 0;
   left: 0;
   filter: brightness(120%);

@@ -1,28 +1,29 @@
 import { FC } from "react"
 import styled from "styled-components"
+import { SidebarBorder } from "./SidebarBorder"
 import { SidebarButton } from "./SidebarButton"
 
 const BASE_URL = import.meta.env.BASE_URL
 
 export const Sidebar: FC = () => {
   return (
-    <>
+    <Container>
       <ContentContainer>
         <div>
-          <TitleImage src="sidebar-title2.png" />
+          <TitleImage src={`${BASE_URL}sidebar-title2.png`} />
           <ButtonSection>
             <ButtonContainer>
               <SidebarButton label="home" />
             </ButtonContainer>
-            <Divider src="sidebar-divider.png" />
+            <Divider src={`${BASE_URL}sidebar-divider.png`} />
             <ButtonContainer>
               <SidebarButton label="open-pack" />
             </ButtonContainer>
-            <Divider src="sidebar-divider.png" />
+            <Divider src={`${BASE_URL}sidebar-divider.png`} />
             <ButtonContainer>
               <SidebarButton label="collection" />
             </ButtonContainer>
-            <Divider src="sidebar-divider.png" />
+            <Divider src={`${BASE_URL}sidebar-divider.png`} />
             <ButtonContainer>
               <SidebarButton label="tutorial" />
             </ButtonContainer>
@@ -32,32 +33,82 @@ export const Sidebar: FC = () => {
           <ExLibris src="ex-libris2.png" />
         </a>
       </ContentContainer>
-      <BorderContainer>
-        <SidebarTopImage src={`${BASE_URL}sidebar-top.svg`} />
-        <SidebarMiddleImage src={`${BASE_URL}sidebar-middle.svg`} />
-        <SidebarBottomImage src={`${BASE_URL}sidebar-bottom.svg`} />
-      </BorderContainer>
-    </>
+      <ContentFalloff>
+        <TopFalloff>
+          <FalloffBlock />
+          <FalloffGradient />
+        </TopFalloff>
+        <BottomFalloff>
+          <FalloffBlock />
+          <FalloffGradient />
+        </BottomFalloff>
+      </ContentFalloff>
+      <SidebarBorder />
+    </Container>
   )
 }
 
 const ContentContainer = styled.div`
   width: 400px;
-  position: absolute;
+  height: 100%;
   overflow: scroll;
+  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 90%;
-  min-height: 800px;
-  /* overscroll-behavior: contain; */
+  padding-bottom: 100px;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`
+
+const ContentFalloff = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 100%;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 1;
+`
+
+const TopFalloff = styled.div`
+  width: 100%;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+`
+
+const BottomFalloff = styled.div`
+  width: 100%;
+  height: 108px;
+  display: flex;
+  flex-direction: column;
+  rotate: 180deg;
+`
+
+const FalloffGradient = styled.div`
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(180deg, #e8e2d0 0%, rgba(0, 0, 0, 0) 100%);
+`
+
+const FalloffBlock = styled.div`
+  background-color: #e8e2d0;
+  flex: 1;
+  width: 100%;
 `
 
 const ExLibris = styled.img`
   height: 90px;
   width: auto;
   margin-left: 100px;
+  margin-top: 24px;
   rotate: ${Math.random() * 20 - 10}deg;
 `
 
@@ -84,41 +135,9 @@ const ButtonContainer = styled.div`
   margin-top: 8px;
 `
 
-const SidebarTopImage = styled.img`
-  width: 100%;
-`
-
-const SidebarMiddleImage = styled.img`
-  width: 100%;
-  flex: 1;
-`
-
-const SidebarBottomImage = styled.img`
-  width: 100%;
-`
-
-const BorderContainer = styled.div`
-  padding: 24px;
-  display: flex;
-  flex-direction: column; /* Or row, depending on stacking */
-  align-items: center; /* Aligns items horizontally */
-  justify-content: center; /* Aligns items vertically */
+const Container = styled.div`
+  height: 100vh;
+  width: 400px;
   top: 0;
   position: fixed;
-  height: 100%;
-  width: 400px;
-  pointer-events: none;
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p {
-    font-family: "Amarante", serif;
-    font-weight: 400;
-    font-style: normal;
-    margin: 0;
-  }
 `

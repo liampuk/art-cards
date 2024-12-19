@@ -1,7 +1,7 @@
 import { FC } from "react"
 import styled from "styled-components"
-import { useScrollContext } from "../ScrollProvider"
 import { useWindowSize } from "../hooks/general"
+import { useScrollContext } from "./ScrollProvider"
 
 const EXPONENT = 2.5
 const NUM_PAGES = 1
@@ -9,7 +9,6 @@ const NUM_PAGES = 1
 export const BranchOverlay: FC = () => {
   const { scrollPosition } = useScrollContext()
   const { height: windowHeight } = useWindowSize()
-  console.log(scrollPosition)
   const height = windowHeight * NUM_PAGES
 
   return (

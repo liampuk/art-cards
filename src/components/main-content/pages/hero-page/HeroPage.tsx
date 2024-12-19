@@ -1,13 +1,13 @@
 import { FC } from "react"
 import styled from "styled-components"
-import { Button } from "../Button"
-import { MotionCard } from "../MotionCard"
+import { MotionCard } from "../../../card/MotionCard"
+import { Button } from "./Button"
 
 export const HeroPage: FC = () => {
   return (
     <Container>
       <div>
-        <HeroImage src="hero7.jpg" />
+        <HeroImage src="hero11.jpg" />
         <AccountButtonContainer>
           <Button />
         </AccountButtonContainer>
@@ -30,12 +30,11 @@ const Container = styled.div`
 
 const AccountButtonContainer = styled.div`
   position: absolute;
-  top: 58vh;
+  top: 60vh;
   left: 21vw;
 `
 
 const HeroImage = styled.img`
-  mix-blend-mode: darken;
   height: 60vh;
   margin-left: 8vw;
 `

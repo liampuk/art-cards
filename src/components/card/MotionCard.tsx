@@ -1,7 +1,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { FC, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
-import { Effect } from "../types"
+import { Effect } from "../../types"
 import {
   artistBackground,
   diagonalShineBackground,

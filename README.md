@@ -6,10 +6,11 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 
 ## TODO
 
-- [ ] Fix layout/scroll
-- [ ] Fix border overflow
+- [x] Fix layout/scroll
+- [x] Fix border overflow
 - [ ] Optimise images
-- [ ] Lenis smooth scroll
+- [x] Lenis smooth scroll
+- [ ] Falling leaves with scroll
 
 ### Main Page
 
