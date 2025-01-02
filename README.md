@@ -11,14 +11,17 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 - [ ] Optimise images
 - [x] Lenis smooth scroll
 - [x] Falling leaves with scroll
-- [ ] Sticky scroll section
+- [x] Sticky scroll section
 - [ ] Open pack section
+- [ ] SVG animation on smooth scroll section
+- [ ] Text animation on smooth scroll section
+- [ ] Replace images with text
 
 ### Main Page
 
 - [x] Hero section with title and call to action button, and card to the right
-- [ ] With scroll, description animates out and card moves to centre. Card animates through shine with scroll with css fixed before finally scrolling off screen to the top
-- [ ] Smooth scroll with Lenis scroll
+- [x] With scroll, description animates out and card moves to centre. Card animates through shine with scroll with css fixed before finally scrolling off screen to the top
+- [x] Smooth scroll with Lenis scroll
 - [ ] If CTA button clicked, skip sticky scroll section, but still scroll
 
 ### Sidebar

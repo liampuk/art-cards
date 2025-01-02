@@ -5,15 +5,20 @@ import { FC, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import { useScrollContext } from "../ScrollProvider"
 import { HeroCard } from "./HeroCard"
+import { Collection } from "./pages/collection/Collection"
 import { HeroPage } from "./pages/hero-page/HeroPage"
-import { StickyScrollSection } from "./pages/StickyScroll/StickyScrollSection"
+import { OpenPack } from "./pages/open-pack/OpenPack"
+import { BottomStickyScroll } from "./pages/StickyScroll/BottomStickyScroll"
+import { TopStickyScroll } from "./pages/StickyScroll/TopStickyScroll"
+import { Tutorial } from "./tutorial/Tutorial"
 gsap.registerPlugin(ScrollTrigger)
 
 export const MainContent: FC = () => {
   const fixedDivRef = useRef<HTMLDivElement>(null)
   const scrollDivRef = useRef<HTMLDivElement>(null)
-  const triggerRef = useRef<HTMLDivElement>(null)
-  const triggerRef2 = useRef<HTMLDivElement>(null)
+  const topTriggerRef = useRef<HTMLDivElement>(null)
+  const middleTriggerRef = useRef<HTMLDivElement>(null)
+  const bottomTriggerRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
   const { updateScrollPosition } = useScrollContext()
 
@@ -21,8 +26,7 @@ export const MainContent: FC = () => {
   const [rotateY, setRotateY] = useState<null | number>(null)
   const [bgX, setBgX] = useState<null | number>(null)
   const [bgY, setBgY] = useState<null | number>(null)
-
-  // x 40 to 60 y 0 to 20
+  const [scale, setScale] = useState<null | number>(null)
 
   const updateRotateAnimationOne = (progress: number) => {
     if (progress === 0) {
@@ -30,11 +34,13 @@ export const MainContent: FC = () => {
       setRotateY(null)
       setBgX(null)
       setBgY(null)
+      setScale(null)
     } else {
       setRotateX(25 * progress)
       setRotateY(10 * progress)
       setBgX(progress * 0.8)
       setBgY(progress * 0.8)
+      setScale(1 + progress * 0.2)
     }
   }
 
@@ -43,6 +49,14 @@ export const MainContent: FC = () => {
     setRotateY(10 - 20 * progress)
     setBgX((1 - progress) * 0.8)
     setBgY((1 - progress) * 0.8)
+  }
+
+  const updateRotateAnimationThree = (progress: number) => {
+    setRotateX(-25 + progress * 25)
+    setRotateY(-10 + progress * 10)
+    setScale(1.2 - progress * 0.2)
+    setBgX(progress * 0.8)
+    setBgY(progress * 0.8)
   }
 
   useEffect(() => {
@@ -66,31 +80,49 @@ export const MainContent: FC = () => {
     gsap.to(cardRef.current, {
       scrollTrigger: {
         scroller: fixedDivRef.current,
-        trigger: triggerRef.current,
+        trigger: topTriggerRef.current,
         // markers: true,
         start: "top center",
         end: "bottom center",
         scrub: true,
         onUpdate: (self) => updateRotateAnimationOne(self.progress),
       },
-      x: -500,
-      ease: "power2",
+      x: "-32vw",
+      ease: "sine.in",
     })
 
     gsap.fromTo(
       cardRef.current,
-      { x: -500 },
+      {},
       {
         immediateRender: false,
         scrollTrigger: {
           scroller: fixedDivRef.current,
-          trigger: triggerRef2.current,
+          trigger: middleTriggerRef.current,
           start: "top center",
           end: "bottom center",
           scrub: true,
+          // markers: true,
           onUpdate: (self) => updateRotateAnimationTwo(self.progress),
         },
-        x: 0,
+        ease: "power2",
+      }
+    )
+
+    gsap.fromTo(
+      cardRef.current,
+      {},
+      {
+        immediateRender: false,
+        scrollTrigger: {
+          scroller: fixedDivRef.current,
+          trigger: bottomTriggerRef.current,
+          start: "top center",
+          end: "bottom center",
+          scrub: true,
+          // markers: true,
+          onUpdate: (self) => updateRotateAnimationThree(self.progress),
+        },
         ease: "power2",
       }
     )
@@ -104,27 +136,44 @@ export const MainContent: FC = () => {
     <Container ref={fixedDivRef}>
       <Content ref={scrollDivRef}>
         <HeroPage />
-        <StickyScrollSection
-          alignSelf="flex-end"
-          imgSrc="sticky-text-packs2.jpg"
-          ref={triggerRef}
-        />
-        <StickyScrollSection
-          alignSelf="flex-start"
-          imgSrc="sticky-text-tutorial2.jpg"
-          ref={triggerRef2}
-        />
-        <HeroCard
-          cardRef={cardRef}
-          rotateX={rotateX}
-          rotateY={rotateY}
-          bgX={bgX}
-          bgY={bgY}
-        />
+        <TopStickyScroll triggerRef={topTriggerRef} />
+        <BottomStickyScroll triggerRef={middleTriggerRef} />
+        <StickyContainer>
+          <HeroCard
+            cardRef={cardRef}
+            rotateX={rotateX}
+            rotateY={rotateY}
+            bgX={bgX}
+            bgY={bgY}
+            scale={scale}
+          />
+        </StickyContainer>
+        <BottomTrigger ref={bottomTriggerRef} />
+        <OpenPack />
+        <Collection />
+        <Tutorial />
       </Content>
     </Container>
   )
 }
+
+const StickyContainer = styled.div`
+  width: 32vw;
+  height: 280vh;
+  top: 0;
+  right: 0;
+  position: absolute;
+  pointer-events: none;
+`
+
+const BottomTrigger = styled.div`
+  position: absolute;
+  /* background-color: rgba(0, 0, 0, 0.2); */
+  height: 50vh;
+  width: 100%;
+  margin-top: -50vh;
+  pointer-events: none;
+`
 
 const Container = styled.div`
   width: calc(100vw - 400px);

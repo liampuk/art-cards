@@ -91,7 +91,7 @@ export const FallingLeaves: FC = () => {
   return (
     <Container
       style={{
-        top: `${-Math.pow(scrollPosition / height, 2) * height * 1.2}px`,
+        top: `${(-Math.pow(scrollPosition / height, 2) * height) / 3}px`,
         // top: `${-scrollPosition}px`,
         // opacity: 0.5 - Math.pow(scrollPosition / height, 2) * 0.5,
       }}

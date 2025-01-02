@@ -1,7 +1,10 @@
+import gsap from "gsap"
+import { ScrollToPlugin } from "gsap/all"
 import { FC } from "react"
 import styled from "styled-components"
 import { SidebarBorder } from "./SidebarBorder"
 import { SidebarButton } from "./SidebarButton"
+gsap.registerPlugin(ScrollToPlugin)
 
 const BASE_URL = import.meta.env.BASE_URL
 
@@ -10,22 +13,22 @@ export const Sidebar: FC = () => {
     <Container>
       <ContentContainer>
         <div>
-          <TitleImage src={`${BASE_URL}sidebar-title2.png`} />
+          <Title>Gallery Quest</Title>
           <ButtonSection>
             <ButtonContainer>
-              <SidebarButton label="home" />
+              <SidebarButton label="Home" />
             </ButtonContainer>
             <Divider src={`${BASE_URL}sidebar-divider.png`} />
             <ButtonContainer>
-              <SidebarButton label="open-pack" />
+              <SidebarButton label="Open Pack" />
             </ButtonContainer>
             <Divider src={`${BASE_URL}sidebar-divider.png`} />
             <ButtonContainer>
-              <SidebarButton label="collection" />
+              <SidebarButton label="Collection" />
             </ButtonContainer>
             <Divider src={`${BASE_URL}sidebar-divider.png`} />
             <ButtonContainer>
-              <SidebarButton label="tutorial" />
+              <SidebarButton label="Tutorial" />
             </ButtonContainer>
           </ButtonSection>
         </div>
@@ -62,6 +65,15 @@ const ContentContainer = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+`
+
+const Title = styled.h1`
+  font-size: 44px;
+  font-family: Mucha;
+  font-weight: 400;
+  color: #333;
+  margin-top: 310px;
+  margin-bottom: 0;
 `
 
 const ContentFalloff = styled.div`
@@ -118,11 +130,6 @@ const ButtonSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
-
-const TitleImage = styled.img`
-  width: 250px;
-  margin-top: 300px;
 `
 
 const Divider = styled.img`

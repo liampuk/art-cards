@@ -5,7 +5,7 @@ import { useScrollContext } from "../ScrollProvider"
 import { FallingLeaves } from "./FallingLeaves"
 
 const EXPONENT = 2.5
-const NUM_PAGES = 1
+const NUM_PAGES = 2.5
 
 export const BranchOverlay: FC = () => {
   const { scrollPosition } = useScrollContext()

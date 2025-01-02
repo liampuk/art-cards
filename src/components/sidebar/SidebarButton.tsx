@@ -51,7 +51,7 @@ export const SidebarButton: FC<{ label: string }> = ({ label }) => {
       onMouseUp={() => setClicking(false)}
     >
       <ButtonBox $hover={hover}>
-        <LabelImage src={`sidebar-${label}.png`} />
+        <LabelText>{label}</LabelText>
       </ButtonBox>
       <Glare
         style={{
@@ -66,6 +66,15 @@ export const SidebarButton: FC<{ label: string }> = ({ label }) => {
   )
 }
 
+const LabelText = styled.p`
+  font-size: 28px;
+  margin-top: 36px;
+  font-family: Mucha;
+  font-weight: 400;
+  color: #333;
+  z-index: 1;
+`
+
 const ButtonBox = styled.div<{ $hover?: boolean }>`
   width: 200px;
   height: 50px;
@@ -79,10 +88,11 @@ const ButtonBox = styled.div<{ $hover?: boolean }>`
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: #c6c6c6;
-    opacity: ${(props) => (props.$hover ? 0.9 : 0)};
+    background-color: #d5d5d5;
+    opacity: ${(props) => (props.$hover ? 1 : 0)};
     transition: opacity 0.2s ease;
     border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.06) 0px -2px 4px 0px inset;
   }
 `
 const Container = styled.div`
@@ -101,7 +111,6 @@ const Glare = styled(motion.div)`
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.2;
   mix-blend-mode: plus-lighter;
   border-radius: 10px;
   -webkit-mask-image: url("/foil-mask.jpg");

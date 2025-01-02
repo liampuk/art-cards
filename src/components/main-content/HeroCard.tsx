@@ -8,7 +8,8 @@ export const HeroCard: FC<{
   rotateY: number | null
   bgX: number | null
   bgY: number | null
-}> = ({ cardRef, rotateX, rotateY, bgX, bgY }) => {
+  scale: number | null
+}> = ({ cardRef, rotateX, rotateY, bgX, bgY, scale }) => {
   return (
     <Container ref={cardRef}>
       <MotionCard
@@ -19,15 +20,16 @@ export const HeroCard: FC<{
         externalRotateY={rotateY}
         externalBgX={bgX}
         externalBgY={bgY}
+        externalScale={scale}
       />
     </Container>
   )
 }
 
 const Container = styled.div`
-  position: fixed;
-  top: 200px;
-  right: 150px;
+  position: sticky;
+  top: 20vh;
   z-index: 3;
   /* background-color: rgba(0, 0, 0, 0.5); */
+  pointer-events: all;
 `

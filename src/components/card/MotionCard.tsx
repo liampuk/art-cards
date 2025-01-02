@@ -28,6 +28,7 @@ type Props = {
   externalRotateY?: number | null
   externalBgX?: number | null
   externalBgY?: number | null
+  externalScale?: number | null
 }
 
 const BASE_URL = import.meta.env.BASE_URL
@@ -40,6 +41,7 @@ export const MotionCard: FC<Props> = ({
   externalRotateY,
   externalBgX,
   externalBgY,
+  externalScale,
 }) => {
   const [_tempForceUpdate, setTempForceUpdate] = useState(0)
   const [reverse, setReverse] = useState(false)
@@ -89,11 +91,6 @@ export const MotionCard: FC<Props> = ({
   const rotateXSpring = useSpring(rotateXMod, { stiffness: 100, damping: 20 })
   const rotateYSpring = useSpring(rotateY, { stiffness: 100, damping: 20 })
 
-  // console.log(rotateX.get())
-  // console.log(rotateY.get())
-
-  console.log(cursorPosX.get(), cursorPosY.get())
-
   const handleClick = () => {
     if (reverse) {
       reverseMod.set(0)
@@ -124,8 +121,14 @@ export const MotionCard: FC<Props> = ({
 
   const handleMouseLeave = (_ev: React.MouseEvent<HTMLDivElement>) => {
     setHover(false)
-    rotateX.set(0)
-    rotateY.set(0)
+    rotateX.set(externalRotateX ?? 0)
+    rotateY.set(externalRotateY ?? 0)
+    // if (externalControlActive) {
+    if (reverse) {
+      reverseMod.set(0)
+      setReverse(false)
+    }
+    // }
     setTempForceUpdate(Math.random())
   }
 
@@ -135,7 +138,11 @@ export const MotionCard: FC<Props> = ({
         onClick={() => handleClick()}
         onMouseMove={(ev) => handleMouseMove(ev)}
         onMouseLeave={(ev) => handleMouseLeave(ev)}
-        whileHover={{ scale: 1.1, transition: { duration: 0.3 } }}
+        whileHover={{ scale: 1.1 }}
+        style={{
+          scale: externalScale ?? 1,
+          transition: externalScale ? "none" : "transform 0.3s ease",
+        }}
         ref={cardRef}
       >
         <BackCardContainer

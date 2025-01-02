@@ -8,7 +8,7 @@ export const HeroPage: FC = () => {
       <div>
         <HeroImage src="hero11.jpg" />
         <AccountButtonContainer>
-          <Button />
+          <Button label="Open Pack" />
         </AccountButtonContainer>
       </div>
     </Container>

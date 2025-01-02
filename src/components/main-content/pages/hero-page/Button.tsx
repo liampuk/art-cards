@@ -11,54 +11,43 @@ const glareBackgroundImage = (
   }% ${cursorPosYPercentage}%, rgba(255, 255, 255, 0.8) 0%, transparent 100%, transparent 130%)`
 }
 
-export const Button: FC = () => {
+export const Button: FC<{ label: string; size?: number }> = ({
+  label,
+  size,
+}) => {
   const [_tempForceUpdate, setTempForceUpdate] = useState(0)
 
-  const [hover, setHover] = useState(false)
+  const [hover, setHover] = useState(true)
   const [clicking, setClicking] = useState(false)
 
-  const cursorPosX = useMotionValue(0)
-  const cursorPosY = useMotionValue(0)
+  const cursorPosX = useMotionValue(1)
+  const cursorPosY = useMotionValue(1)
 
   const cursorPosXPercentage = useTransform(() => cursorPosX.get() * 100 - 3)
   const cursorPosYPercentage = useTransform(() => cursorPosY.get() * 100 - 3)
-  const rotateX = useMotionValue(0)
-  const rotateY = useMotionValue(0)
 
   const handleMouseMove = (ev: React.MouseEvent<HTMLDivElement>) => {
     setHover(true)
     const x = ev.clientX
     const y = ev.clientY
-    const middleX = window.innerWidth / 2
-    const middleY = window.innerHeight / 2
-    const offsetX = ((x - middleX) / middleX) * 45
-    const offsetY = ((y - middleY) / middleY) * 45
     const offsetLeft = ev.currentTarget.getBoundingClientRect().left
     const offsetTop = ev.currentTarget.getBoundingClientRect().top
     const width = ev.currentTarget.offsetWidth
     const height = ev.currentTarget.offsetHeight
-    rotateX.set(-offsetX)
-    rotateY.set(offsetY)
     cursorPosX.set((x - offsetLeft) / width)
     cursorPosY.set((y - offsetTop) / height)
-    setTempForceUpdate(Math.random())
-  }
-
-  const handleMouseLeave = (_ev: React.MouseEvent<HTMLDivElement>) => {
-    setHover(false)
     setTempForceUpdate(Math.random())
   }
 
   return (
     <Container
       onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
       onMouseDown={() => setClicking(true)}
       onMouseUp={() => setClicking(false)}
     >
       <ButtonBox>
         <AccountButton src="button-test.png" />
-        <ButtonLabel src="open-pack.png" />
+        <LabelText $size={size}>{label}</LabelText>
       </ButtonBox>
       <Glare
         style={{
@@ -74,19 +63,20 @@ export const Button: FC = () => {
 }
 
 const ButtonBox = styled.div`
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
-const ButtonLabel = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 32px;
-  margin-top: 20px;
-  margin-left: 34px;
+const LabelText = styled.p<{ $size?: number }>`
+  font-size: ${({ $size }) => $size ?? 28}px;
+  margin-top: ${({ $size }) => $size ?? 32}px;
+  font-family: Mucha;
+  font-weight: 400;
+  color: #333;
   z-index: 1;
+  position: absolute;
 `
-
 const AccountButton = styled.img`
   width: 220px;
   object-fit: contain;
