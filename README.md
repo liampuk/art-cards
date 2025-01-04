@@ -40,9 +40,9 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 
 - [x] Replace card image in pack with motion card
 - [x] Animate 3 common cards
-- [ ] Add reset button
+- [x] Add reset button
 - [x] Add extra packs
-- [ ] Fix shadow layering
+- [x] Fix shadow layering
 
 ### Collection page
 

@@ -31,6 +31,7 @@ type Props = {
   externalBgX?: number | null
   externalBgY?: number | null
   externalScale?: number | null
+  shadowOpacity?: number
   clickAction?: () => void
 }
 
@@ -47,6 +48,7 @@ export const MotionCard: FC<Props> = ({
   externalBgX,
   externalBgY,
   externalScale,
+  shadowOpacity,
   clickAction,
 }) => {
   const [_tempForceUpdate, setTempForceUpdate] = useState(0)
@@ -166,6 +168,7 @@ export const MotionCard: FC<Props> = ({
             rotateX: rotateYSpring,
             rotateY: rotateXSpring,
             width: externalCardWidth ?? `${CARD_WIDTH}vw`,
+            opacity: shadowOpacity ?? 1,
           }}
         >
           <CardBackImage
@@ -413,8 +416,6 @@ const CardContainer = styled(motion.div)`
 `
 
 const CardBackImage = styled.img`
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px,
-    rgba(0, 0, 0, 0.05) 0px 5px 10px;
   z-index: 2;
   transform: translateZ(1px) scaleX(-1);
 `

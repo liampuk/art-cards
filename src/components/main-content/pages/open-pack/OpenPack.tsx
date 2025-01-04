@@ -125,6 +125,11 @@ export const OpenPack: FC = () => {
           setPackState={setPackState}
           clickAction={clickAction}
         />
+
+        <PacksRemaining
+          src="packs-remaining-temp.png"
+          style={{ opacity: packState === "closed" ? 1 : 0 }}
+        />
       </PackagingContainer>
       <AccentBottomContainer>
         {/* <AccentText>Click to open another pack</AccentText> */}
@@ -134,6 +139,12 @@ export const OpenPack: FC = () => {
     </Container>
   )
 }
+
+const PacksRemaining = styled.img`
+  height: 140px;
+  margin-right: 32px;
+  transition: opacity 0.5s;
+`
 
 const ExtraPack = styled.img`
   position: absolute;

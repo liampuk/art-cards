@@ -36,6 +36,7 @@ export const Packaging: FC<{
   const cardBRef = useRef<HTMLDivElement>(null)
   const cardCRef = useRef<HTMLDivElement>(null)
   const [cardTilt, setCardTilt] = useState(0)
+  const [shadowOpacity, setShadowOpacity] = useState(0)
   const triggeredRef = useRef(false)
   const [rare, setRare] = useState(randomRare())
   const [commons, setCommons] = useState([
@@ -64,6 +65,8 @@ export const Packaging: FC<{
           setRare(randomRare())
           setCommons([randomCommon(), randomCommon(), randomCommon()])
           triggeredRef.current = false
+          setShadowOpacity(0)
+          setCardTilt(0)
         },
       })
 
@@ -233,6 +236,7 @@ export const Packaging: FC<{
         onUpdate: () => {
           const progress = timeline.getById("cardFanAnimation").progress()
           setCardTilt(progress * 15)
+          setShadowOpacity(progress)
         },
       },
       2.5
@@ -267,6 +271,7 @@ export const Packaging: FC<{
             externalCardWidth="20vw"
             externalScale={0.95}
             externalRotateX={cardTilt}
+            shadowOpacity={shadowOpacity}
           />
         </MotionCardContainer>
         <MotionCardContainer
@@ -280,6 +285,7 @@ export const Packaging: FC<{
             externalCardWidth="20vw"
             externalScale={0.95}
             externalRotateX={cardTilt}
+            shadowOpacity={shadowOpacity}
           />
         </MotionCardContainer>
         <MotionCardContainer
@@ -293,6 +299,7 @@ export const Packaging: FC<{
             externalCardWidth="20vw"
             externalScale={0.95}
             externalRotateX={cardTilt}
+            shadowOpacity={shadowOpacity}
           />
         </MotionCardContainer>
         <MotionCardContainer>
