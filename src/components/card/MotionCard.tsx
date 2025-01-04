@@ -18,11 +18,13 @@ import {
 
 const STIFFNESS = 1000
 const DAMPENING = 10
-const CARD_HEIGHT = 60
+const CARD_WIDTH = 25
 
 type Props = {
   cardImage: string
   cardImageMask?: string
+  externalCardWidth?: string
+  defaultReversed?: boolean
   shineType?: Effect
   externalRotateX?: number | null
   externalRotateY?: number | null
@@ -36,6 +38,8 @@ const BASE_URL = import.meta.env.BASE_URL
 export const MotionCard: FC<Props> = ({
   cardImage,
   cardImageMask,
+  externalCardWidth,
+  defaultReversed,
   shineType,
   externalRotateX,
   externalRotateY,
@@ -44,7 +48,7 @@ export const MotionCard: FC<Props> = ({
   externalScale,
 }) => {
   const [_tempForceUpdate, setTempForceUpdate] = useState(0)
-  const [reverse, setReverse] = useState(false)
+  const [reverse, setReverse] = useState(defaultReversed ?? false)
   const [hover, setHover] = useState(false)
   const [cardWidth, setCardWidth] = useState(0)
   const [cardHeight, setCardHeight] = useState(0)
@@ -60,16 +64,24 @@ export const MotionCard: FC<Props> = ({
   }, [externalRotateX, externalRotateY])
 
   useEffect(() => {
+    const resizeObserver = new ResizeObserver(([entry]) => {
+      setCardWidth(entry.contentRect.width)
+      setCardHeight(entry.contentRect.height)
+    })
+
     if (cardRef.current) {
-      setCardWidth(cardRef.current.offsetWidth)
-      setCardHeight(cardRef.current.offsetHeight)
+      resizeObserver.observe(cardRef.current)
     }
-  }, [cardRef.current, window.innerWidth, window.innerHeight])
+
+    return () => {
+      resizeObserver.disconnect()
+    }
+  }, [])
 
   const cursorPosX = useMotionValue(0)
   const cursorPosY = useMotionValue(0)
 
-  const reverseMod = useMotionValue(0)
+  const reverseMod = useMotionValue(defaultReversed ? 180 : 0)
   const reverseModSpring = useSpring(reverseMod, {
     stiffness: STIFFNESS,
     damping: DAMPENING,
@@ -124,7 +136,7 @@ export const MotionCard: FC<Props> = ({
     rotateX.set(externalRotateX ?? 0)
     rotateY.set(externalRotateY ?? 0)
     // if (externalControlActive) {
-    if (reverse) {
+    if (reverse && !defaultReversed) {
       reverseMod.set(0)
       setReverse(false)
     }
@@ -142,6 +154,7 @@ export const MotionCard: FC<Props> = ({
         style={{
           scale: externalScale ?? 1,
           transition: externalScale ? "none" : "transform 0.3s ease",
+          width: externalCardWidth ?? `${CARD_WIDTH}vw`,
         }}
         ref={cardRef}
       >
@@ -149,9 +162,15 @@ export const MotionCard: FC<Props> = ({
           style={{
             rotateX: rotateYSpring,
             rotateY: rotateXSpring,
+            width: externalCardWidth ?? `${CARD_WIDTH}vw`,
           }}
         >
-          <CardBackImage src={`${BASE_URL}back.jpg`} />
+          <CardBackImage
+            src={`${BASE_URL}back.jpg`}
+            style={{
+              width: externalCardWidth ?? `${CARD_WIDTH}vw`,
+            }}
+          />
           <Glare
             style={{
               backgroundImage: glareBackgroundImage(
@@ -160,11 +179,13 @@ export const MotionCard: FC<Props> = ({
                 { reverse: true }
               ),
               opacity: hover || externalControlActive ? 0.3 : 0,
+              width: externalCardWidth ?? `${CARD_WIDTH}vw`,
             }}
           />
         </BackCardContainer>
         <FaceCardContainer
           style={{
+            width: externalCardWidth ?? `${CARD_WIDTH}vw`,
             rotateX: rotateYSpring,
             rotateY: rotateXSpring,
             translateZ: 1,
@@ -180,7 +201,12 @@ export const MotionCard: FC<Props> = ({
               opacity: hover || externalControlActive ? 0.65 : 0.2,
             }}
           />
-          <CardImage src={`${BASE_URL}${cardImage}.jpg`} />
+          <img
+            src={`${BASE_URL}${cardImage}.jpg`}
+            style={{
+              width: externalCardWidth ?? `${CARD_WIDTH}vw`,
+            }}
+          />
           {cardImageMask && shineType === "lines" && (
             <LinesShine
               style={{
@@ -190,6 +216,7 @@ export const MotionCard: FC<Props> = ({
                   backgroundPosY.get()
                 ),
                 opacity: hover || externalControlActive ? 0.8 : 0,
+                width: externalCardWidth ?? `${CARD_WIDTH}vw`,
               }}
             >
               <LinesShineOverlay
@@ -223,6 +250,7 @@ export const MotionCard: FC<Props> = ({
                   backgroundPosY.get()
                 ),
                 opacity: hover || externalControlActive ? 1 : 0,
+                width: externalCardWidth ?? `${CARD_WIDTH}vw`,
               }}
             >
               <DiagonalShineOverlay
@@ -251,6 +279,7 @@ export const MotionCard: FC<Props> = ({
                   backgroundPosY.get()
                 ),
                 opacity: hover || externalControlActive ? 1 : 0,
+                width: externalCardWidth ?? `${CARD_WIDTH}vw`,
               }}
             >
               <GalaxyShineOverlay
@@ -280,6 +309,7 @@ export const MotionCard: FC<Props> = ({
           <BrightBackground
             style={{
               opacity: hover || externalControlActive ? 0.2 : 0.05,
+              width: externalCardWidth ?? `${CARD_WIDTH}vw`,
             }}
           />
 
@@ -290,6 +320,7 @@ export const MotionCard: FC<Props> = ({
                 cursorPosYPercentage.get()
               ),
               opacity: hover ? 0.3 : 0,
+              width: externalCardWidth ?? `${CARD_WIDTH}vw`,
             }}
           />
         </FaceCardContainer>
@@ -303,8 +334,8 @@ const ArtistShine = styled(motion.div)`
   transform: translateZ(2px);
   background-blend-mode: screen, multiply, normal;
   mix-blend-mode: lighten;
-  -webkit-mask-image: url("${BASE_URL}pngdiamondmask.png");
-  mask-image: url("${BASE_URL}pngdiamondmask.png");
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,0 100,50 50,100 0,50' fill='black'/></svg>");
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,0 100,50 50,100 0,50' fill='black'/></svg>");
   -webkit-mask-size: cover;
   mask-size: cover;
   -webkit-mask-position: center center;
@@ -322,21 +353,19 @@ const FaceCardContainer = styled(motion.div)`
   left: 0;
   z-index: 1000;
   border-radius: 4px;
-  height: ${CARD_HEIGHT}vh;
   isolation: isolate;
 `
 
 const BackCardContainer = styled(motion.div)`
   overflow: hidden;
   border-radius: 4px;
-  height: ${CARD_HEIGHT}vh;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 0px 40px 15px;
 `
 
 const BrightBackground = styled(motion.div)`
   top: 0;
   background-image: url("${BASE_URL}hdr_pixel.avif");
-  width: 100%;
+  height: 100%;
   position: absolute;
   mix-blend-mode: multiply;
   -webkit-mask-image: var(--card-mask-image);
@@ -347,7 +376,6 @@ const BrightBackground = styled(motion.div)`
   -webkit-mask-position: center center;
   mask-position: center center;
   opacity: 0.2;
-  height: ${CARD_HEIGHT}vh;
   transition: opacity 0.6s ease;
 `
 
@@ -356,8 +384,8 @@ const ArtistBrightBackground = styled(motion.div)`
   background-image: url("${BASE_URL}hdr_pixel.avif");
   position: absolute;
   mix-blend-mode: multiply;
-  -webkit-mask-image: url("${BASE_URL}pngdiamondmask.png");
-  mask-image: url("${BASE_URL}pngdiamondmask.png");
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,0 100,50 50,100 0,50' fill='black'/></svg>");
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,0 100,50 50,100 0,50' fill='black'/></svg>");
   -webkit-mask-size: cover;
   mask-size: cover;
   -webkit-mask-position: center center;
@@ -377,17 +405,11 @@ const Container = styled.div<{
 `
 
 const CardContainer = styled(motion.div)`
-  height: ${CARD_HEIGHT}vh;
   cursor: pointer;
   transform-style: preserve-3d;
 `
 
-const CardImage = styled.img`
-  height: ${CARD_HEIGHT}vh;
-`
-
 const CardBackImage = styled.img`
-  height: ${CARD_HEIGHT}vh;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px,
     rgba(0, 0, 0, 0.05) 0px 5px 10px;
   z-index: 2;
@@ -398,8 +420,7 @@ const Glare = styled(motion.div)`
   overflow: hidden;
   position: absolute;
   top: 0;
-  height: ${CARD_HEIGHT}vh;
-  width: 100%;
+  height: 100%;
   border-radius: 4px;
   opacity: 0.3;
   mix-blend-mode: hard-light;
@@ -411,8 +432,7 @@ const Shine = styled(motion.div)`
   overflow: hidden;
   position: absolute;
   top: 0;
-  height: ${CARD_HEIGHT}vh;
-  width: 100%;
+  height: 100%;
   border-radius: 4px;
   -webkit-mask-image: var(--card-mask-image);
   mask-image: var(--card-mask-image);

@@ -15,7 +15,10 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 - [ ] Open pack section
 - [ ] SVG animation on smooth scroll section
 - [ ] Text animation on smooth scroll section
-- [ ] Replace images with text
+- [x] Replace images with text
+- [ ] Refactor to remove framer?
+- [ ] Improve responsiveness
+- [ ] Mobile
 
 ### Main Page
 
@@ -34,6 +37,12 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 
 - 3d pack?
 - Challenges -> collect cards in series (hearts are trumps etc.) to get extra coins
+
+- [x] Replace card image in pack with motion card
+- [x] Animate 3 common cards
+- [ ] Add reset button
+- [x] Add extra packs
+- [ ] Fix shadow layering
 
 ### Collection page
 
@@ -58,6 +67,12 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
   - auto generate random name from greek myths?
 - Save collection to local state, hashed with last card opened date time and name.
 - QR code/option to copy url to collection
+
+- Local storage
+  - Encrypt date with number of packs opened, collection
+  - if date different, reset number of opened packs
+  - base64 encode url
+  - maybe 30 characters max?
 
 ## Old Plan
 

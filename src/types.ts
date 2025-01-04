@@ -24,4 +24,6 @@ export type Leaf = {
   fadeIn: number
 }
 
+export type PackState = "closed" | "opening" | "open"
+
 export type Card = HoloCard | StandardCard

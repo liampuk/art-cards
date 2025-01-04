@@ -29,6 +29,10 @@ h1 {
   line-height: 1.1;
 }
 
+img {
+  display: block;
+}
+
 @font-face {
   font-family: "Mucha";
   src: url("./assets/AlphonseMucha.otf") format("opentype");

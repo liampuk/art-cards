@@ -38,8 +38,6 @@ export const StickyTextButton: FC<PropsWithChildren> = ({ children }) => {
     setTempForceUpdate(Math.random())
   }
 
-  console.log(cursorPosX.get(), cursorPosY.get())
-
   return (
     <StickyScrollTextButton
       onMouseMove={handleMouseMove}

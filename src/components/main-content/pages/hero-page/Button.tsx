@@ -47,17 +47,17 @@ export const Button: FC<{ label: string; size?: number }> = ({
     >
       <ButtonBox>
         <AccountButton src="button-test.png" />
+        <Glare
+          style={{
+            backgroundImage: glareBackgroundImage(
+              100 - cursorPosXPercentage.get(),
+              cursorPosYPercentage.get()
+            ),
+            opacity: clicking ? 0.8 : hover ? 0.4 : 0,
+          }}
+        />
         <LabelText $size={size}>{label}</LabelText>
       </ButtonBox>
-      <Glare
-        style={{
-          backgroundImage: glareBackgroundImage(
-            100 - cursorPosXPercentage.get(),
-            cursorPosYPercentage.get()
-          ),
-          opacity: clicking ? 0.8 : hover ? 0.4 : 0,
-        }}
-      />
     </Container>
   )
 }
@@ -74,7 +74,6 @@ const LabelText = styled.p<{ $size?: number }>`
   font-family: Mucha;
   font-weight: 400;
   color: #333;
-  z-index: 1;
   position: absolute;
 `
 const AccountButton = styled.img`
