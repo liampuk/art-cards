@@ -16,19 +16,15 @@ import { randomCommon, randomRare } from "./randomCard"
 
 const BASE_URL = import.meta.env.BASE_URL
 
-const rare = randomRare()
-const commonA = randomCommon()
-const commonB = randomCommon()
-const commonC = randomCommon()
-
 export const Packaging: FC<{
+  packState: PackState
   setPackState: Dispatch<SetStateAction<PackState>>
-}> = ({ setPackState }) => {
+  clickAction: () => void
+}> = ({ packState, setPackState, clickAction }) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const flapContainerRef = useRef<HTMLDivElement>(null)
   const flapDownRef = useRef<HTMLDivElement>(null)
   const flapUpRef = useRef<HTMLImageElement>(null)
-  const packagingBaseRef = useRef<HTMLImageElement>(null)
   const packagingTopRef = useRef<HTMLImageElement>(null)
   const [cardWidth, setCardWidth] = useState(0.5)
   const [cardHeight, setCardHeight] = useState(0.5)
@@ -40,14 +36,91 @@ export const Packaging: FC<{
   const cardBRef = useRef<HTMLDivElement>(null)
   const cardCRef = useRef<HTMLDivElement>(null)
   const [cardTilt, setCardTilt] = useState(0)
-  const [animationComplete, setAnimationComplete] = useState(false)
+  const triggeredRef = useRef(false)
+  const [rare, setRare] = useState(randomRare())
+  const [commons, setCommons] = useState([
+    randomCommon(),
+    randomCommon(),
+    randomCommon(),
+  ])
 
   const [hoverCard, setHoverCard] = useState<null | number>(null)
 
-  console.log(hoverCard)
-
   const resetHoverCard = () => {
     setHoverCard(null)
+  }
+
+  if (packState === "resetting") {
+    if (!triggeredRef.current) {
+      triggeredRef.current = true
+
+      const timeline = gsap.timeline({
+        onComplete: () => {
+          setPackState("closed")
+          if (floatAnimationXRef.current && floatAnimationYRef.current) {
+            floatAnimationXRef.current.play()
+            floatAnimationYRef.current.play()
+          }
+          setRare(randomRare())
+          setCommons([randomCommon(), randomCommon(), randomCommon()])
+          triggeredRef.current = false
+        },
+      })
+
+      timeline.to(
+        cardARef.current,
+        { y: "200", opacity: 0, duration: 1, ease: "power1.inOut" },
+        0
+      )
+      timeline.to(
+        cardBRef.current,
+        { y: "200", opacity: 0, duration: 1, ease: "power1.inOut" },
+        0
+      )
+      timeline.to(
+        cardCRef.current,
+        { y: "200", opacity: 0, duration: 1, ease: "power1.inOut" },
+        0
+      )
+      timeline.fromTo(
+        flapContainerRef.current,
+        { y: 300, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, ease: "power1.in" },
+        0
+      )
+      timeline.fromTo(
+        packagingTopRef.current,
+        { y: 300, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, ease: "power1.in" },
+        0
+      )
+      timeline.fromTo(
+        flapContainerRef.current,
+        { scaleY: -1 },
+        {
+          id: "flapAnimation",
+          scaleY: 1,
+          duration: 1,
+          ease: "power1.inOut",
+          onUpdate: () => {
+            const progress = timeline.getById("flapAnimation").progress()
+            const easedProgress = gsap.parseEase("power1.inOut")(progress)
+            if (easedProgress > 0.5) {
+              gsap.to(flapDownRef.current, {
+                display: "block",
+                duration: 0,
+              })
+              gsap.to(flapContainerRef.current, {
+                zIndex: 2,
+                duration: 0,
+              })
+              gsap.to(flapUpRef.current, { display: "none", duration: 0 })
+            }
+          },
+        },
+        1.2
+      )
+    }
   }
 
   useEffect(() => {
@@ -114,7 +187,6 @@ export const Packaging: FC<{
 
     const timeline = gsap.timeline({
       onComplete: () => {
-        setAnimationComplete(true)
         setPackState("open")
       },
     })
@@ -145,21 +217,17 @@ export const Packaging: FC<{
       1.2
     )
     timeline.to(
-      packagingBaseRef.current,
-      { y: 300, opacity: 0, duration: 1, ease: "power1.in" },
-      1.2
-    )
-    timeline.to(
       packagingTopRef.current,
       { y: 300, opacity: 0, duration: 1, ease: "power1.in" },
       1.2
     )
-    timeline.to(
+    timeline.to(cardARef.current, { opacity: 1, duration: 0 }, 2.5)
+    timeline.fromTo(
       cardARef.current,
+      { x: 0, y: 0 },
       {
         id: "cardFanAnimation",
         x: "-40vw",
-        rotateX: -15,
         duration: 1.5,
         ease: "power1.inOut",
         onUpdate: () => {
@@ -169,13 +237,17 @@ export const Packaging: FC<{
       },
       2.5
     )
-    timeline.to(
+    timeline.to(cardBRef.current, { opacity: 1, duration: 0 }, 2.6)
+    timeline.fromTo(
       cardBRef.current,
+      { x: 0, y: 0 },
       { x: "-32vw", duration: 1.5, ease: "power1.inOut" },
       2.6
     )
-    timeline.to(
+    timeline.to(cardCRef.current, { opacity: 1, duration: 0 }, 2.7)
+    timeline.fromTo(
       cardCRef.current,
+      { x: 0, y: 0 },
       { x: "-24vw", duration: 1.5, ease: "power1.inOut" },
       2.7
     )
@@ -191,7 +263,7 @@ export const Packaging: FC<{
           style={{ zIndex: hoverCard === 0 ? 2 : 1 }}
         >
           <MotionCard
-            cardImage={`${commonA.artist}/${commonA.image}`}
+            cardImage={`${commons[0].artist}/${commons[0].image}`}
             externalCardWidth="20vw"
             externalScale={0.95}
             externalRotateX={cardTilt}
@@ -204,7 +276,7 @@ export const Packaging: FC<{
           style={{ zIndex: hoverCard === 1 ? 2 : 1 }}
         >
           <MotionCard
-            cardImage={`${commonB.artist}/${commonB.image}`}
+            cardImage={`${commons[1].artist}/${commons[1].image}`}
             externalCardWidth="20vw"
             externalScale={0.95}
             externalRotateX={cardTilt}
@@ -217,7 +289,7 @@ export const Packaging: FC<{
           style={{ zIndex: hoverCard === 2 ? 2 : 1 }}
         >
           <MotionCard
-            cardImage={`${commonC.artist}/${commonC.image}`}
+            cardImage={`${commons[2].artist}/${commons[2].image}`}
             externalCardWidth="20vw"
             externalScale={0.95}
             externalRotateX={cardTilt}
@@ -231,9 +303,10 @@ export const Packaging: FC<{
             shineType={rare.effect}
             defaultReversed
             externalScale={0.95}
+            clickAction={clickAction}
           />
         </MotionCardContainer>
-        <Barrier style={{ display: animationComplete ? "none" : "block" }} />
+        <Barrier style={{ display: packState === "open" ? "none" : "block" }} />
         <PackagingImageTop src="packaging.png" ref={packagingTopRef} />
         <FlapContainer ref={flapContainerRef}>
           <div ref={flapDownRef}>
@@ -322,6 +395,7 @@ const Barrier = styled.div`
   height: 100%;
   position: absolute;
   z-index: 2;
+  /* background: rgba(0, 0, 0, 0.7); */
 `
 
 const ArtistBrightBackground = styled(motion.div)`
@@ -365,18 +439,6 @@ const PackagingImageTop = styled(PackagingImage)`
   z-index: 1;
   rotate: 0deg;
   /* box-shadow: rgba(100, 100, 111, 0.1) 0px 16px 40px 15px; */
-`
-
-const Card = styled.img`
-  top: 0;
-  left: 0;
-  width: 19.5vw;
-  margin-left: 0.25vw;
-  margin-top: 4px;
-  position: absolute;
-  border-radius: 8px;
-  z-index: 1;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 16px 40px 15px;
 `
 
 const PackagingFlap = styled.img`

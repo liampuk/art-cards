@@ -11,11 +11,71 @@ export const OpenPack: FC = () => {
   const packagingBRef = useRef<HTMLImageElement>(null)
   const packagingCRef = useRef<HTMLImageElement>(null)
   const triggeredRef = useRef(false)
+  const [cardClickCount, setCardClickCount] = useState(0)
 
-  const accentText =
-    packState === "open"
-      ? "Click to reveal your rare card"
-      : "Click on the sticker to open a pack"
+  const clickAction = () => {
+    setCardClickCount((count) => count + 1)
+  }
+
+  if (cardClickCount >= 2) {
+    setCardClickCount(0)
+    setPackState("resetting")
+    triggeredRef.current = false
+    gsap.fromTo(
+      packagingARef.current,
+      {
+        x: -50,
+        y: -50,
+        opacity: 0,
+      },
+      {
+        duration: 1,
+        x: 0,
+        y: 0,
+        opacity: 1,
+        delay: 1.5,
+      }
+    )
+    gsap.fromTo(
+      packagingBRef.current,
+      {
+        x: 50,
+        y: 50,
+        opacity: 0,
+      },
+      {
+        duration: 1,
+        x: 0,
+        y: 0,
+        opacity: 1,
+        delay: 1.5,
+      }
+    )
+    gsap.fromTo(
+      packagingCRef.current,
+      {
+        x: -50,
+        y: 50,
+        opacity: 0,
+      },
+      {
+        duration: 1,
+        x: 0,
+        y: 0,
+        opacity: 1,
+        delay: 1.5,
+      }
+    )
+  }
+
+  const accentText = () => {
+    if (cardClickCount === 1) {
+      return "Click to open another pack"
+    } else if (packState === "open") {
+      return "Click to reveal your rare card"
+    }
+    return "Click on the sticker to open a pack"
+  }
 
   if (packState === "opening") {
     if (!triggeredRef.current) {
@@ -60,11 +120,15 @@ export const OpenPack: FC = () => {
       <PackagingB src="art-deco-packaging.png" ref={packagingBRef} />
       <PackagingC src="impressionism-packaging.png" ref={packagingCRef} />
       <PackagingContainer>
-        <Packaging setPackState={setPackState} />
+        <Packaging
+          packState={packState}
+          setPackState={setPackState}
+          clickAction={clickAction}
+        />
       </PackagingContainer>
       <AccentBottomContainer>
         {/* <AccentText>Click to open another pack</AccentText> */}
-        <AccentText>{accentText}</AccentText>
+        <AccentText>{accentText()}</AccentText>
         <AccentBottom src="accent-bottom.svg" />
       </AccentBottomContainer>
     </Container>

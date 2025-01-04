@@ -31,6 +31,7 @@ type Props = {
   externalBgX?: number | null
   externalBgY?: number | null
   externalScale?: number | null
+  clickAction?: () => void
 }
 
 const BASE_URL = import.meta.env.BASE_URL
@@ -46,6 +47,7 @@ export const MotionCard: FC<Props> = ({
   externalBgX,
   externalBgY,
   externalScale,
+  clickAction,
 }) => {
   const [_tempForceUpdate, setTempForceUpdate] = useState(0)
   const [reverse, setReverse] = useState(defaultReversed ?? false)
@@ -111,6 +113,7 @@ export const MotionCard: FC<Props> = ({
       reverseMod.set(180)
       setReverse(true)
     }
+    clickAction && clickAction()
     setTempForceUpdate(Math.random())
   }
 
