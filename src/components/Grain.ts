@@ -21,7 +21,7 @@ export const GrainOverlay = styled.div`
     position: fixed;
     top: -10rem;
     width: calc(100% + 20rem);
-    /* background-size: 400px; */
+    /* background-size: 22vw; */
   }
 
   @keyframes noise {

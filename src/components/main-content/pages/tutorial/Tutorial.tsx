@@ -1,15 +1,14 @@
 import { FC } from "react"
 import styled from "styled-components"
+import { TitleSection } from "../TitleSection"
 
 export const Tutorial: FC = () => {
   return (
     <Container>
-      <img src="accent-top.svg" />
-      <Title>Tutorial</Title>
-      <TitleSection>
+      <TitleSection title="Tutorial">
         <Text>
           Coming soon. For now if you have any questions please contact me!{" "}
-          <a href="mailto:liampuk@gmail.com">liampuk@gmail.com</a>
+          <TextLink href="mailto:liampuk@gmail.com">liampuk@gmail.com</TextLink>
         </Text>
       </TitleSection>
     </Container>
@@ -17,7 +16,7 @@ export const Tutorial: FC = () => {
 }
 
 const Container = styled.div`
-  width: calc(100vw - 424px);
+  width: calc(100vw - 22vw - 24px);
   height: 100vh;
   padding: 80px;
   position: relative;
@@ -41,7 +40,9 @@ const Text = styled.p`
   margin-top: 8px;
 `
 
-const TitleSection = styled.div`
-  display: flex;
-  flex-direction: row;
+const TextLink = styled.a`
+  color: #222;
+  text-decoration: underline;
+  font-weight: 600;
+  margin-left: 8px;
 `

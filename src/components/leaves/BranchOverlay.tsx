@@ -110,7 +110,7 @@ const Branch2 = styled(Branch)`
 `
 
 const Branch3 = styled(Branch)`
-  margin-right: -400px;
+  margin-right: -22vw;
   animation-duration: 16s;
   filter: saturate(0) blur(12px);
   opacity: 0.4;

@@ -69,15 +69,15 @@ const ButtonBox = styled.div`
 `
 
 const LabelText = styled.p<{ $size?: number }>`
-  font-size: ${({ $size }) => $size ?? 28}px;
-  margin-top: ${({ $size }) => $size ?? 32}px;
+  font-size: ${({ $size }) => $size ?? 1.6}vw;
+  margin-top: ${({ $size }) => $size ?? 1.6}vw;
   font-family: Mucha;
   font-weight: 400;
   color: #333;
   position: absolute;
 `
 const AccountButton = styled.img`
-  width: 220px;
+  width: 14vw;
   object-fit: contain;
 `
 const Container = styled.div`

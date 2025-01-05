@@ -11,7 +11,7 @@ export const PageNumber: FC = () => {
 
 const Container = styled.div`
   position: absolute;
-  width: calc(100vw - 400px);
+  width: calc(100vw - 22vw);
   bottom: 5vh;
   display: flex;
   justify-content: center;

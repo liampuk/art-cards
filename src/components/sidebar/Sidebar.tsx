@@ -11,8 +11,8 @@ const BASE_URL = import.meta.env.BASE_URL
 export const Sidebar: FC = () => {
   return (
     <Container>
-      <ContentContainer>
-        <div>
+      <Content>
+        <MainContent>
           <Title>Gallery Quest</Title>
           <ButtonSection>
             <ButtonContainer>
@@ -31,11 +31,11 @@ export const Sidebar: FC = () => {
               <SidebarButton label="Tutorial" />
             </ButtonContainer>
           </ButtonSection>
-        </div>
+        </MainContent>
         <a href="https://liamp.uk" target="_blank">
           <ExLibris src="ex-libris2.png" />
         </a>
-      </ContentContainer>
+      </Content>
       <ContentFalloff>
         <TopFalloff>
           <FalloffBlock />
@@ -51,8 +51,8 @@ export const Sidebar: FC = () => {
   )
 }
 
-const ContentContainer = styled.div`
-  width: 400px;
+const Content = styled.div`
+  width: 22vw;
   height: 100%;
   overflow: scroll;
   position: absolute;
@@ -60,19 +60,25 @@ const ContentContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 100px;
+  padding-bottom: 12vh;
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
   }
 `
 
+const MainContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
 const Title = styled.h1`
-  font-size: 44px;
+  font-size: 2.4vw;
   font-family: Mucha;
   font-weight: 400;
   color: #333;
-  margin-top: 310px;
+  margin-top: 32vh;
   margin-bottom: 0;
 `
 
@@ -80,7 +86,7 @@ const ContentFalloff = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  width: 400px;
+  width: 22vw;
   height: 100%;
   pointer-events: none;
   display: flex;
@@ -91,14 +97,14 @@ const ContentFalloff = styled.div`
 
 const TopFalloff = styled.div`
   width: 100%;
-  height: 300px;
+  height: 33vh;
   display: flex;
   flex-direction: column;
 `
 
 const BottomFalloff = styled.div`
   width: 100%;
-  height: 108px;
+  height: 11vh;
   display: flex;
   flex-direction: column;
   rotate: 180deg;
@@ -117,10 +123,9 @@ const FalloffBlock = styled.div`
 `
 
 const ExLibris = styled.img`
-  height: 90px;
+  height: 8vh;
   width: auto;
-  margin-left: 100px;
-  margin-top: 24px;
+  margin-left: 6vw;
   rotate: ${10 - Math.round(Math.random()) * 20 + Math.random() * 4 - 2}deg;
 `
 
@@ -133,7 +138,7 @@ const ButtonSection = styled.div`
 `
 
 const Divider = styled.img`
-  width: 250px;
+  width: 14vw;
   margin-top: 12px;
 `
 
@@ -144,7 +149,7 @@ const ButtonContainer = styled.div`
 
 const Container = styled.div`
   height: 100vh;
-  width: 400px;
+  width: 22vw;
   top: 0;
   position: fixed;
 `

@@ -3,6 +3,7 @@ import { FC, useRef, useState } from "react"
 import styled from "styled-components"
 import { PackState } from "../../../../types"
 import { Button } from "../hero-page/Button"
+import { TitleSection } from "../TitleSection"
 import { Packaging } from "./Packaging"
 
 export const OpenPack: FC = () => {
@@ -103,18 +104,18 @@ export const OpenPack: FC = () => {
 
   return (
     <Container>
-      <img src="accent-top.svg" />
-      <Title>Open Pack</Title>
-      <TitleSection>
-        <Text>
-          Open packs to build your art collection. There are 4 cards per pack,
-          including one rare. You can open two packs per day! This website is
-          free but if you’d like to say thanks, please do so here{" "}
-          <Arrow>➚</Arrow>
-        </Text>
-        <TipButtonContainer href="https://ko-fi.com/liampuk" target="_blank">
-          <Button label="Support on Ko-fi" size={24} />
-        </TipButtonContainer>
+      <TitleSection title="Open a pack">
+        <SubTitle>
+          <Text>
+            Open packs to build your art collection. There are 4 cards per pack,
+            including one rare. You can open two packs per day! This website is
+            free but if you’d like to say thanks, please do so here{" "}
+            <Arrow>➚</Arrow>
+          </Text>
+          <TipButtonContainer href="https://ko-fi.com/liampuk" target="_blank">
+            <Button label="Support on Ko-fi" size={1.4} />
+          </TipButtonContainer>
+        </SubTitle>
       </TitleSection>
       <PackagingA src="art-nouveau-packaging.png" ref={packagingARef} />
       <PackagingB src="art-deco-packaging.png" ref={packagingBRef} />
@@ -141,8 +142,8 @@ export const OpenPack: FC = () => {
 }
 
 const PacksRemaining = styled.img`
-  height: 140px;
-  margin-right: 48px;
+  height: 14vh;
+  margin-right: 2.5vw;
   transition: opacity 0.5s;
 `
 
@@ -151,29 +152,31 @@ const ExtraPack = styled.img`
   width: 14vw;
   filter: saturate(0.2);
   cursor: not-allowed;
+  height: 34vh;
+  width: auto;
 `
 
 const PackagingA = styled(ExtraPack)`
-  top: 32vh;
+  top: 37vh;
   left: 17vw;
   rotate: 10deg;
 `
 
 const PackagingB = styled(ExtraPack)`
-  top: 51vh;
+  top: 53vh;
   left: 28vw;
   rotate: 18deg;
 `
 
 const PackagingC = styled(ExtraPack)`
-  top: 48vh;
+  top: 50vh;
   left: 6vw;
   rotate: -10deg;
 `
 
 const AccentBottomContainer = styled.div`
   position: absolute;
-  bottom: 60px;
+  bottom: 6vh;
   right: 9vw;
   width: 18vw;
   display: flex;
@@ -183,6 +186,7 @@ const AccentBottomContainer = styled.div`
 
 const AccentText = styled.p`
   font-family: "Mucha";
+  font-size: 0.9vw;
   font-weight: 100;
   margin: 0;
   margin-top: -10px;
@@ -194,7 +198,7 @@ const AccentBottom = styled.img`
 `
 
 const Container = styled.div`
-  width: calc(100vw - 424px);
+  width: calc(100vw - 22vw - 24px);
   height: 100vh;
   padding: 80px;
   position: relative;
@@ -208,7 +212,7 @@ const PackagingContainer = styled.div`
   z-index: 2;
 `
 
-const TitleSection = styled.div`
+const SubTitle = styled.div`
   display: flex;
   flex-direction: row;
   gap: 24px;
@@ -239,18 +243,8 @@ const TipButtonContainer = styled.a`
   position: relative;
 `
 
-const Title = styled.h1`
-  font-size: 48px;
-  font-family: Mucha;
-  font-weight: 100;
-  color: #222;
-  margin-left: 70px;
-  margin-top: -28px;
-  margin-bottom: 0;
-`
-
 const Text = styled.p`
-  font-size: 20px;
+  font-size: 1.3vw;
   font-family: "EB Garamond";
   color: #222;
   width: 90%;

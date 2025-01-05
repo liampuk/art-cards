@@ -30,7 +30,7 @@ const BorderContainer = styled.div`
   top: 0;
   position: fixed;
   height: 100%;
-  width: 400px;
+  width: 22vw;
   pointer-events: none;
   z-index: 2;
 `

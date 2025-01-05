@@ -67,8 +67,8 @@ export const SidebarButton: FC<{ label: string }> = ({ label }) => {
 }
 
 const LabelText = styled.p`
-  font-size: 28px;
-  margin-top: 36px;
+  font-size: 1.5vw;
+  margin-top: 3.5vh;
   font-family: Mucha;
   font-weight: 400;
   color: #333;
@@ -76,8 +76,8 @@ const LabelText = styled.p`
 `
 
 const ButtonBox = styled.div<{ $hover?: boolean }>`
-  width: 200px;
-  height: 50px;
+  width: 12vw;
+  height: 6vh;
   border-radius: 10px;
   display: flex;
   align-items: center;

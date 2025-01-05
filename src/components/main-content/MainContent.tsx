@@ -8,9 +8,9 @@ import { HeroCard } from "./HeroCard"
 import { Collection } from "./pages/collection/Collection"
 import { HeroPage } from "./pages/hero-page/HeroPage"
 import { OpenPack } from "./pages/open-pack/OpenPack"
-import { BottomStickyScroll } from "./pages/StickyScroll/BottomStickyScroll"
-import { TopStickyScroll } from "./pages/StickyScroll/TopStickyScroll"
-import { Tutorial } from "./tutorial/Tutorial"
+import { BottomStickyScroll } from "./pages/sticky-scroll/BottomStickyScroll"
+import { TopStickyScroll } from "./pages/sticky-scroll/TopStickyScroll"
+import { Tutorial } from "./pages/tutorial/Tutorial"
 gsap.registerPlugin(ScrollTrigger)
 
 export const MainContent: FC = () => {
@@ -176,11 +176,11 @@ const BottomTrigger = styled.div`
 `
 
 const Container = styled.div`
-  width: calc(100vw - 400px);
+  width: calc(100vw - 22vw);
   height: 100vh;
   position: fixed;
   overflow: hidden;
-  left: 400px;
+  left: 22vw;
   top: 0;
 
   &::before {
@@ -189,7 +189,7 @@ const Container = styled.div`
     pointer-events: none;
     margin-left: -24px;
 
-    width: calc(100vw - 400px - 24px);
+    width: calc(100vw - 22vw - 24px);
     height: calc(100vh - 48px);
     top: 0;
     border: 24px solid #e8e2d0;
@@ -202,11 +202,11 @@ const Container = styled.div`
     pointer-events: none;
     margin-top: 24px;
 
-    width: calc(100vw - 400px - 24px);
+    width: calc(100vw - 22vw - 24px);
     height: calc(100vh - 48px);
     top: 0;
     border-image-slice: 200;
-    border-image-width: 180px;
+    border-image-width: 10vw;
     border-image-repeat: stretch stretch;
     border-image-source: url("main-border2.svg");
     border-style: solid;
