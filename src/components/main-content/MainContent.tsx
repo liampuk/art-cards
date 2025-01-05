@@ -5,10 +5,12 @@ import { FC, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import { useScrollContext } from "../ScrollProvider"
 import { HeroCard } from "./HeroCard"
+import { Collection } from "./pages/collection/Collection"
 import { HeroPage } from "./pages/hero-page/HeroPage"
 import { OpenPack } from "./pages/open-pack/OpenPack"
 import { BottomStickyScroll } from "./pages/StickyScroll/BottomStickyScroll"
 import { TopStickyScroll } from "./pages/StickyScroll/TopStickyScroll"
+import { Tutorial } from "./tutorial/Tutorial"
 gsap.registerPlugin(ScrollTrigger)
 
 export const MainContent: FC = () => {
@@ -148,8 +150,8 @@ export const MainContent: FC = () => {
         </StickyContainer>
         <BottomTrigger ref={bottomTriggerRef} />
         <OpenPack />
-        {/* <Collection />
-        <Tutorial /> */}
+        <Collection />
+        <Tutorial />
       </Content>
     </Container>
   )

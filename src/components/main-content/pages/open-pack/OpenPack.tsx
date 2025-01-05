@@ -82,7 +82,7 @@ export const OpenPack: FC = () => {
       triggeredRef.current = true
       gsap.to(packagingARef.current, {
         duration: 1,
-        x: -50,
+        x: 50,
         y: -50,
         opacity: 0,
       })
@@ -142,7 +142,7 @@ export const OpenPack: FC = () => {
 
 const PacksRemaining = styled.img`
   height: 140px;
-  margin-right: 32px;
+  margin-right: 48px;
   transition: opacity 0.5s;
 `
 

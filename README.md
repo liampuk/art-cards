@@ -8,16 +8,16 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 
 - [x] Fix layout/scroll
 - [x] Fix border overflow
-- [ ] Optimise images
 - [x] Lenis smooth scroll
 - [x] Falling leaves with scroll
 - [x] Sticky scroll section
-- [ ] Open pack section
-- [ ] SVG animation on smooth scroll section
-- [ ] Text animation on smooth scroll section
 - [x] Replace images with text
-- [ ] Refactor to remove framer?
-- [ ] Improve responsiveness
+- [ ] Implement sidebar buttons
+- [ ] Optimise images
+- [ ] SVG line animation on smooth scroll section
+- [ ] Text animation on smooth scroll section
+- [ ] Responsive sidebar
+- [ ] main section responsiveness
 - [ ] Mobile
 
 ### Main Page
@@ -43,6 +43,7 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 - [x] Add reset button
 - [x] Add extra packs
 - [x] Fix shadow layering
+- [ ] Pointer events none on hidden cards
 
 ### Collection page
 
