@@ -230,7 +230,7 @@ export const Packaging: FC<{
       { x: 0, y: 0 },
       {
         id: "cardFanAnimation",
-        x: "-40vw",
+        x: "-42vw",
         duration: 1.5,
         ease: "power1.inOut",
         onUpdate: () => {
@@ -245,14 +245,14 @@ export const Packaging: FC<{
     timeline.fromTo(
       cardBRef.current,
       { x: 0, y: 0 },
-      { x: "-32vw", duration: 1.5, ease: "power1.inOut" },
+      { x: "-34vw", duration: 1.5, ease: "power1.inOut" },
       2.6
     )
     timeline.to(cardCRef.current, { opacity: 1, duration: 0 }, 2.7)
     timeline.fromTo(
       cardCRef.current,
       { x: 0, y: 0 },
-      { x: "-24vw", duration: 1.5, ease: "power1.inOut" },
+      { x: "-26vw", duration: 1.5, ease: "power1.inOut" },
       2.7
     )
   }
@@ -268,7 +268,7 @@ export const Packaging: FC<{
         >
           <MotionCard
             cardImage={`${commons[0].artist}/${commons[0].image}`}
-            externalCardWidth="20vw"
+            externalCardWidth="19vw"
             externalScale={0.95}
             externalRotateX={cardTilt}
             shadowOpacity={shadowOpacity}
@@ -282,7 +282,7 @@ export const Packaging: FC<{
         >
           <MotionCard
             cardImage={`${commons[1].artist}/${commons[1].image}`}
-            externalCardWidth="20vw"
+            externalCardWidth="19vw"
             externalScale={0.95}
             externalRotateX={cardTilt}
             shadowOpacity={shadowOpacity}
@@ -296,7 +296,7 @@ export const Packaging: FC<{
         >
           <MotionCard
             cardImage={`${commons[2].artist}/${commons[2].image}`}
-            externalCardWidth="20vw"
+            externalCardWidth="19vw"
             externalScale={0.95}
             externalRotateX={cardTilt}
             shadowOpacity={shadowOpacity}
@@ -306,7 +306,7 @@ export const Packaging: FC<{
           <MotionCard
             cardImage={`${rare.artist}/${rare.image}`}
             cardImageMask={`${rare.artist}/${rare.mask}`}
-            externalCardWidth="20vw"
+            externalCardWidth="19vw"
             shineType={rare.effect}
             defaultReversed
             externalScale={0.95}
@@ -359,7 +359,7 @@ export const Packaging: FC<{
 const MotionCardContainer = styled.div`
   top: 0;
   left: 0;
-  width: 20vw;
+  width: 19vw;
   z-index: 1;
   position: absolute;
 `
@@ -398,7 +398,7 @@ const ArtistShine = styled(motion.div)`
 const Barrier = styled.div`
   top: 0;
   left: 0;
-  width: 20vw;
+  width: 19vw;
   height: 100%;
   position: absolute;
   z-index: 2;
@@ -422,7 +422,7 @@ const ArtistBrightBackground = styled(motion.div)`
 
 const PerspectiveWrapper = styled.div`
   perspective: 2000px;
-  margin-right: 64px;
+  margin-right: 3vw;
 `
 
 const Container = styled(motion.div)`
@@ -433,7 +433,7 @@ const Container = styled(motion.div)`
 `
 
 const PackagingImage = styled.img`
-  width: 20vw;
+  width: 19vw;
   border-radius: 8px;
   rotate: 180deg;
   pointer-events: none;
@@ -451,7 +451,7 @@ const PackagingImageTop = styled(PackagingImage)`
 const PackagingFlap = styled.img`
   top: 0;
   left: 0;
-  width: 20vw;
+  width: 19vw;
   transform-origin: top;
   will-change: transform, display;
 `

@@ -18,23 +18,13 @@ export const Tutorial: FC = () => {
 const Container = styled.div`
   width: calc(100vw - 22vw - 24px);
   height: 100vh;
-  padding: 80px;
+  padding: 4vw;
   position: relative;
   overflow: hidden;
 `
 
-const Title = styled.h1`
-  font-size: 48px;
-  font-family: Mucha;
-  font-weight: 100;
-  color: #222;
-  margin-left: 70px;
-  margin-top: -28px;
-  margin-bottom: 0;
-`
-
 const Text = styled.p`
-  font-size: 20px;
+  font-size: 1.3vw;
   font-family: "EB Garamond";
   color: #222;
   margin-top: 8px;

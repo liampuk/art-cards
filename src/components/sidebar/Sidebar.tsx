@@ -97,7 +97,7 @@ const ContentFalloff = styled.div`
 
 const TopFalloff = styled.div`
   width: 100%;
-  height: 33vh;
+  height: 32vh;
   display: flex;
   flex-direction: column;
 `

@@ -63,6 +63,7 @@ export const MainContent: FC = () => {
     const lenis = new Lenis({
       wrapper: fixedDivRef.current || undefined,
       content: scrollDivRef.current || undefined,
+      lerp: 0.1,
     })
 
     const raf = (time: number) => {

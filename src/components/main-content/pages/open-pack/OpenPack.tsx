@@ -108,8 +108,8 @@ export const OpenPack: FC = () => {
         <SubTitle>
           <Text>
             Open packs to build your art collection. There are 4 cards per pack,
-            including one rare. You can open two packs per day! This website is
-            free but if you’d like to say thanks, please do so here{" "}
+            including one rare. You can open three packs per day! This website
+            is free but if you’d like to say thanks, please do so here{" "}
             <Arrow>➚</Arrow>
           </Text>
           <TipButtonContainer href="https://ko-fi.com/liampuk" target="_blank">
@@ -133,7 +133,6 @@ export const OpenPack: FC = () => {
         />
       </PackagingContainer>
       <AccentBottomContainer>
-        {/* <AccentText>Click to open another pack</AccentText> */}
         <AccentText>{accentText()}</AccentText>
         <AccentBottom src="accent-bottom.svg" />
       </AccentBottomContainer>
@@ -176,8 +175,8 @@ const PackagingC = styled(ExtraPack)`
 
 const AccentBottomContainer = styled.div`
   position: absolute;
-  bottom: 6vh;
-  right: 9vw;
+  bottom: 8vh;
+  right: 8vw;
   width: 18vw;
   display: flex;
   flex-direction: column;
@@ -200,7 +199,7 @@ const AccentBottom = styled.img`
 const Container = styled.div`
   width: calc(100vw - 22vw - 24px);
   height: 100vh;
-  padding: 80px;
+  padding: 4vw;
   position: relative;
   overflow: hidden;
 `
@@ -208,8 +207,9 @@ const Container = styled.div`
 const PackagingContainer = styled.div`
   display: flex;
   flex-direction: row-reverse;
-  margin-top: 20px;
+  margin-top: 2.5vh;
   z-index: 2;
+  position: relative;
 `
 
 const SubTitle = styled.div`
