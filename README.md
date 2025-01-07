@@ -12,13 +12,16 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 - [x] Falling leaves with scroll
 - [x] Sticky scroll section
 - [x] Replace images with text
-- [ ] Implement sidebar buttons
+- [x] Implement sidebar buttons
 - [ ] Optimise images
 - [ ] SVG line animation on smooth scroll section
 - [ ] Text animation on smooth scroll section
-- [ ] Responsive sidebar
+- [x] Responsive sidebar
 - [ ] main section responsiveness
 - [ ] Mobile
+- [x] Remove framer motion
+- [ ] Get state/qr code working
+- [x] Fix rerenders with redux/zustand
 
 ### Main Page
 

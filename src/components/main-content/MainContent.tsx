@@ -3,7 +3,8 @@ import { ScrollTrigger } from "gsap/all"
 import Lenis from "lenis"
 import { FC, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
-import { useScrollContext } from "../ScrollProvider"
+import { useShallow } from "zustand/shallow"
+import { useScrollStore } from "../../store"
 import { HeroCard } from "./HeroCard"
 import { Collection } from "./pages/collection/Collection"
 import { HeroPage } from "./pages/hero-page/HeroPage"
@@ -20,7 +21,13 @@ export const MainContent: FC = () => {
   const middleTriggerRef = useRef<HTMLDivElement>(null)
   const bottomTriggerRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
-  const { updateScrollPosition } = useScrollContext()
+  // const { updateScrollPosition, setLenisRef } = useScrollContext()
+  const { setScrollPosition, setLenis } = useScrollStore(
+    useShallow((state) => ({
+      setScrollPosition: state.setScrollPosition,
+      setLenis: state.setLenis,
+    }))
+  )
 
   const [rotateX, setRotateX] = useState<null | number>(null)
   const [rotateY, setRotateY] = useState<null | number>(null)
@@ -60,23 +67,27 @@ export const MainContent: FC = () => {
   }
 
   useEffect(() => {
-    const lenis = new Lenis({
+    const newLenis = new Lenis({
       wrapper: fixedDivRef.current || undefined,
       content: scrollDivRef.current || undefined,
-      lerp: 0.1,
+      lerp: 0.9,
     })
 
+    setLenis(newLenis)
+
     const raf = (time: number) => {
-      lenis.raf(time)
+      newLenis.raf(time)
       ScrollTrigger.update()
       requestAnimationFrame(raf)
     }
 
     requestAnimationFrame(raf)
 
-    lenis.on("scroll", (e) => {
-      updateScrollPosition(e.scroll)
+    newLenis.on("scroll", (e) => {
+      setScrollPosition(e.scroll)
     })
+
+    setScrollPosition(0)
 
     gsap.to(cardRef.current, {
       scrollTrigger: {
@@ -129,7 +140,7 @@ export const MainContent: FC = () => {
     )
 
     return () => {
-      lenis.destroy()
+      newLenis.destroy()
     }
   }, [])
 

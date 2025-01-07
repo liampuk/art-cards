@@ -1,4 +1,3 @@
-import { motion } from "framer-motion"
 import gsap from "gsap"
 import {
   Dispatch,
@@ -72,17 +71,41 @@ export const Packaging: FC<{
 
       timeline.to(
         cardARef.current,
-        { y: "200", opacity: 0, duration: 1, ease: "power1.inOut" },
+        {
+          y: "200",
+          opacity: 0,
+          duration: 1,
+          ease: "power1.inOut",
+          onComplete: () => {
+            gsap.to(cardARef.current, { display: "none" })
+          },
+        },
         0
       )
       timeline.to(
         cardBRef.current,
-        { y: "200", opacity: 0, duration: 1, ease: "power1.inOut" },
+        {
+          y: "200",
+          opacity: 0,
+          duration: 1,
+          ease: "power1.inOut",
+          onComplete: () => {
+            gsap.to(cardBRef.current, { display: "none" })
+          },
+        },
         0
       )
       timeline.to(
         cardCRef.current,
-        { y: "200", opacity: 0, duration: 1, ease: "power1.inOut" },
+        {
+          y: "200",
+          opacity: 0,
+          duration: 1,
+          ease: "power1.inOut",
+          onComplete: () => {
+            gsap.to(cardCRef.current, { display: "none" })
+          },
+        },
         0
       )
       timeline.fromTo(
@@ -230,6 +253,7 @@ export const Packaging: FC<{
       { x: 0, y: 0 },
       {
         id: "cardFanAnimation",
+        display: "block",
         x: "-42vw",
         duration: 1.5,
         ease: "power1.inOut",
@@ -245,14 +269,25 @@ export const Packaging: FC<{
     timeline.fromTo(
       cardBRef.current,
       { x: 0, y: 0 },
-      { x: "-34vw", duration: 1.5, ease: "power1.inOut" },
+      {
+        x: "-34vw",
+        display: "block",
+        duration: 1.5,
+        ease: "power1.inOut",
+      },
       2.6
     )
     timeline.to(cardCRef.current, { opacity: 1, duration: 0 }, 2.7)
     timeline.fromTo(
       cardCRef.current,
       { x: 0, y: 0 },
-      { x: "-26vw", duration: 1.5, ease: "power1.inOut" },
+      {
+        x: "-26vw",
+        display: "block",
+        pointerEvents: "all",
+        duration: 1.5,
+        ease: "power1.inOut",
+      },
       2.7
     )
   }
@@ -267,7 +302,7 @@ export const Packaging: FC<{
           style={{ zIndex: hoverCard === 0 ? 2 : 1 }}
         >
           <MotionCard
-            cardImage={`${commons[0].artist}/${commons[0].image}`}
+            cardImage={`${commons[0].artist}/${commons[0].image}-m`}
             externalCardWidth="19vw"
             externalScale={0.95}
             externalRotateX={cardTilt}
@@ -281,7 +316,7 @@ export const Packaging: FC<{
           style={{ zIndex: hoverCard === 1 ? 2 : 1 }}
         >
           <MotionCard
-            cardImage={`${commons[1].artist}/${commons[1].image}`}
+            cardImage={`${commons[1].artist}/${commons[1].image}-m`}
             externalCardWidth="19vw"
             externalScale={0.95}
             externalRotateX={cardTilt}
@@ -295,7 +330,7 @@ export const Packaging: FC<{
           style={{ zIndex: hoverCard === 2 ? 2 : 1 }}
         >
           <MotionCard
-            cardImage={`${commons[2].artist}/${commons[2].image}`}
+            cardImage={`${commons[2].artist}/${commons[2].image}-m`}
             externalCardWidth="19vw"
             externalScale={0.95}
             externalRotateX={cardTilt}
@@ -304,7 +339,7 @@ export const Packaging: FC<{
         </MotionCardContainer>
         <MotionCardContainer>
           <MotionCard
-            cardImage={`${rare.artist}/${rare.image}`}
+            cardImage={`${rare.artist}/${rare.image}-m`}
             cardImageMask={`${rare.artist}/${rare.mask}`}
             externalCardWidth="19vw"
             shineType={rare.effect}
@@ -314,7 +349,7 @@ export const Packaging: FC<{
           />
         </MotionCardContainer>
         <Barrier style={{ display: packState === "open" ? "none" : "block" }} />
-        <PackagingImageTop src="packaging.png" ref={packagingTopRef} />
+        <PackagingImageTop src="packaging-s.png" ref={packagingTopRef} />
         <FlapContainer ref={flapContainerRef}>
           <div ref={flapDownRef}>
             <PackagingFlap src="packaging-flap-down-3-small.png" />
@@ -364,7 +399,7 @@ const MotionCardContainer = styled.div`
   position: absolute;
 `
 
-const StickerButton = styled(motion.div)`
+const StickerButton = styled.div`
   position: absolute;
   opacity: 0.6;
   cursor: pointer;
@@ -378,7 +413,7 @@ const FlapContainer = styled.div`
   z-index: 2;
 `
 
-const ArtistShine = styled(motion.div)`
+const ArtistShine = styled.div`
   position: absolute;
   transform: translateZ(2px);
   background-blend-mode: screen, multiply, normal;
@@ -405,7 +440,7 @@ const Barrier = styled.div`
   /* background: rgba(0, 0, 0, 0.7); */
 `
 
-const ArtistBrightBackground = styled(motion.div)`
+const ArtistBrightBackground = styled.div`
   top: 0;
   background-image: url("${BASE_URL}hdr_pixel.avif");
   position: absolute;
@@ -425,7 +460,7 @@ const PerspectiveWrapper = styled.div`
   margin-right: 3vw;
 `
 
-const Container = styled(motion.div)`
+const Container = styled.div`
   position: relative;
   width: fit-content;
   height: fit-content;

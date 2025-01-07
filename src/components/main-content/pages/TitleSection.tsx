@@ -8,11 +8,11 @@ type Props = {
 
 export const TitleSection: FC<Props> = ({ title, children }) => {
   return (
-    <>
+    <div>
       <AccentImage src="accent-top.svg" />
       <Title>{title}</Title>
       {children}
-    </>
+    </div>
   )
 }
 

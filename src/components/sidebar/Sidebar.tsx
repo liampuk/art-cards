@@ -2,6 +2,8 @@ import gsap from "gsap"
 import { ScrollToPlugin } from "gsap/all"
 import { FC } from "react"
 import styled from "styled-components"
+import { useScrollStore } from "../../store"
+import { scrollTo } from "../../utils"
 import { SidebarBorder } from "./SidebarBorder"
 import { SidebarButton } from "./SidebarButton"
 gsap.registerPlugin(ScrollToPlugin)
@@ -9,25 +11,28 @@ gsap.registerPlugin(ScrollToPlugin)
 const BASE_URL = import.meta.env.BASE_URL
 
 export const Sidebar: FC = () => {
+  // const { lenis } = useScrollContext()
+  const lenis = useScrollStore((state) => state.lenis)
+
   return (
     <Container>
       <Content>
         <MainContent>
           <Title>Gallery Quest</Title>
           <ButtonSection>
-            <ButtonContainer>
+            <ButtonContainer onClick={() => scrollTo(lenis, 0)}>
               <SidebarButton label="Home" />
             </ButtonContainer>
             <Divider src={`${BASE_URL}sidebar-divider.png`} />
-            <ButtonContainer>
+            <ButtonContainer onClick={() => scrollTo(lenis, 3)}>
               <SidebarButton label="Open Pack" />
             </ButtonContainer>
             <Divider src={`${BASE_URL}sidebar-divider.png`} />
-            <ButtonContainer>
+            <ButtonContainer onClick={() => scrollTo(lenis, 4)}>
               <SidebarButton label="Collection" />
             </ButtonContainer>
             <Divider src={`${BASE_URL}sidebar-divider.png`} />
-            <ButtonContainer>
+            <ButtonContainer onClick={() => scrollTo(lenis, 999)}>
               <SidebarButton label="Tutorial" />
             </ButtonContainer>
           </ButtonSection>

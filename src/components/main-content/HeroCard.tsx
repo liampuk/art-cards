@@ -13,7 +13,7 @@ export const HeroCard: FC<{
   return (
     <Container ref={cardRef}>
       <MotionCard
-        cardImage="rossetti/proserpine"
+        cardImage="rossetti/proserpine-m"
         cardImageMask="rossetti/proserpine-mask"
         shineType="lines"
         externalRotateX={rotateX}

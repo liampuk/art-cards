@@ -1,4 +1,3 @@
-import { motion, useMotionValue, useTransform } from "framer-motion"
 import { FC, PropsWithChildren, useState } from "react"
 import styled from "styled-components"
 
@@ -17,11 +16,11 @@ export const StickyTextButton: FC<PropsWithChildren> = ({ children }) => {
   const [hover, setHover] = useState(true)
   const [clicking, setClicking] = useState(false)
 
-  const cursorPosX = useMotionValue(1)
-  const cursorPosY = useMotionValue(1)
+  const [cursorPosX, setCursorPosX] = useState(1)
+  const [cursorPosY, setCursorPosY] = useState(1)
 
-  const cursorPosXPercentage = useTransform(() => cursorPosX.get() * 100 - 3)
-  const cursorPosYPercentage = useTransform(() => cursorPosY.get() * 100 - 3)
+  const cursorPosXPercentage = cursorPosX * 100 - 3
+  const cursorPosYPercentage = cursorPosY * 100 - 3
 
   const handleMouseMove = (ev: React.MouseEvent<HTMLDivElement>) => {
     setHover(true)
@@ -33,8 +32,8 @@ export const StickyTextButton: FC<PropsWithChildren> = ({ children }) => {
     const width = ev.currentTarget.offsetWidth
     const height = ev.currentTarget.offsetHeight
 
-    cursorPosX.set((x - offsetLeft) / width)
-    cursorPosY.set((y - offsetTop) / height)
+    setCursorPosX((x - offsetLeft) / width)
+    setCursorPosY((y - offsetTop) / height)
     setTempForceUpdate(Math.random())
   }
 
@@ -47,8 +46,8 @@ export const StickyTextButton: FC<PropsWithChildren> = ({ children }) => {
       <Glare
         style={{
           backgroundImage: glareBackgroundImage(
-            100 - cursorPosXPercentage.get(),
-            cursorPosYPercentage.get()
+            100 - cursorPosXPercentage,
+            cursorPosYPercentage
           ),
           opacity: clicking ? 0.8 : hover ? 0.3 : 0,
         }}
@@ -68,7 +67,7 @@ const StickyScrollTextButton = styled.span`
   box-shadow: rgba(0, 0, 0, 0.06) 0px -2px 4px 0px inset;
 `
 
-const Glare = styled(motion.div)`
+const Glare = styled.div`
   position: absolute;
   top: 0;
   left: 0;

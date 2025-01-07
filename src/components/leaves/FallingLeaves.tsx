@@ -1,14 +1,15 @@
-import { FC, useEffect, useRef } from "react"
+import { FC, useCallback, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { useWindowSize } from "../../hooks/general"
+import { useScrollStore } from "../../store"
 import { Leaf } from "../../types"
-import { useScrollContext } from "../ScrollProvider"
 
 export const FallingLeaves: FC = () => {
-  const { scrollPosition } = useScrollContext()
+  // const { scrollPosition } = useScrollContext()
+  const { scrollPosition } = useScrollStore()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const image = new Image()
-  image.src = "leaf2.png"
+  image.src = "leaf4.png"
   const leaves = useRef<Leaf[]>([])
   const canvasWidth = 1000
   const { height } = useWindowSize()
@@ -37,7 +38,7 @@ export const FallingLeaves: FC = () => {
     }
   }, [scrollPosition])
 
-  const draw = (ctx: CanvasRenderingContext2D, step: number) => {
+  const draw = useCallback((ctx: CanvasRenderingContext2D, step: number) => {
     const canvas = ctx.canvas
     const width = canvas.width
     const height = canvas.height
@@ -67,7 +68,7 @@ export const FallingLeaves: FC = () => {
     animationFrameRef.current = window.requestAnimationFrame((_t) =>
       draw(ctx, step + 1)
     )
-  }
+  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -106,9 +107,6 @@ const Container = styled.div`
   right: 0;
   width: 1000px;
   height: 180vh;
-  /* background-color: green; */
-  /* mix-blend-mode: multiply; */
-  filter: blur(10px);
   opacity: 0.18;
   mask-image: linear-gradient(
     180deg,

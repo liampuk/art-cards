@@ -1,21 +1,22 @@
 import { FC } from "react"
 import styled from "styled-components"
 import { useWindowSize } from "../../hooks/general"
-import { useScrollContext } from "../ScrollProvider"
+import { useScrollStore } from "../../store"
 import { FallingLeaves } from "./FallingLeaves"
 
 const EXPONENT = 2.5
 const NUM_PAGES = 2.5
 
 export const BranchOverlay: FC = () => {
-  const { scrollPosition } = useScrollContext()
+  // const { scrollPosition } = useScrollContext()
+  const { scrollPosition } = useScrollStore()
   const { height: windowHeight } = useWindowSize()
   const height = windowHeight * NUM_PAGES
 
   return (
     <Container>
       <Branch
-        src="branch4.jpg"
+        src="branch9.png"
         style={{
           marginTop: `${
             -200 - Math.pow(scrollPosition / height, EXPONENT) * 400
@@ -24,12 +25,12 @@ export const BranchOverlay: FC = () => {
             Math.pow(scrollPosition / (height - 200), EXPONENT) * 30
           }deg`,
           opacity: `${
-            0.4 - Math.pow(scrollPosition / (height - 200), 2) * 0.45
+            0.3 - Math.pow(scrollPosition / (height - 200), 2) * 0.45
           }`,
         }}
       />
       <Branch2
-        src="branch4.jpg"
+        src="branch9.png"
         style={{
           marginTop: `-${
             Math.pow(scrollPosition / height, EXPONENT - 0.2) * 800
@@ -38,12 +39,12 @@ export const BranchOverlay: FC = () => {
             Math.pow(scrollPosition / (height - 200), EXPONENT - 0.2) * 35
           }deg`,
           opacity: `${
-            0.35 - Math.pow(scrollPosition / (height - 200), 2.4) * 0.4
+            0.25 - Math.pow(scrollPosition / (height - 200), 2.4) * 0.4
           }`,
         }}
       />
       <Branch3
-        src="branch4.jpg"
+        src="branch9.png"
         style={{
           marginTop: `${
             200 - Math.pow(scrollPosition / height, EXPONENT - 0.4) * 900
@@ -52,7 +53,7 @@ export const BranchOverlay: FC = () => {
             Math.pow(scrollPosition / (height - 200), EXPONENT - 0.4) * 40
           }deg`,
           opacity: `${
-            0.35 - Math.pow(scrollPosition / (height - 200), 2.8) * 0.4
+            0.25 - Math.pow(scrollPosition / (height - 200), 2.8) * 0.4
           }`,
         }}
       />
@@ -76,9 +77,6 @@ const Branch = styled.img`
   transform: scaleX(-1);
   right: 0;
   position: absolute;
-  filter: saturate(0) blur(10px);
-  mix-blend-mode: multiply;
-  opacity: 0.4;
   height: 80%;
   margin-right: -80px;
   animation-name: wave;
@@ -105,13 +103,11 @@ const Branch = styled.img`
 const Branch2 = styled(Branch)`
   margin-right: -200px;
   animation-duration: 14s;
-  filter: saturate(0) blur(10px);
-  opacity: 0.4;
 `
 
 const Branch3 = styled(Branch)`
   margin-right: -22vw;
   animation-duration: 16s;
-  filter: saturate(0) blur(12px);
-  opacity: 0.4;
 `
+
+// magick input.jpg -alpha on -channel a -fx "1-(r+g+b)/3" output.png

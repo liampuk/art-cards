@@ -1,19 +1,24 @@
-import { FC } from "react"
+import { FC, memo } from "react"
 import styled from "styled-components"
+import { useScrollStore } from "../../../../store"
+import { scrollTo } from "../../../../utils"
 import { Button } from "./Button"
 
-export const HeroPage: FC = () => {
+export const HeroPage: FC = memo(() => {
+  // const { lenis } = useScrollContext()
+  const lenis = useScrollStore((state) => state.lenis)
+
   return (
     <Container>
       <div>
         <HeroImage src="hero11.jpg" />
-        <AccountButtonContainer>
+        <AccountButtonContainer onClick={() => scrollTo(lenis, 3)}>
           <Button label="Open Pack" />
         </AccountButtonContainer>
       </div>
     </Container>
   )
-}
+})
 
 const Container = styled.div`
   height: 100%;

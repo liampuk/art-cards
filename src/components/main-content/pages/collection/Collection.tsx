@@ -1,9 +1,10 @@
-import { FC } from "react"
+import { FC, memo } from "react"
 import styled from "styled-components"
 import { TitleSection } from "../TitleSection"
 import { Button } from "../hero-page/Button"
+import { CollectionCard } from "./CollectionCard"
 
-export const Collection: FC = () => {
+export const Collection: FC = memo(() => {
   return (
     <Container>
       <TitleSection title="Collection">
@@ -17,15 +18,13 @@ export const Collection: FC = () => {
         <SideAccent src="side-accent.svg" $height="5vh" $margin="0 1vw" />
         <HeaderContent>
           <PackTitle>Pre-Raphaelite Pack</PackTitle>
-          <PackCount>12/45</PackCount>
+          <PackCount>45/45</PackCount>
         </HeaderContent>
         <SideAccent src="side-accent.svg" $flip $height="5vh" $margin="0 1vw" />
       </PackHeader>
       <CollectionSection>
         {Array.from({ length: 45 }).map((_, i) => (
-          <BlankCard key={`blank-card-${i}`}>
-            {String(i + 1).padStart(3, "0")}
-          </BlankCard>
+          <CollectionCard key={`collection-card-${i}`} index={i} />
         ))}
       </CollectionSection>
       <FooterSection>
@@ -42,7 +41,7 @@ export const Collection: FC = () => {
               </p>
               <FooterButtonSection>
                 <p>
-                  To load your collection on a new device or if data is lost, to
+                  To load your collection on a new device or if data is lost, go
                   to the saved url and click ‘accept’ to load your collection.
                 </p>
                 <ButtonContainer>
@@ -62,7 +61,7 @@ export const Collection: FC = () => {
       </FooterSection>
     </Container>
   )
-}
+})
 
 const FooterButtonSection = styled.div`
   display: flex;
@@ -110,27 +109,11 @@ const FooterSection = styled.div`
 
 const CollectionSection = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+
+  grid-template-columns: repeat(5, calc((100vw - 22vw - 8vw) / 5 - 32px));
   grid-column-gap: 32px;
   grid-row-gap: 32px;
   margin-top: 32px;
-`
-
-const BlankCard = styled.div`
-  width: 100%;
-  height: auto;
-  aspect-ratio: 348 / 485;
-
-  box-shadow: inset 0 0 5vw rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "Mucha";
-  font-size: 1.5vw;
-  color: #444;
-  user-select: none;
 `
 
 const PackHeader = styled.div`

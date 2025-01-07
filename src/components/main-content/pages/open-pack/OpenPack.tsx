@@ -1,12 +1,12 @@
 import gsap from "gsap"
-import { FC, useRef, useState } from "react"
+import { FC, memo, useRef, useState } from "react"
 import styled from "styled-components"
 import { PackState } from "../../../../types"
 import { Button } from "../hero-page/Button"
 import { TitleSection } from "../TitleSection"
 import { Packaging } from "./Packaging"
 
-export const OpenPack: FC = () => {
+export const OpenPack: FC = memo(() => {
   const [packState, setPackState] = useState<PackState>("closed")
   const packagingARef = useRef<HTMLImageElement>(null)
   const packagingBRef = useRef<HTMLImageElement>(null)
@@ -117,9 +117,9 @@ export const OpenPack: FC = () => {
           </TipButtonContainer>
         </SubTitle>
       </TitleSection>
-      <PackagingA src="art-nouveau-packaging.png" ref={packagingARef} />
-      <PackagingB src="art-deco-packaging.png" ref={packagingBRef} />
-      <PackagingC src="impressionism-packaging.png" ref={packagingCRef} />
+      <PackagingA src="art-nouveau-packaging-s.png" ref={packagingARef} />
+      <PackagingB src="art-deco-packaging-s.png" ref={packagingBRef} />
+      <PackagingC src="impressionism-packaging-s.png" ref={packagingCRef} />
       <PackagingContainer>
         <Packaging
           packState={packState}
@@ -138,12 +138,14 @@ export const OpenPack: FC = () => {
       </AccentBottomContainer>
     </Container>
   )
-}
+})
 
 const PacksRemaining = styled.img`
   height: 14vh;
   margin-right: 2.5vw;
+  margin-top: 2.5vh;
   transition: opacity 0.5s;
+  align-self: start;
 `
 
 const ExtraPack = styled.img`
@@ -175,7 +177,7 @@ const PackagingC = styled(ExtraPack)`
 
 const AccentBottomContainer = styled.div`
   position: absolute;
-  bottom: 8vh;
+  bottom: 6vh;
   right: 8vw;
   width: 18vw;
   display: flex;
@@ -198,18 +200,21 @@ const AccentBottom = styled.img`
 
 const Container = styled.div`
   width: calc(100vw - 22vw - 24px);
-  height: 100vh;
+  height: 100%;
   padding: 4vw;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 `
 
 const PackagingContainer = styled.div`
   display: flex;
   flex-direction: row-reverse;
-  margin-top: 2.5vh;
   z-index: 2;
   position: relative;
+  height: 62%;
+  align-items: center;
 `
 
 const SubTitle = styled.div`

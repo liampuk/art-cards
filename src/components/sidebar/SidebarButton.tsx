@@ -1,4 +1,3 @@
-import { motion, useMotionValue, useTransform } from "framer-motion"
 import { FC, useState } from "react"
 import styled from "styled-components"
 
@@ -17,11 +16,11 @@ export const SidebarButton: FC<{ label: string }> = ({ label }) => {
   const [hover, setHover] = useState(false)
   const [clicking, setClicking] = useState(false)
 
-  const cursorPosX = useMotionValue(0)
-  const cursorPosY = useMotionValue(0)
+  const [cursorPosX, setCursorPosX] = useState(1)
+  const [cursorPosY, setCursorPosY] = useState(1)
 
-  const cursorPosXPercentage = useTransform(() => cursorPosX.get() * 100 - 3)
-  const cursorPosYPercentage = useTransform(() => cursorPosY.get() * 100 - 3)
+  const cursorPosXPercentage = cursorPosX * 100 - 3
+  const cursorPosYPercentage = cursorPosY * 100 - 3
 
   const handleMouseMove = (ev: React.MouseEvent<HTMLDivElement>) => {
     setHover(true)
@@ -33,8 +32,8 @@ export const SidebarButton: FC<{ label: string }> = ({ label }) => {
     const width = ev.currentTarget.offsetWidth
     const height = ev.currentTarget.offsetHeight
 
-    cursorPosX.set((x - offsetLeft) / width)
-    cursorPosY.set((y - offsetTop) / height)
+    setCursorPosX((x - offsetLeft) / width)
+    setCursorPosY((y - offsetTop) / height)
     setTempForceUpdate(Math.random())
   }
 
@@ -56,8 +55,8 @@ export const SidebarButton: FC<{ label: string }> = ({ label }) => {
       <Glare
         style={{
           backgroundImage: glareBackgroundImage(
-            100 - cursorPosXPercentage.get(),
-            cursorPosYPercentage.get()
+            100 - cursorPosXPercentage,
+            cursorPosYPercentage
           ),
           opacity: clicking ? 0.8 : hover ? 0.3 : 0,
         }}
@@ -99,13 +98,7 @@ const Container = styled.div`
   cursor: pointer;
 `
 
-const LabelImage = styled.img`
-  height: 60%;
-  margin-top: 8px;
-  z-index: 1;
-`
-
-const Glare = styled(motion.div)`
+const Glare = styled.div`
   position: absolute;
   top: 0;
   left: 0;

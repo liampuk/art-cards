@@ -1,5 +1,6 @@
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
-import { FC, useEffect, useRef, useState } from "react"
+import { useGSAP } from "@gsap/react"
+import gsap from "gsap"
+import { FC, memo, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import { Effect } from "../../types"
 import {
@@ -16,8 +17,8 @@ import {
   shineBackgroundPos,
 } from "./HoloStyles"
 
-const STIFFNESS = 1000
-const DAMPENING = 10
+// const STIFFNESS = 1000
+// const DAMPENING = 10
 const CARD_WIDTH = 25
 
 type Props = {
@@ -32,310 +33,323 @@ type Props = {
   externalBgY?: number | null
   externalScale?: number | null
   shadowOpacity?: number
+  disableClick?: boolean
   clickAction?: () => void
 }
 
 const BASE_URL = import.meta.env.BASE_URL
 
-export const MotionCard: FC<Props> = ({
-  cardImage,
-  cardImageMask,
-  externalCardWidth,
-  defaultReversed,
-  shineType,
-  externalRotateX,
-  externalRotateY,
-  externalBgX,
-  externalBgY,
-  externalScale,
-  shadowOpacity,
-  clickAction,
-}) => {
-  const [_tempForceUpdate, setTempForceUpdate] = useState(0)
-  const [reverse, setReverse] = useState(defaultReversed ?? false)
-  const [hover, setHover] = useState(false)
-  const [cardWidth, setCardWidth] = useState(0)
-  const [cardHeight, setCardHeight] = useState(0)
-  const externalControlActive = externalRotateX || externalRotateY
+export const MotionCard: FC<Props> = memo(
+  ({
+    cardImage,
+    cardImageMask,
+    externalCardWidth,
+    defaultReversed,
+    shineType,
+    externalRotateX,
+    externalRotateY,
+    externalBgX,
+    externalBgY,
+    externalScale,
+    shadowOpacity,
+    disableClick,
+    clickAction,
+  }) => {
+    const [_tempForceUpdate, setTempForceUpdate] = useState(0)
+    const [reverse, setReverse] = useState(defaultReversed ?? false)
+    const [hover, setHover] = useState(false)
+    const [cardWidth, setCardWidth] = useState(0)
+    const [cardHeight, setCardHeight] = useState(0)
+    // const [controlledCardWidth] = useState(
+    //   externalCardWidth || `${CARD_WIDTH}vw`
+    // )
+    const externalControlActive = externalRotateX || externalRotateY
 
-  const cardRef = useRef<HTMLDivElement>(null)
+    const cardRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    externalRotateX && rotateX.set(externalRotateX)
-    externalRotateY && rotateY.set(externalRotateY)
-    externalBgX && cursorPosX.set(externalBgX)
-    externalBgY && cursorPosY.set(externalBgY)
-  }, [externalRotateX, externalRotateY])
+    useEffect(() => {
+      externalRotateX && setRotateX(externalRotateX)
+      externalRotateY && setRotateY(externalRotateY)
+      externalBgX && setCursorPosX(externalBgX)
+      externalBgY && setCursorPosY(externalBgY)
+    }, [externalRotateX, externalRotateY])
 
-  useEffect(() => {
-    const resizeObserver = new ResizeObserver(([entry]) => {
-      setCardWidth(entry.contentRect.width)
-      setCardHeight(entry.contentRect.height)
-    })
+    useEffect(() => {
+      const resizeObserver = new ResizeObserver(([entry]) => {
+        setCardWidth(entry.contentRect.width)
+        setCardHeight(entry.contentRect.height)
+      })
 
-    if (cardRef.current) {
-      resizeObserver.observe(cardRef.current)
+      if (cardRef.current) {
+        resizeObserver.observe(cardRef.current)
+      }
+
+      return () => {
+        resizeObserver.disconnect()
+      }
+    }, [])
+
+    const [cursorPosX, setCursorPosX] = useState(0)
+    const [cursorPosY, setCursorPosY] = useState(0)
+    const [reverseMod, setReverseMod] = useState(defaultReversed ? 180 : 0)
+
+    const backgroundPosX = cursorPosX * 20 + 40 + reverseMod
+    const backgroundPosY = cursorPosY * 20
+
+    const cursorPosXPercentage = cursorPosX * 100 - 3
+    const cursorPosYPercentage = cursorPosY * 100 - 3
+
+    const [rotateX, setRotateX] = useState(0)
+    const [rotateY, setRotateY] = useState(0)
+
+    //TODO spring
+    const rotateXSpring = rotateX + reverseMod
+    const rotateYSpring = rotateY
+
+    useGSAP(() => {
+      gsap.to(cardRef.current, {
+        rotateX: reverseMod > 0 ? -rotateYSpring : rotateYSpring,
+        rotateY: reverseMod > 0 ? rotateXSpring : rotateXSpring,
+        scale: (externalScale ?? 1) + (hover ? 0.1 : 0),
+        width: externalCardWidth ?? `${CARD_WIDTH}vw`,
+        duration: 0.5,
+        ease: "power2.out",
+      })
+    }, [rotateXSpring, rotateYSpring, hover, externalCardWidth])
+
+    const handleClick = () => {
+      if (!disableClick) {
+        if (reverse) {
+          setReverseMod(0)
+          setReverse(false)
+        } else {
+          setReverseMod(180)
+          setReverse(true)
+        }
+        clickAction && clickAction()
+        setTempForceUpdate(Math.random())
+      }
     }
 
-    return () => {
-      resizeObserver.disconnect()
+    const handleMouseMove = (ev: React.MouseEvent<HTMLDivElement>) => {
+      setHover(true)
+      const { left, top, width, height } =
+        ev.currentTarget.getBoundingClientRect()
+      const relativeX = ev.clientX - left
+      const relativeY = ev.clientY - top
+      const offsetX = (relativeY / height - 0.5) * 2 * 30
+      const offsetY = (relativeX / width - 0.5) * 2 * 30
+
+      setRotateX(-offsetY)
+      setRotateY(offsetX)
+      setCursorPosX(relativeX / width)
+      setCursorPosY(relativeY / height)
+
+      setTempForceUpdate(Math.random())
     }
-  }, [])
 
-  const cursorPosX = useMotionValue(0)
-  const cursorPosY = useMotionValue(0)
-
-  const reverseMod = useMotionValue(defaultReversed ? 180 : 0)
-  const reverseModSpring = useSpring(reverseMod, {
-    stiffness: STIFFNESS,
-    damping: DAMPENING,
-  })
-
-  const backgroundPosX = useTransform(
-    () => cursorPosX.get() * 20 + 40 + reverseModSpring.get()
-  )
-  const backgroundPosY = useTransform(() => cursorPosY.get() * 20)
-
-  const cursorPosXPercentage = useTransform(() => cursorPosX.get() * 100 - 3)
-  const cursorPosYPercentage = useTransform(() => cursorPosY.get() * 100 - 3)
-
-  const rotateX = useMotionValue(0)
-  const rotateY = useMotionValue(0)
-
-  const rotateXMod = useTransform(() => rotateX.get() + reverseModSpring.get())
-
-  const rotateXSpring = useSpring(rotateXMod, { stiffness: 100, damping: 20 })
-  const rotateYSpring = useSpring(rotateY, { stiffness: 100, damping: 20 })
-
-  const handleClick = () => {
-    if (reverse) {
-      reverseMod.set(0)
-      setReverse(false)
-    } else {
-      reverseMod.set(180)
-      setReverse(true)
+    const handleMouseLeave = (_ev: React.MouseEvent<HTMLDivElement>) => {
+      setHover(false)
+      setRotateX(externalRotateX ?? 0)
+      setRotateY(externalRotateY ?? 0)
+      // if (externalControlActive) {
+      if (reverse && !defaultReversed) {
+        setReverseMod(0)
+        setReverse(false)
+      }
+      // }
+      setTempForceUpdate(Math.random())
     }
-    clickAction && clickAction()
-    setTempForceUpdate(Math.random())
-  }
 
-  const handleMouseMove = (ev: React.MouseEvent<HTMLDivElement>) => {
-    setHover(true)
-    const { left, top, width, height } =
-      ev.currentTarget.getBoundingClientRect()
-    const relativeX = ev.clientX - left
-    const relativeY = ev.clientY - top
-    const offsetX = (relativeY / height - 0.5) * 2 * 30
-    const offsetY = (relativeX / width - 0.5) * 2 * 30
-
-    rotateX.set(-offsetY)
-    rotateY.set(offsetX)
-    cursorPosX.set(relativeX / width)
-    cursorPosY.set(relativeY / height)
-
-    setTempForceUpdate(Math.random())
-  }
-
-  const handleMouseLeave = (_ev: React.MouseEvent<HTMLDivElement>) => {
-    setHover(false)
-    rotateX.set(externalRotateX ?? 0)
-    rotateY.set(externalRotateY ?? 0)
-    // if (externalControlActive) {
-    if (reverse && !defaultReversed) {
-      reverseMod.set(0)
-      setReverse(false)
-    }
-    // }
-    setTempForceUpdate(Math.random())
-  }
-
-  return (
-    <Container $cardMaskImage={`${BASE_URL}${cardImageMask}.jpg`}>
-      <CardContainer
-        onClick={() => handleClick()}
-        onMouseMove={(ev) => handleMouseMove(ev)}
-        onMouseLeave={(ev) => handleMouseLeave(ev)}
-        whileHover={{ scale: 1.1 }}
-        style={{
-          scale: externalScale ?? 1,
-          transition: externalScale ? "none" : "transform 0.3s ease",
-          width: externalCardWidth ?? `${CARD_WIDTH}vw`,
-        }}
-        ref={cardRef}
-      >
-        <BackCardContainer
+    return (
+      <Container $cardMaskImage={`${BASE_URL}${cardImageMask}.jpg`}>
+        <CardContainer
+          onClick={() => handleClick()}
+          onMouseMove={(ev) => handleMouseMove(ev)}
+          onMouseLeave={(ev) => handleMouseLeave(ev)}
+          // whileHover={{ scale: 1.1 }}
           style={{
-            rotateX: rotateYSpring,
-            rotateY: rotateXSpring,
-            width: externalCardWidth ?? `${CARD_WIDTH}vw`,
-            opacity: shadowOpacity ?? 1,
+            // transform: `scale(${(externalScale ?? 1) + (hover ? 0.1 : 0)})`,
+            // transform: `scale(${
+            //   (externalScale ?? 1) + (hover ? 0.1 : 0)
+            // }) rotateX(${rotateYSpring}deg) rotateY(${rotateXSpring}deg)`,
+            // transition: externalScale ? "none" : "transform 0.3s ease",
+            width: "100%",
           }}
+          ref={cardRef}
         >
-          <CardBackImage
-            src={`${BASE_URL}back.jpg`}
+          <BackCardContainer
             style={{
-              width: externalCardWidth ?? `${CARD_WIDTH}vw`,
+              // transform: `rotateX(${rotateYSpring}deg) rotateY(${rotateXSpring}deg)`,
+              width: "100%",
+              opacity: shadowOpacity ?? 1,
             }}
-          />
-          <Glare
-            style={{
-              backgroundImage: glareBackgroundImage(
-                cursorPosXPercentage.get(),
-                cursorPosYPercentage.get(),
-                { reverse: true }
-              ),
-              opacity: hover || externalControlActive ? 0.3 : 0,
-              width: externalCardWidth ?? `${CARD_WIDTH}vw`,
-            }}
-          />
-        </BackCardContainer>
-        <FaceCardContainer
-          style={{
-            width: externalCardWidth ?? `${CARD_WIDTH}vw`,
-            rotateX: rotateYSpring,
-            rotateY: rotateXSpring,
-            translateZ: 1,
-          }}
-        >
-          <ArtistShine
-            style={{
-              background: artistBackground(rotateX.get(), rotateY.get()),
-              width: cardWidth / 9.8,
-              height: cardWidth / 9.8,
-              top: cardHeight / 21.8,
-              right: cardWidth / 15.7,
-              opacity: hover || externalControlActive ? 0.65 : 0.2,
-            }}
-          />
-          <img
-            src={`${BASE_URL}${cardImage}.jpg`}
-            style={{
-              width: externalCardWidth ?? `${CARD_WIDTH}vw`,
-            }}
-          />
-          {cardImageMask && shineType === "lines" && (
-            <LinesShine
+          >
+            <CardBackImage
+              src={`${BASE_URL}back.jpg`}
               style={{
-                backgroundImage: linesShineBackground,
-                backgroundPosition: linesShineBackgroundPos(
-                  backgroundPosX.get(),
-                  backgroundPosY.get()
-                ),
-                opacity: hover || externalControlActive ? 0.8 : 0,
-                width: externalCardWidth ?? `${CARD_WIDTH}vw`,
+                width: "100%",
               }}
-            >
-              <LinesShineOverlay
-                style={{
-                  backgroundImage: linesShineBackgroundOverlay,
-                  backgroundPosition: linesShineBackgroundOverlayPos(
-                    backgroundPosX.get(),
-                    backgroundPosY.get()
-                  ),
-                }}
-              />
-              <ShineGlare
-                style={{
-                  backgroundImage: linesShineGlareBackground(
-                    cursorPosXPercentage.get(),
-                    cursorPosYPercentage.get()
-                  ),
-                }}
-              />
-            </LinesShine>
-          )}
-          {shineType === "diagonal" && (
-            <DiagonalShine
+            />
+            <Glare
               style={{
-                backgroundImage: diagonalShineBackground(
-                  cursorPosXPercentage.get(),
-                  cursorPosYPercentage.get()
+                backgroundImage: glareBackgroundImage(
+                  cursorPosXPercentage,
+                  cursorPosYPercentage,
+                  { reverse: true }
                 ),
-                backgroundPosition: shineBackgroundPos(
-                  backgroundPosX.get(),
-                  backgroundPosY.get()
-                ),
-                opacity: hover || externalControlActive ? 1 : 0,
-                width: externalCardWidth ?? `${CARD_WIDTH}vw`,
+                opacity: hover || externalControlActive ? 0.3 : 0,
+                width: "100%",
               }}
-            >
-              <DiagonalShineOverlay
+            />
+          </BackCardContainer>
+          <FaceCardContainer
+            style={{
+              width: "100%",
+              // transform: `rotateX(${rotateYSpring}deg) rotateY(${rotateXSpring}deg) translateZ(1px)`,
+            }}
+          >
+            <ArtistShine
+              style={{
+                background: artistBackground(rotateX, rotateY),
+                width: cardWidth / 9.8,
+                height: cardWidth / 9.8,
+                top: cardHeight / 21.8,
+                right: cardWidth / 15.7,
+                opacity: hover || externalControlActive ? 0.65 : 0.2,
+              }}
+            />
+            <img
+              src={`${BASE_URL}${cardImage}.jpg`}
+              style={{
+                width: "100%",
+                // transition: "width 0.3s ease",
+              }}
+            />
+            {cardImageMask && shineType === "lines" && (
+              <LinesShine
+                style={{
+                  backgroundImage: linesShineBackground,
+                  backgroundPosition: linesShineBackgroundPos(
+                    backgroundPosX,
+                    backgroundPosY
+                  ),
+                  opacity: hover || externalControlActive ? 0.8 : 0,
+                  width: "100%",
+                }}
+              >
+                <LinesShineOverlay
+                  style={{
+                    backgroundImage: linesShineBackgroundOverlay,
+                    backgroundPosition: linesShineBackgroundOverlayPos(
+                      backgroundPosX,
+                      backgroundPosY
+                    ),
+                  }}
+                />
+                <ShineGlare
+                  style={{
+                    backgroundImage: linesShineGlareBackground(
+                      cursorPosXPercentage,
+                      cursorPosYPercentage
+                    ),
+                  }}
+                />
+              </LinesShine>
+            )}
+            {shineType === "diagonal" && (
+              <DiagonalShine
                 style={{
                   backgroundImage: diagonalShineBackground(
-                    cursorPosXPercentage.get(),
-                    cursorPosYPercentage.get()
-                  ),
-                  backgroundPosition: shineBackgroundOverlayPos(
-                    backgroundPosX.get(),
-                    backgroundPosY.get()
-                  ),
-                }}
-              />
-            </DiagonalShine>
-          )}
-          {shineType === "galaxy" && (
-            <GalaxyShine
-              style={{
-                backgroundImage: galaxyShineBackground(
-                  cursorPosXPercentage.get(),
-                  cursorPosYPercentage.get()
-                ),
-                backgroundPosition: shineBackgroundPos(
-                  backgroundPosX.get(),
-                  backgroundPosY.get()
-                ),
-                opacity: hover || externalControlActive ? 1 : 0,
-                width: externalCardWidth ?? `${CARD_WIDTH}vw`,
-              }}
-            >
-              <GalaxyShineOverlay
-                style={{
-                  backgroundImage: galaxyShineBackground(
-                    cursorPosXPercentage.get(),
-                    cursorPosYPercentage.get()
+                    cursorPosXPercentage,
+                    cursorPosYPercentage
                   ),
                   backgroundPosition: shineBackgroundPos(
-                    backgroundPosX.get(),
-                    backgroundPosY.get()
+                    backgroundPosX,
+                    backgroundPosY
                   ),
+                  opacity: hover || externalControlActive ? 1 : 0,
+                  width: "100%",
                 }}
-              />
-            </GalaxyShine>
-          )}
-          <ArtistBrightBackground
-            style={{
-              opacity: hover || externalControlActive ? 0.1 : 0.05,
-              width: cardWidth / 10,
-              height: cardWidth / 10,
-              top: cardHeight / 21.2,
-              right: cardHeight / 21.9,
-            }}
-          />
+              >
+                <DiagonalShineOverlay
+                  style={{
+                    backgroundImage: diagonalShineBackground(
+                      cursorPosXPercentage,
+                      cursorPosYPercentage
+                    ),
+                    backgroundPosition: shineBackgroundOverlayPos(
+                      backgroundPosX,
+                      backgroundPosY
+                    ),
+                  }}
+                />
+              </DiagonalShine>
+            )}
+            {shineType === "galaxy" && (
+              <GalaxyShine
+                style={{
+                  backgroundImage: galaxyShineBackground(
+                    cursorPosXPercentage,
+                    cursorPosYPercentage
+                  ),
+                  backgroundPosition: shineBackgroundPos(
+                    backgroundPosX,
+                    backgroundPosY
+                  ),
+                  opacity: hover || externalControlActive ? 1 : 0,
+                  width: "100%",
+                }}
+              >
+                <GalaxyShineOverlay
+                  style={{
+                    backgroundImage: galaxyShineBackground(
+                      cursorPosXPercentage,
+                      cursorPosYPercentage
+                    ),
+                    backgroundPosition: shineBackgroundPos(
+                      backgroundPosX,
+                      backgroundPosY
+                    ),
+                  }}
+                />
+              </GalaxyShine>
+            )}
+            <ArtistBrightBackground
+              style={{
+                opacity: hover || externalControlActive ? 0.1 : 0.05,
+                width: cardWidth / 10,
+                height: cardWidth / 10,
+                top: cardHeight / 21.2,
+                right: cardHeight / 21.9,
+              }}
+            />
 
-          <BrightBackground
-            style={{
-              opacity: hover || externalControlActive ? 0.2 : 0.05,
-              width: externalCardWidth ?? `${CARD_WIDTH}vw`,
-            }}
-          />
+            <BrightBackground
+              style={{
+                opacity: hover || externalControlActive ? 0.2 : 0.05,
+                width: "100%",
+              }}
+            />
 
-          <Glare
-            style={{
-              backgroundImage: glareBackgroundImage(
-                cursorPosXPercentage.get(),
-                cursorPosYPercentage.get()
-              ),
-              opacity: hover ? 0.3 : 0,
-              width: externalCardWidth ?? `${CARD_WIDTH}vw`,
-            }}
-          />
-        </FaceCardContainer>
-      </CardContainer>
-    </Container>
-  )
-}
+            <Glare
+              style={{
+                backgroundImage: glareBackgroundImage(
+                  cursorPosXPercentage,
+                  cursorPosYPercentage
+                ),
+                opacity: hover ? 0.3 : 0,
+                width: "100%",
+              }}
+            />
+          </FaceCardContainer>
+        </CardContainer>
+      </Container>
+    )
+  }
+)
 
-const ArtistShine = styled(motion.div)`
+const ArtistShine = styled.div`
   position: absolute;
   transform: translateZ(2px);
   background-blend-mode: screen, multiply, normal;
@@ -351,7 +365,7 @@ const ArtistShine = styled(motion.div)`
   filter: brightness(1.8) contrast(0.8);
 `
 
-const FaceCardContainer = styled(motion.div)`
+const FaceCardContainer = styled.div`
   overflow: hidden;
   backface-visibility: hidden;
   position: absolute;
@@ -362,13 +376,13 @@ const FaceCardContainer = styled(motion.div)`
   isolation: isolate;
 `
 
-const BackCardContainer = styled(motion.div)`
+const BackCardContainer = styled.div`
   overflow: hidden;
   border-radius: 4px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 0px 40px 15px;
 `
 
-const BrightBackground = styled(motion.div)`
+const BrightBackground = styled.div`
   top: 0;
   background-image: url("${BASE_URL}hdr_pixel.avif");
   height: 100%;
@@ -382,10 +396,9 @@ const BrightBackground = styled(motion.div)`
   -webkit-mask-position: center center;
   mask-position: center center;
   opacity: 0.2;
-  transition: opacity 0.6s ease;
 `
 
-const ArtistBrightBackground = styled(motion.div)`
+const ArtistBrightBackground = styled.div`
   top: 0;
   background-image: url("${BASE_URL}hdr_pixel.avif");
   position: absolute;
@@ -410,9 +423,10 @@ const Container = styled.div<{
   user-select: none;
 `
 
-const CardContainer = styled(motion.div)`
+const CardContainer = styled.div`
   cursor: pointer;
   transform-style: preserve-3d;
+  transition: "width 0.3s ease";
 `
 
 const CardBackImage = styled.img`
@@ -420,7 +434,7 @@ const CardBackImage = styled.img`
   transform: translateZ(1px) scaleX(-1);
 `
 
-const Glare = styled(motion.div)`
+const Glare = styled.div`
   overflow: hidden;
   position: absolute;
   top: 0;
@@ -432,7 +446,7 @@ const Glare = styled(motion.div)`
   transition: opacity 0.3s ease;
 `
 
-const Shine = styled(motion.div)`
+const Shine = styled.div`
   overflow: hidden;
   position: absolute;
   top: 0;
@@ -468,7 +482,7 @@ const LinesShine = styled(Shine)`
   mix-blend-mode: color-dodge;
 `
 
-const ShineOverlay = styled(motion.div)`
+const ShineOverlay = styled.div`
   position: absolute;
   top: 0;
   height: 100%;
@@ -495,7 +509,7 @@ const LinesShineOverlay = styled(ShineOverlay)`
   mix-blend-mode: hard-light;
 `
 
-const ShineGlare = styled(motion.div)`
+const ShineGlare = styled.div`
   position: absolute;
   top: 0;
   height: 100%;

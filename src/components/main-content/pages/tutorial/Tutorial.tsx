@@ -1,8 +1,8 @@
-import { FC } from "react"
+import { FC, memo } from "react"
 import styled from "styled-components"
 import { TitleSection } from "../TitleSection"
 
-export const Tutorial: FC = () => {
+export const Tutorial: FC = memo(() => {
   return (
     <Container>
       <TitleSection title="Tutorial">
@@ -13,7 +13,7 @@ export const Tutorial: FC = () => {
       </TitleSection>
     </Container>
   )
-}
+})
 
 const Container = styled.div`
   width: calc(100vw - 22vw - 24px);
