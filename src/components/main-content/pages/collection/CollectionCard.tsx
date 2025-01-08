@@ -108,8 +108,9 @@ const BlankCard = styled.div`
   height: auto;
   aspect-ratio: 348 / 485;
 
-  box-shadow: inset 0 0 5vw rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
+  /* box-shadow: inset 0 0 5vw rgba(0, 0, 0, 0.2); */
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
 
   display: flex;
   justify-content: center;
