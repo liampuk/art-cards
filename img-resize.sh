@@ -2,8 +2,8 @@
 
 TARGET_DIR="${1:-.}"
 
-find "$TARGET_DIR" -type f -name "*.png" ! -name "*-mask.png" | while IFS= read -r file; do
-    output="${file%.png}-s.png"
-    magick "$file" -resize 606x840 "$output"
+find "$TARGET_DIR" -type f -name "*.jpg" ! -name "*-mask.jpg" | while IFS= read -r file; do
+    output="${file%.jpg}-s.jpg"
+    magick "$file" -resize 430x600 -quality 90 "$output"
     echo "Compressed $file"
 done

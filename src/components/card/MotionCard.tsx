@@ -3,22 +3,9 @@ import gsap from "gsap"
 import { FC, memo, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import { Effect } from "../../types"
-import {
-  artistBackground,
-  diagonalShineBackground,
-  galaxyShineBackground,
-  glareBackgroundImage,
-  linesShineBackground,
-  linesShineBackgroundOverlay,
-  linesShineBackgroundOverlayPos,
-  linesShineBackgroundPos,
-  linesShineGlareBackground,
-  shineBackgroundOverlayPos,
-  shineBackgroundPos,
-} from "./HoloStyles"
+import { glareBackgroundImage } from "./HoloStyles"
+import { MotionCardEffects } from "./MotionCardEffects"
 
-// const STIFFNESS = 1000
-// const DAMPENING = 10
 const CARD_WIDTH = 25
 
 type Props = {
@@ -60,10 +47,7 @@ export const MotionCard: FC<Props> = memo(
     const [hover, setHover] = useState(false)
     const [cardWidth, setCardWidth] = useState(0)
     const [cardHeight, setCardHeight] = useState(0)
-    // const [controlledCardWidth] = useState(
-    //   externalCardWidth || `${CARD_WIDTH}vw`
-    // )
-    const externalControlActive = externalRotateX || externalRotateY
+    const externalControlActive = !!(externalRotateX || externalRotateY)
 
     const cardRef = useRef<HTMLDivElement>(null)
 
@@ -115,7 +99,13 @@ export const MotionCard: FC<Props> = memo(
         duration: 0.5,
         ease: "power2.out",
       })
-    }, [rotateXSpring, rotateYSpring, hover, externalCardWidth])
+    }, [
+      rotateXSpring,
+      rotateYSpring,
+      hover,
+      externalControlActive,
+      externalCardWidth,
+    ])
 
     const handleClick = () => {
       if (!disableClick) {
@@ -167,250 +157,69 @@ export const MotionCard: FC<Props> = memo(
           onClick={() => handleClick()}
           onMouseMove={(ev) => handleMouseMove(ev)}
           onMouseLeave={(ev) => handleMouseLeave(ev)}
-          // whileHover={{ scale: 1.1 }}
-          style={{
-            // transform: `scale(${(externalScale ?? 1) + (hover ? 0.1 : 0)})`,
-            // transform: `scale(${
-            //   (externalScale ?? 1) + (hover ? 0.1 : 0)
-            // }) rotateX(${rotateYSpring}deg) rotateY(${rotateXSpring}deg)`,
-            // transition: externalScale ? "none" : "transform 0.3s ease",
-            width: "100%",
-          }}
           ref={cardRef}
         >
-          <BackCardContainer
-            style={{
-              // transform: `rotateX(${rotateYSpring}deg) rotateY(${rotateXSpring}deg)`,
-              width: "100%",
-              opacity: shadowOpacity ?? 1,
-            }}
-          >
-            <CardBackImage
-              src={`${BASE_URL}back.jpg`}
-              style={{
-                width: "100%",
-              }}
-            />
-            <Glare
-              style={{
-                backgroundImage: glareBackgroundImage(
-                  cursorPosXPercentage,
-                  cursorPosYPercentage,
-                  { reverse: true }
-                ),
-                opacity: hover || externalControlActive ? 0.3 : 0,
-                width: "100%",
-              }}
-            />
-          </BackCardContainer>
-          <FaceCardContainer
-            style={{
-              width: "100%",
-              // transform: `rotateX(${rotateYSpring}deg) rotateY(${rotateXSpring}deg) translateZ(1px)`,
-            }}
-          >
-            <ArtistShine
-              style={{
-                background: artistBackground(rotateX, rotateY),
-                width: cardWidth / 9.8,
-                height: cardWidth / 9.8,
-                top: cardHeight / 21.8,
-                right: cardWidth / 15.7,
-                opacity: hover || externalControlActive ? 0.65 : 0.2,
-              }}
-            />
-            <img
-              src={`${BASE_URL}${cardImage}.jpg`}
-              style={{
-                width: "100%",
-                // transition: "width 0.3s ease",
-              }}
-            />
-            {cardImageMask && shineType === "lines" && (
-              <LinesShine
-                style={{
-                  backgroundImage: linesShineBackground,
-                  backgroundPosition: linesShineBackgroundPos(
-                    backgroundPosX,
-                    backgroundPosY
-                  ),
-                  opacity: hover || externalControlActive ? 0.8 : 0,
-                  width: "100%",
-                }}
-              >
-                <LinesShineOverlay
-                  style={{
-                    backgroundImage: linesShineBackgroundOverlay,
-                    backgroundPosition: linesShineBackgroundOverlayPos(
-                      backgroundPosX,
-                      backgroundPosY
-                    ),
-                  }}
-                />
-                <ShineGlare
-                  style={{
-                    backgroundImage: linesShineGlareBackground(
-                      cursorPosXPercentage,
-                      cursorPosYPercentage
-                    ),
-                  }}
-                />
-              </LinesShine>
+          <FaceCardContainer>
+            <FaceCardImage src={`${BASE_URL}${cardImage}.jpg`} />
+            {(hover || externalControlActive) && (
+              <MotionCardEffects
+                rotateX={rotateX}
+                rotateY={rotateY}
+                cardWidth={cardWidth}
+                cardHeight={cardHeight}
+                cardImageMask={cardImageMask}
+                shineType={shineType}
+                backgroundPosX={backgroundPosX}
+                backgroundPosY={backgroundPosY}
+                cursorPosXPercentage={cursorPosXPercentage}
+                cursorPosYPercentage={cursorPosYPercentage}
+                showEffects={hover || externalControlActive}
+              />
             )}
-            {shineType === "diagonal" && (
-              <DiagonalShine
-                style={{
-                  backgroundImage: diagonalShineBackground(
-                    cursorPosXPercentage,
-                    cursorPosYPercentage
-                  ),
-                  backgroundPosition: shineBackgroundPos(
-                    backgroundPosX,
-                    backgroundPosY
-                  ),
-                  opacity: hover || externalControlActive ? 1 : 0,
-                  width: "100%",
-                }}
-              >
-                <DiagonalShineOverlay
-                  style={{
-                    backgroundImage: diagonalShineBackground(
-                      cursorPosXPercentage,
-                      cursorPosYPercentage
-                    ),
-                    backgroundPosition: shineBackgroundOverlayPos(
-                      backgroundPosX,
-                      backgroundPosY
-                    ),
-                  }}
-                />
-              </DiagonalShine>
-            )}
-            {shineType === "galaxy" && (
-              <GalaxyShine
-                style={{
-                  backgroundImage: galaxyShineBackground(
-                    cursorPosXPercentage,
-                    cursorPosYPercentage
-                  ),
-                  backgroundPosition: shineBackgroundPos(
-                    backgroundPosX,
-                    backgroundPosY
-                  ),
-                  opacity: hover || externalControlActive ? 1 : 0,
-                  width: "100%",
-                }}
-              >
-                <GalaxyShineOverlay
-                  style={{
-                    backgroundImage: galaxyShineBackground(
-                      cursorPosXPercentage,
-                      cursorPosYPercentage
-                    ),
-                    backgroundPosition: shineBackgroundPos(
-                      backgroundPosX,
-                      backgroundPosY
-                    ),
-                  }}
-                />
-              </GalaxyShine>
-            )}
-            <ArtistBrightBackground
-              style={{
-                opacity: hover || externalControlActive ? 0.1 : 0.05,
-                width: cardWidth / 10,
-                height: cardWidth / 10,
-                top: cardHeight / 21.2,
-                right: cardHeight / 21.9,
-              }}
-            />
-
-            <BrightBackground
-              style={{
-                opacity: hover || externalControlActive ? 0.2 : 0.05,
-                width: "100%",
-              }}
-            />
-
-            <Glare
-              style={{
-                backgroundImage: glareBackgroundImage(
-                  cursorPosXPercentage,
-                  cursorPosYPercentage
-                ),
-                opacity: hover ? 0.3 : 0,
-                width: "100%",
-              }}
-            />
           </FaceCardContainer>
+          {!disableClick && (
+            <BackCardContainer
+              style={{
+                width: "100%",
+                opacity: shadowOpacity ?? 1,
+              }}
+            >
+              <CardBackImage src={`${BASE_URL}back.jpg`} />
+              <Glare
+                style={{
+                  backgroundImage: glareBackgroundImage(
+                    cursorPosXPercentage,
+                    cursorPosYPercentage,
+                    { reverse: true }
+                  ),
+                  opacity: hover || externalControlActive ? 0.3 : 0,
+                  width: "100%",
+                }}
+              />
+            </BackCardContainer>
+          )}
         </CardContainer>
       </Container>
     )
   }
 )
 
-const ArtistShine = styled.div`
-  position: absolute;
-  transform: translateZ(2px);
-  background-blend-mode: screen, multiply, normal;
-  mix-blend-mode: lighten;
-  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,0 100,50 50,100 0,50' fill='black'/></svg>");
-  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,0 100,50 50,100 0,50' fill='black'/></svg>");
-  -webkit-mask-size: cover;
-  mask-size: cover;
-  -webkit-mask-position: center center;
-  mask-position: center center;
-  transition: opacity 0.3s ease-out;
-
-  filter: brightness(1.8) contrast(0.8);
-`
-
 const FaceCardContainer = styled.div`
   overflow: hidden;
   backface-visibility: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
   z-index: 1000;
   border-radius: 4px;
   isolation: isolate;
 `
 
 const BackCardContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
   overflow: hidden;
   border-radius: 4px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 0px 40px 15px;
-`
-
-const BrightBackground = styled.div`
-  top: 0;
-  background-image: url("${BASE_URL}hdr_pixel.avif");
-  height: 100%;
-  position: absolute;
-  mix-blend-mode: multiply;
-  -webkit-mask-image: var(--card-mask-image);
-  mask-image: var(--card-mask-image);
-  mask-mode: luminance;
-  -webkit-mask-size: cover;
-  mask-size: cover;
-  -webkit-mask-position: center center;
-  mask-position: center center;
-  opacity: 0.2;
-`
-
-const ArtistBrightBackground = styled.div`
-  top: 0;
-  background-image: url("${BASE_URL}hdr_pixel.avif");
-  position: absolute;
-  mix-blend-mode: multiply;
-  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,0 100,50 50,100 0,50' fill='black'/></svg>");
-  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,0 100,50 50,100 0,50' fill='black'/></svg>");
-  -webkit-mask-size: cover;
-  mask-size: cover;
-  -webkit-mask-position: center center;
-  mask-position: center center;
-  opacity: 0.1;
-  transition: opacity 0.6s ease;
+  z-index: -1;
 `
 
 const Container = styled.div<{
@@ -424,14 +233,20 @@ const Container = styled.div<{
 `
 
 const CardContainer = styled.div`
+  width: 25vw;
   cursor: pointer;
   transform-style: preserve-3d;
   transition: "width 0.3s ease";
 `
 
 const CardBackImage = styled.img`
+  width: 100%;
   z-index: 2;
   transform: translateZ(1px) scaleX(-1);
+`
+
+const FaceCardImage = styled.img`
+  width: 100%;
 `
 
 const Glare = styled.div`
@@ -445,81 +260,3 @@ const Glare = styled.div`
   filter: brightness(0.9) contrast(1.75);
   transition: opacity 0.3s ease;
 `
-
-const Shine = styled.div`
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  height: 100%;
-  border-radius: 4px;
-  -webkit-mask-image: var(--card-mask-image);
-  mask-image: var(--card-mask-image);
-  mask-mode: luminance;
-  -webkit-mask-size: cover;
-  mask-size: cover;
-  -webkit-mask-position: center center;
-  mask-position: center center;
-  transition: opacity 0.3s ease;
-`
-
-const DiagonalShine = styled(Shine)`
-  mix-blend-mode: color-dodge;
-  background-size: 500px 100%, 200% 700%, 300% 100%, 200% 100%;
-  background-blend-mode: screen, hue, hard-light;
-  filter: brightness(0.8) contrast(2.95) saturate(0.65);
-`
-
-const GalaxyShine = styled(Shine)`
-  mix-blend-mode: screen;
-  background-size: cover, 100% 900%, cover;
-  background-blend-mode: color-burn, multiply;
-  filter: brightness(1) contrast(1) saturate(0.8);
-`
-
-const LinesShine = styled(Shine)`
-  background-size: 400% 400%, 102%;
-  background-blend-mode: overlay;
-  mix-blend-mode: color-dodge;
-`
-
-const ShineOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-`
-
-const DiagonalShineOverlay = styled(ShineOverlay)`
-  background-blend-mode: screen, hue, hard-light;
-  background-size: 500px 100%, 200% 400%, 195% 100%, 200% 100%;
-  filter: brightness(1) contrast(2.5) saturate(1.75);
-  mix-blend-mode: soft-light;
-`
-
-const GalaxyShineOverlay = styled(ShineOverlay)`
-  background-blend-mode: overlay, multiply;
-  background-size: cover, 400% 900%, cover;
-  filter: brightness(1.1) contrast(1.4) saturate(0.8);
-  mix-blend-mode: hard-light;
-`
-
-const LinesShineOverlay = styled(ShineOverlay)`
-  background-size: 150% 150%, 150% 150%;
-  background-blend-mode: screen;
-  mix-blend-mode: hard-light;
-`
-
-const ShineGlare = styled.div`
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background-position: center center;
-  background-size: cover;
-  mix-blend-mode: luminosity;
-  mix-blend-mode: hard-light;
-  filter: brightness(0.8) contrast(1.75);
-`
-
-// rotate3d(6, -3, 3, 90deg)
-// rotate3d(9, -4, 4, 80deg)

@@ -68,10 +68,6 @@ export const CollectionCard: FC<Props> = memo(({ index }) => {
     }
   }
 
-  useEffect(() => {
-    console.log("window resize")
-  }, [window.innerWidth])
-
   return (
     <>
       <Barrier

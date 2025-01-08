@@ -13,7 +13,7 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 - [x] Sticky scroll section
 - [x] Replace images with text
 - [x] Implement sidebar buttons
-- [ ] Optimise images
+- [x] Optimise images
 - [ ] SVG line animation on smooth scroll section
 - [ ] Text animation on smooth scroll section
 - [x] Responsive sidebar
