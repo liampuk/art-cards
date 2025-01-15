@@ -14,10 +14,10 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 - [x] Replace images with text
 - [x] Implement sidebar buttons
 - [x] Optimise images
-- [ ] SVG line animation on smooth scroll section
-- [ ] Text animation on smooth scroll section
+- [x] SVG line animation on smooth scroll section
+- [x] Text animation on smooth scroll section
 - [x] Responsive sidebar
-- [ ] main section responsiveness
+- [x] main section responsiveness
 - [ ] Mobile
 - [x] Remove framer motion
 - [ ] Get state/qr code working
@@ -28,7 +28,6 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 - [x] Hero section with title and call to action button, and card to the right
 - [x] With scroll, description animates out and card moves to centre. Card animates through shine with scroll with css fixed before finally scrolling off screen to the top
 - [x] Smooth scroll with Lenis scroll
-- [ ] If CTA button clicked, skip sticky scroll section, but still scroll
 
 ### Sidebar
 
@@ -46,12 +45,12 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 - [x] Add reset button
 - [x] Add extra packs
 - [x] Fix shadow layering
-- [ ] Pointer events none on hidden cards
+- [x] Pointer events none on hidden cards
 
 ### Collection page
 
-- grid of cards
-- showcase view
+- [x] grid of cards
+- [x] showcase view
 
 ### Tutorial page
 

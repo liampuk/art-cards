@@ -5,9 +5,17 @@ import { TitleSection } from "../TitleSection"
 export const Tutorial: FC = memo(() => {
   return (
     <Container>
-      <TitleSection title="Tutorial">
+      <TitleSection title="About">
         <Text>
-          Coming soon. For now if you have any questions please contact me!{" "}
+          This website demonstrates the possibilities of using HDR effects on
+          the web. HDR is not widely supported, and the combination of HDR and
+          lots of layers used in the shine animations can be very slow on some
+          devices. I'm still working on adding features so for now you can open
+          as many packs as you like and explore the whole pre-raphaellite
+          collection!
+        </Text>
+        <Text>
+          Tutorial coming soon - If you have any questions please contact me!{" "}
           <TextLink href="mailto:liampuk@gmail.com">liampuk@gmail.com</TextLink>
         </Text>
       </TitleSection>
@@ -24,7 +32,7 @@ const Container = styled.div`
 `
 
 const Text = styled.p`
-  font-size: 1.3vw;
+  font-size: 2.2vh;
   font-family: "EB Garamond";
   color: #222;
   margin-top: 8px;

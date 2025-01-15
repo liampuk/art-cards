@@ -45,7 +45,7 @@ export const Collection: FC = memo(() => {
                   to the saved url and click ‘accept’ to load your collection.
                 </p>
                 <ButtonContainer>
-                  <Button label="Save Collection" />
+                  <Button label="Coming Soon..." />
                 </ButtonContainer>
               </FooterButtonSection>
             </FooterText>
@@ -158,7 +158,7 @@ const Container = styled.div`
 `
 
 const Text = styled.p`
-  font-size: 1.3vw;
+  font-size: 2.2vh;
   font-family: "EB Garamond";
   color: #222;
   margin-top: 8px;

@@ -48,6 +48,23 @@ export const MotionCard: FC<Props> = memo(
     const [cardWidth, setCardWidth] = useState(0)
     const [cardHeight, setCardHeight] = useState(0)
     const externalControlActive = !!(externalRotateX || externalRotateY)
+    const [showEffects, setShowEffects] = useState(false)
+    const showEffectsTimeoutRef = useRef<number | undefined>()
+
+    useEffect(() => {
+      if (hover || externalControlActive) {
+        setShowEffects(true)
+        clearTimeout(showEffectsTimeoutRef.current)
+        showEffectsTimeoutRef.current = undefined
+      } else {
+        if (!showEffectsTimeoutRef.current) {
+          showEffectsTimeoutRef.current = setTimeout(() => {
+            setShowEffects(false)
+            showEffectsTimeoutRef.current = undefined
+          }, 600)
+        }
+      }
+    }, [hover, externalControlActive])
 
     const cardRef = useRef<HTMLDivElement>(null)
 
@@ -91,14 +108,17 @@ export const MotionCard: FC<Props> = memo(
     const rotateYSpring = rotateY
 
     useGSAP(() => {
-      gsap.to(cardRef.current, {
+      const cardAnimation = gsap.to(cardRef.current, {
         rotateX: reverseMod > 0 ? -rotateYSpring : rotateYSpring,
         rotateY: reverseMod > 0 ? rotateXSpring : rotateXSpring,
         scale: (externalScale ?? 1) + (hover ? 0.1 : 0),
-        width: externalCardWidth ?? `${CARD_WIDTH}vw`,
-        duration: 0.5,
+        duration: 0.8,
         ease: "power2.out",
       })
+
+      return () => {
+        cardAnimation.kill()
+      }
     }, [
       rotateXSpring,
       rotateYSpring,
@@ -152,16 +172,20 @@ export const MotionCard: FC<Props> = memo(
     }
 
     return (
-      <Container $cardMaskImage={`${BASE_URL}${cardImageMask}.jpg`}>
+      <Container $cardMaskImage={`${cardImageMask}.jpg`}>
         <CardContainer
           onClick={() => handleClick()}
           onMouseMove={(ev) => handleMouseMove(ev)}
           onMouseLeave={(ev) => handleMouseLeave(ev)}
+          style={{
+            width: externalCardWidth ?? `${CARD_WIDTH}vw`,
+            transition: "width 0.3s ease",
+          }}
           ref={cardRef}
         >
           <FaceCardContainer>
             <FaceCardImage src={`${BASE_URL}${cardImage}.jpg`} />
-            {(hover || externalControlActive) && (
+            {showEffects && (
               <MotionCardEffects
                 rotateX={rotateX}
                 rotateY={rotateY}
@@ -225,7 +249,8 @@ const BackCardContainer = styled.div`
 const Container = styled.div<{
   $cardMaskImage: string
 }>`
-  ${({ $cardMaskImage }) => `--card-mask-image: url("${$cardMaskImage}")`};
+  ${({ $cardMaskImage }) =>
+    `--card-mask-image: url("${BASE_URL}${$cardMaskImage}")`};
   perspective: 1200px;
   width: fit-content;
   height: fit-content;

@@ -1,3 +1,5 @@
+const BASE_URL = import.meta.env.BASE_URL
+
 // COMMON
 
 export const glareBackgroundImage = (
@@ -34,7 +36,7 @@ export const diagonalShineBackground = (
   cursorPosXSpring: number,
   cursorPosYSpring: number
 ) => {
-  return `url("grain.webp"),
+  return `url("${BASE_URL}grain.webp"),
     repeating-linear-gradient(
       0deg,
       hsl(2, 100%, 73%) calc(5% * 1),
@@ -146,7 +148,7 @@ export const galaxyShineBackground = (
   cursorPosXPercentage: number,
   cursorPosYPercentage: number
 ) => {
-  return `url("/galaxy-1.png"),
+  return `url("${BASE_URL}galaxy-1.png"),
     repeating-linear-gradient(
       172deg, 
       hsl(53, 65%, 60%) calc(4% * 1), 

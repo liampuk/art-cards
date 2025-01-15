@@ -109,8 +109,8 @@ const BlankCard = styled.div`
   aspect-ratio: 348 / 485;
 
   /* box-shadow: inset 0 0 5vw rgba(0, 0, 0, 0.2); */
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+
+  outline-offset: -8px;
 
   display: flex;
   justify-content: center;
@@ -119,4 +119,16 @@ const BlankCard = styled.div`
   font-size: 1.5vw;
   color: #444;
   user-select: none;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 90%;
+    border-radius: 8px;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+  }
 `

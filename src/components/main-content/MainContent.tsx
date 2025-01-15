@@ -12,6 +12,9 @@ import { OpenPack } from "./pages/open-pack/OpenPack"
 import { BottomStickyScroll } from "./pages/sticky-scroll/BottomStickyScroll"
 import { TopStickyScroll } from "./pages/sticky-scroll/TopStickyScroll"
 import { Tutorial } from "./pages/tutorial/Tutorial"
+
+const BASE_URL = import.meta.env.BASE_URL
+
 gsap.registerPlugin(ScrollTrigger)
 
 export const MainContent: FC = () => {
@@ -21,11 +24,11 @@ export const MainContent: FC = () => {
   const middleTriggerRef = useRef<HTMLDivElement>(null)
   const bottomTriggerRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
-  // const { updateScrollPosition, setLenisRef } = useScrollContext()
-  const { setScrollPosition, setLenis } = useScrollStore(
+  const { setScrollPosition, setLenis, setScrollRef } = useScrollStore(
     useShallow((state) => ({
       setScrollPosition: state.setScrollPosition,
       setLenis: state.setLenis,
+      setScrollRef: state.setScrollRef,
     }))
   )
 
@@ -74,6 +77,7 @@ export const MainContent: FC = () => {
     })
 
     setLenis(newLenis)
+    setScrollRef(fixedDivRef.current)
 
     const raf = (time: number) => {
       newLenis.raf(time)
@@ -171,7 +175,7 @@ export const MainContent: FC = () => {
 
 const StickyContainer = styled.div`
   width: 32vw;
-  height: 280vh;
+  height: calc(300vh + 144px);
   top: 0;
   right: 0;
   position: absolute;
@@ -220,9 +224,9 @@ const Container = styled.div`
     border-image-slice: 200;
     border-image-width: 10vw;
     border-image-repeat: stretch stretch;
-    border-image-source: url("main-border2.svg");
+    border-image-source: url("${BASE_URL}main-border2.svg");
     border-style: solid;
-    border-width: 0;
+    border-width: 1px;
     z-index: 4;
   }
 `

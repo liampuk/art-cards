@@ -1,6 +1,8 @@
 import { FC, useState } from "react"
 import styled from "styled-components"
 
+const BASE_URL = import.meta.env.BASE_URL
+
 const glareBackgroundImage = (
   cursorPosXPercentage: number,
   cursorPosYPercentage: number
@@ -91,8 +93,8 @@ const Glare = styled.div`
   height: 100%;
   opacity: 0.2;
   mix-blend-mode: plus-lighter;
-  -webkit-mask-image: url("/button-test-mask2.jpg");
-  mask-image: url("/button-test-mask2.jpg");
+  -webkit-mask-image: url("${BASE_URL}button-test-mask2.jpg");
+  mask-image: url("${BASE_URL}button-test-mask2.jpg");
   -webkit-mask-size: contain;
   mask-size: contain;
   mask-position: 0 0;

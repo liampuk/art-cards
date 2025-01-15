@@ -11,7 +11,6 @@ gsap.registerPlugin(ScrollToPlugin)
 const BASE_URL = import.meta.env.BASE_URL
 
 export const Sidebar: FC = () => {
-  // const { lenis } = useScrollContext()
   const lenis = useScrollStore((state) => state.lenis)
 
   return (
@@ -33,7 +32,7 @@ export const Sidebar: FC = () => {
             </ButtonContainer>
             <Divider src={`${BASE_URL}sidebar-divider.png`} />
             <ButtonContainer onClick={() => scrollTo(lenis, 999)}>
-              <SidebarButton label="Tutorial" />
+              <SidebarButton label="About" />
             </ButtonContainer>
           </ButtonSection>
         </MainContent>

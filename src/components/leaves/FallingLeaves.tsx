@@ -5,7 +5,6 @@ import { useScrollStore } from "../../store"
 import { Leaf } from "../../types"
 
 export const FallingLeaves: FC = () => {
-  // const { scrollPosition } = useScrollContext()
   const { scrollPosition } = useScrollStore()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const image = new Image()

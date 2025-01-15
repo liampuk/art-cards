@@ -233,7 +233,7 @@ export const MotionCardEffects: FC<Props> = ({
             cursorPosXPercentage,
             cursorPosYPercentage
           ),
-          opacity: 0.3,
+          opacity: showEffects ? 0.3 : 0,
           width: "100%",
         }}
       />

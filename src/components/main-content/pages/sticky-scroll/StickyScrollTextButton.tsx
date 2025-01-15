@@ -1,6 +1,8 @@
 import { FC, PropsWithChildren, useState } from "react"
 import styled from "styled-components"
 
+const BASE_URL = import.meta.env.BASE_URL
+
 const glareBackgroundImage = (
   cursorPosXPercentage: number,
   cursorPosYPercentage: number
@@ -60,6 +62,7 @@ export const StickyTextButton: FC<PropsWithChildren> = ({ children }) => {
 const StickyScrollTextButton = styled.span`
   background-color: #d5d5d5;
   padding: 4px 8px;
+  margin: 0 2px;
   border-radius: 10px;
   cursor: pointer;
   position: relative;
@@ -76,8 +79,8 @@ const Glare = styled.div`
   opacity: 0.2;
   mix-blend-mode: plus-lighter;
   border-radius: 10px;
-  -webkit-mask-image: url("/foil-mask.jpg");
-  mask-image: url("/foil-mask.jpg");
+  -webkit-mask-image: url("${BASE_URL}foil-mask.jpg");
+  mask-image: url("${BASE_URL}foil-mask.jpg");
   -webkit-mask-size: 300px;
   mask-size: 300px;
   mask-position: center;

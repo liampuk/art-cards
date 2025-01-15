@@ -153,7 +153,7 @@ const ExtraPack = styled.img`
   width: 14vw;
   filter: saturate(0.2);
   cursor: not-allowed;
-  height: 34vh;
+  height: 20vw;
   width: auto;
 `
 
@@ -213,8 +213,9 @@ const PackagingContainer = styled.div`
   flex-direction: row-reverse;
   z-index: 2;
   position: relative;
-  height: 62%;
+  height: 100%;
   align-items: center;
+  pointer-events: none;
 `
 
 const SubTitle = styled.div`
@@ -249,7 +250,7 @@ const TipButtonContainer = styled.a`
 `
 
 const Text = styled.p`
-  font-size: 1.3vw;
+  font-size: 2.2vh;
   font-family: "EB Garamond";
   color: #222;
   width: 90%;

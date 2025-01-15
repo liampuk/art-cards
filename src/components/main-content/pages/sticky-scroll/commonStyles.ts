@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 export const StickyScrollText = styled.div`
   margin-left: 16px;
-  font-size: 1.3vw;
+  font-size: 2.2vh;
   margin-bottom: 16px;
 
   font-family: "EB Garamond", serif;

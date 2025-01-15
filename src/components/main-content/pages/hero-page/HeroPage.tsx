@@ -5,7 +5,6 @@ import { scrollTo } from "../../../../utils"
 import { Button } from "./Button"
 
 export const HeroPage: FC = memo(() => {
-  // const { lenis } = useScrollContext()
   const lenis = useScrollStore((state) => state.lenis)
 
   return (
@@ -34,6 +33,6 @@ const AccountButtonContainer = styled.div`
 `
 
 const HeroImage = styled.img`
-  height: 60vh;
-  margin-left: 8vw;
+  height: 36vw;
+  margin-left: 6vw;
 `

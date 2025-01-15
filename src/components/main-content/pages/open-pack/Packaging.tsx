@@ -458,6 +458,7 @@ const ArtistBrightBackground = styled.div`
 const PerspectiveWrapper = styled.div`
   perspective: 2000px;
   margin-right: 3vw;
+  margin-bottom: 6vh;
 `
 
 const Container = styled.div`
@@ -465,6 +466,7 @@ const Container = styled.div`
   width: fit-content;
   height: fit-content;
   will-change: transform;
+  pointer-events: auto;
 `
 
 const PackagingImage = styled.img`

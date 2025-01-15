@@ -8,7 +8,6 @@ const EXPONENT = 2.5
 const NUM_PAGES = 2.5
 
 export const BranchOverlay: FC = () => {
-  // const { scrollPosition } = useScrollContext()
   const { scrollPosition } = useScrollStore()
   const { height: windowHeight } = useWindowSize()
   const height = windowHeight * NUM_PAGES
