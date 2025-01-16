@@ -35,7 +35,7 @@ export const Mobile = () => {
       <div>
         <MotionCardMobile
           cardImage={`${card.artist}/${card.image}`}
-          cardImageMask={`${card.artist}/${card.mask}`}
+          cardImageMask={`${card.mask}`}
           shineType={card.effect}
           externalCardWidth="280px"
         />

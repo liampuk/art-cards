@@ -180,7 +180,7 @@ export const MotionCardMobile: FC<Props> = memo(
     }
 
     return (
-      <Container $cardMaskImage={`proserpine-mask.png`}>
+      <Container $cardMaskImage={`${cardImageMask}.png`}>
         <CardContainer
           onClick={() => handleClick()}
           style={{
