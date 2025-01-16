@@ -12,9 +12,10 @@ const glareBackgroundImage = (
   }% ${cursorPosYPercentage}%, rgba(255, 255, 255, 0.8) 0%, transparent 100%, transparent 130%)`
 }
 
-export const Button: FC<{ label: string; size?: number }> = ({
+export const Button: FC<{ label: string; size?: string; width?: string }> = ({
   label,
   size,
+  width,
 }) => {
   const [_tempForceUpdate, setTempForceUpdate] = useState(0)
 
@@ -47,7 +48,7 @@ export const Button: FC<{ label: string; size?: number }> = ({
       onMouseUp={() => setClicking(false)}
     >
       <ButtonBox>
-        <AccountButton src="button-test.png" />
+        <AccountButton src="button-test.png" $width={width} />
         <Glare
           style={{
             backgroundImage: glareBackgroundImage(
@@ -69,16 +70,16 @@ const ButtonBox = styled.div`
   justify-content: center;
 `
 
-const LabelText = styled.p<{ $size?: number }>`
-  font-size: ${({ $size }) => $size ?? 1.6}vw;
-  margin-top: ${({ $size }) => $size ?? 1.6}vw;
+const LabelText = styled.p<{ $size?: string }>`
+  font-size: ${({ $size }) => $size ?? "1.6vw"};
+  margin-top: ${({ $size }) => $size ?? "1.6vw"};
   font-family: Mucha;
   font-weight: 400;
   color: #333;
   position: absolute;
 `
-const AccountButton = styled.img`
-  width: 14vw;
+const AccountButton = styled.img<{ $width?: string }>`
+  width: ${({ $width }) => $width ?? "14vw"};
   object-fit: contain;
 `
 const Container = styled.div`

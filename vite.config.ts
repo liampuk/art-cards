@@ -3,6 +3,14 @@ import { defineConfig } from "vite"
 import svgr from "vite-plugin-svgr"
 
 export default defineConfig({
+  server: {
+    https: {
+      key: "./key.pem",
+      cert: "./cert.pem",
+    },
+    host: "0.0.0.0", // To make it accessible on your local network
+    port: 5000, // Optional: specify a port
+  },
   plugins: [
     react({
       babel: {

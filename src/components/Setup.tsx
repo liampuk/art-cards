@@ -6,6 +6,7 @@ const BASE_URL = import.meta.env.BASE_URL
 
 export const Setup = () => {
   const logged = useRef(false)
+
   useEffect(() => {
     if (!logged.current) {
       const lines = [
@@ -47,7 +48,7 @@ export const Setup = () => {
         mask.src = `${BASE_URL}${card.artist}/${card.mask}.jpg`
       }
     })
-  })
+  }, [])
 
   return <ForceHdrPixel src={`${BASE_URL}hdr_pixel.avif`} />
 }
@@ -56,4 +57,3 @@ const ForceHdrPixel = styled.img`
   position: fixed;
   opacity: 0.001;
 `
-// 𖡼.𖤣𖥧𖡼.𖤣𖥧

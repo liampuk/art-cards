@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 
 export const useWindowSize = () => {
   const [size, setSize] = useState({ width: 0, height: 0 })
@@ -22,4 +22,14 @@ export const useWindowSize = () => {
 export const usePortrait = () => {
   const { width, height } = useWindowSize()
   return width < height
+}
+
+export const useSmoothedValue = (value: number, alpha = 0.1) => {
+  const [smoothedValue, setSmoothedValue] = useState(value)
+
+  useEffect(() => {
+    setSmoothedValue((prev) => prev + alpha * (value - prev))
+  }, [value, alpha])
+
+  return smoothedValue
 }

@@ -113,7 +113,7 @@ export const OpenPack: FC = memo(() => {
             <Arrow>➚</Arrow>
           </Text>
           <TipButtonContainer href="https://ko-fi.com/liampuk" target="_blank">
-            <Button label="Support on Ko-fi" size={1.4} />
+            <Button label="Support on Ko-fi" size="1.4vw" />
           </TipButtonContainer>
         </SubTitle>
       </TitleSection>

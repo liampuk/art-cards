@@ -1,6 +1,6 @@
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
-import { FC, useRef } from "react"
+import { FC, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import { Effect } from "../../types"
 import {
@@ -33,6 +33,15 @@ type Props = {
   showEffects: boolean
 }
 
+const NO_HDR_FILTER = "brightness(1.1)"
+
+async function detectHDRSupport() {
+  const isWCG = window.matchMedia("(color-gamut: rec2020)").matches
+  const isHighBitDepth = screen.colorDepth >= 30
+
+  return isWCG || isHighBitDepth
+}
+
 export const MotionCardEffects: FC<Props> = ({
   rotateX,
   rotateY,
@@ -52,6 +61,13 @@ export const MotionCardEffects: FC<Props> = ({
   const diagonalShineRef = useRef<HTMLDivElement>(null)
   const galaxyShineRef = useRef<HTMLDivElement>(null)
   const artistShineRef = useRef<HTMLDivElement>(null)
+  const [hdrSupported, setHDRSupported] = useState(true)
+
+  useEffect(() => {
+    detectHDRSupport().then((isHDR) => {
+      setHDRSupported(isHDR)
+    })
+  }, [])
 
   useGSAP(() => {
     if (brightBackgroundRef.current) {
@@ -114,12 +130,14 @@ export const MotionCardEffects: FC<Props> = ({
           top: cardHeight / 21.8,
           right: cardWidth / 15.7,
           opacity: 0,
+          filter: !hdrSupported ? NO_HDR_FILTER : "",
         }}
       />
       {cardImageMask && shineType === "lines" && (
         <LinesShine
           ref={linesShineRef}
           style={{
+            filter: !hdrSupported ? NO_HDR_FILTER : "",
             backgroundImage: linesShineBackground,
             backgroundPosition: linesShineBackgroundPos(
               backgroundPosX,
@@ -129,6 +147,7 @@ export const MotionCardEffects: FC<Props> = ({
         >
           <LinesShineOverlay
             style={{
+              filter: !hdrSupported ? NO_HDR_FILTER : "",
               backgroundImage: linesShineBackgroundOverlay,
               backgroundPosition: linesShineBackgroundOverlayPos(
                 backgroundPosX,
@@ -150,6 +169,7 @@ export const MotionCardEffects: FC<Props> = ({
         <DiagonalShine
           ref={diagonalShineRef}
           style={{
+            filter: !hdrSupported ? NO_HDR_FILTER : "",
             backgroundImage: diagonalShineBackground(
               cursorPosXPercentage,
               cursorPosYPercentage
@@ -162,6 +182,7 @@ export const MotionCardEffects: FC<Props> = ({
         >
           <DiagonalShineOverlay
             style={{
+              filter: !hdrSupported ? NO_HDR_FILTER : "",
               backgroundImage: diagonalShineBackground(
                 cursorPosXPercentage,
                 cursorPosYPercentage
@@ -178,6 +199,7 @@ export const MotionCardEffects: FC<Props> = ({
         <GalaxyShine
           ref={galaxyShineRef}
           style={{
+            filter: !hdrSupported ? NO_HDR_FILTER : "",
             backgroundImage: galaxyShineBackground(
               cursorPosXPercentage,
               cursorPosYPercentage
@@ -190,6 +212,7 @@ export const MotionCardEffects: FC<Props> = ({
         >
           <GalaxyShineOverlay
             style={{
+              filter: !hdrSupported ? NO_HDR_FILTER : "",
               backgroundImage: galaxyShineBackground(
                 cursorPosXPercentage,
                 cursorPosYPercentage
@@ -291,7 +314,7 @@ const Glare = styled.div`
   position: absolute;
   top: 0;
   height: 100%;
-  border-radius: 4px;
+  border-radius: 8px;
   opacity: 0.3;
   mix-blend-mode: hard-light;
   filter: brightness(0.9) contrast(1.75);
@@ -303,7 +326,7 @@ const Shine = styled.div`
   position: absolute;
   top: 0;
   height: 100%;
-  border-radius: 4px;
+  border-radius: 8px;
   -webkit-mask-image: var(--card-mask-image);
   mask-image: var(--card-mask-image);
   mask-mode: luminance;
@@ -326,10 +349,10 @@ const DiagonalShine = styled(Shine)`
 const GalaxyShine = styled(Shine)`
   width: 100%;
   opacity: 0;
-  mix-blend-mode: screen;
+  mix-blend-mode: color-dodge;
   background-size: cover, 100% 900%, cover;
-  background-blend-mode: color-burn, multiply;
-  filter: brightness(1) contrast(1) saturate(0.8);
+  background-blend-mode: color, screen;
+  filter: brightness(1) contrast(1) saturate(0.9);
 `
 
 const LinesShine = styled(Shine)`

@@ -151,18 +151,18 @@ export const galaxyShineBackground = (
   return `url("${BASE_URL}galaxy-1.png"),
     repeating-linear-gradient(
       172deg, 
-      hsl(53, 65%, 60%) calc(4% * 1), 
-      hsl(93, 56%, 50%) calc(4% * 2), 
-      hsl(176, 54%, 49%) calc(4% * 3), 
+      hsl(52, 52%, 56%) calc(4% * 1), 
+      hsl(92, 48%, 45%) calc(4% * 2), 
+      hsl(176, 49%, 45%) calc(4% * 3), 
       hsl(228, 59%, 55%) calc(4% * 4), 
       hsl(283, 60%, 55%) calc(4% * 5), 
       hsl(326, 59%, 51%) calc(4% * 6), 
       hsl(326, 59%, 51%) calc(4% * 7), 
       hsl(283, 60%, 55%) calc(4% * 8), 
       hsl(228, 59%, 55%) calc(4% * 9), 
-      hsl(176, 54%, 49%) calc(4% * 10), 
-      hsl(93, 56%, 50%) calc(4% * 11), 
-      hsl(53, 65%, 60%) calc(4% * 12) 
+      hsl(176, 49%, 45%) calc(4% * 10), 
+      hsl(92, 48%, 45%) calc(4% * 11), 
+      hsl(52, 52%, 56%) calc(4% * 12) 
     ), 
     radial-gradient( 
       farthest-corner circle 
