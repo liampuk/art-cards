@@ -17,8 +17,6 @@ type Props = {
   shineType?: Effect
   externalRotateX?: number | null
   externalRotateY?: number | null
-  externalBgX?: number | null
-  externalBgY?: number | null
   externalScale?: number | null
   shadowOpacity?: number
   disableClick?: boolean
@@ -40,8 +38,6 @@ export const MotionCardMobile: FC<Props> = memo(
     shineType,
     externalRotateX,
     externalRotateY,
-    externalBgX,
-    externalBgY,
     externalScale,
     shadowOpacity,
     disableClick,
@@ -56,32 +52,24 @@ export const MotionCardMobile: FC<Props> = memo(
     const [showEffects, setShowEffects] = useState(false)
     const showEffectsTimeoutRef = useRef<number | undefined>()
     const [motionAccessGranted, setMotionAccessGranted] = useState(false)
-    const [debugText, setDebugText] = useState("debug")
     const [motionX, setMotionX] = useState(0)
     const [motionY, setMotionY] = useState(0)
-    const [motionZ, setMotionZ] = useState(0)
 
     const logMotion = () => {
       window.addEventListener("devicemotion", (event) => {
         const acceleration = event.accelerationIncludingGravity
         setMotionX(acceleration?.x ?? 0)
         setMotionY(acceleration?.y ?? 0)
-        setMotionZ(acceleration?.z ?? 0)
-        setDebugText(
-          `X: ${acceleration?.x}, Y: ${acceleration?.y}, Z: ${acceleration?.z}`
-        )
       })
     }
 
     const requestMotionAccess = async () => {
-      setDebugText(`requesting`)
       const requestPermission = (
         DeviceOrientationEvent as unknown as DeviceOrientationEventiOS
       ).requestPermission
       if (typeof requestPermission === "function") {
         try {
           const response = await requestPermission()
-          setDebugText(`${response}`)
           if (response === "granted") {
             console.log("Permission granted!")
             setMotionAccessGranted(true)
@@ -91,7 +79,6 @@ export const MotionCardMobile: FC<Props> = memo(
           }
         } catch (err) {
           console.error("Error requesting permission:", err)
-          setDebugText(`${err}`)
         }
       } else {
         // For non-iOS devices
@@ -132,7 +119,6 @@ export const MotionCardMobile: FC<Props> = memo(
       }
     }, [])
 
-    const [cursorPosX, setCursorPosX] = useState(0)
     const [reverseMod, setReverseMod] = useState(defaultReversed ? 180 : 0)
 
     const smoothMotionX = useSmoothedValue(motionX, 0.1)
