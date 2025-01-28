@@ -66,6 +66,7 @@ const Text = styled.p`
   font-family: "EB Garamond";
   color: #222;
   margin: 0;
+  text-align: center;
 `
 
 const Row = styled.div`

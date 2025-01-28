@@ -4,7 +4,7 @@ A project to make a little card game with a few decks (pre-raphaelite/art nouvea
 
 <img width="783" alt="image" src="https://github.com/user-attachments/assets/9fc95e9c-3103-4f98-9cce-cf16b8780d2d" />
 
-To serve over https for motion debugging, generate certificates with:
+To serve over https for motion debugging, add `VITE_ENABLE_SSL=true` to your `.env` file and generate certificates with:
 
 ```bash
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout key.pem -out cert.pem

@@ -25,3 +25,5 @@ dist-ssr
 
 cert.pem
 key.pem
+
+.env
