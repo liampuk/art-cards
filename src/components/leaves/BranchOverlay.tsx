@@ -1,7 +1,7 @@
 import { FC } from "react"
 import styled from "styled-components"
 import { useWindowSize } from "../../hooks/general"
-import { useScrollStore } from "../../store"
+import { useScrollStore } from "../../store/scrollStore"
 import { FallingLeaves } from "./FallingLeaves"
 
 const EXPONENT = 2.5

@@ -2,18 +2,19 @@ import gsap from "gsap"
 import { FC, memo, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import { cardsListFull } from "../../../../cardsList"
-import { useScrollStore } from "../../../../store"
+import { useScrollStore } from "../../../../store/scrollStore"
 import { MotionCard } from "../../../card/MotionCard"
 
 type Props = {
   index: number
+  show: boolean
 }
 
 const calculateCardWidth = (windowWidth: number) => {
   return `${(windowWidth - 0.22 * windowWidth - 0.08 * windowWidth) / 5 - 32}px`
 }
 
-export const CollectionCard: FC<Props> = memo(({ index }) => {
+export const CollectionCard: FC<Props> = memo(({ index, show }) => {
   const [cardFocussed, setCardFocussed] = useState(false)
   const lenis = useScrollStore((state) => state.lenis)
   const cardRef = useRef<HTMLDivElement>(null)
@@ -79,7 +80,7 @@ export const CollectionCard: FC<Props> = memo(({ index }) => {
       />
       <BlankCard key={`blank-card-${index}`}>
         {String(index + 1).padStart(3, "0")}
-        <CardContainer onClick={handleClick} ref={cardRef}>
+        <CardContainer onClick={handleClick} ref={cardRef} $show={show}>
           <MotionCard
             cardImage={`${card.artist}/${card.image}-m`}
             cardImageMask={card.mask && `${card.artist}/${card.mask}`}
@@ -104,9 +105,12 @@ const Barrier = styled.div`
   transition: all 0.5s ease;
 `
 
-const CardContainer = styled.div`
+const CardContainer = styled.div<{ $show: boolean }>`
+  opacity: ${({ $show }) => ($show ? "1" : "0")};
+  pointer-events: ${({ $show }) => ($show ? "all" : "none")};
   position: absolute;
   z-index: 1;
+  transition: opacity 0.5s ease;
 `
 
 const BlankCard = styled.div`

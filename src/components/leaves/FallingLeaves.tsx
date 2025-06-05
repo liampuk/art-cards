@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { useWindowSize } from "../../hooks/general"
-import { useScrollStore } from "../../store"
+import { useScrollStore } from "../../store/scrollStore"
 import { Leaf } from "../../types"
 
 export const FallingLeaves: FC = () => {

@@ -4,7 +4,7 @@ import { forwardRef, ReactNode, useRef } from "react"
 import styled from "styled-components"
 import { useShallow } from "zustand/shallow"
 import LeavesBorder from "../../../../assets/leaves-border.svg?react"
-import { useScrollStore } from "../../../../store"
+import { useScrollStore } from "../../../../store/scrollStore"
 
 const START = "center 80%"
 const END = "center 40%"

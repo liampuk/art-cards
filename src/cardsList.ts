@@ -30,7 +30,7 @@ export const cardsList: Card[] = [
   },
 ]
 
-export const cardsListFull: Card[] = [
+export const cardsListFull = [
   /**
    * Rossetti Holo
    */
@@ -194,4 +194,6 @@ export const cardsListFull: Card[] = [
   { artist: "waterhouse", image: "circe-offering-the-cup" },
   { artist: "waterhouse", image: "fair-rosamund" },
   { artist: "waterhouse", image: "gather-ye-rosebuds" },
-]
+] as const satisfies readonly Card[]
+
+export type CardId = (typeof cardsListFull)[number]["image"]

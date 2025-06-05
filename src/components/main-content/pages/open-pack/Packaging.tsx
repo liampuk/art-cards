@@ -12,6 +12,7 @@ import { PackState } from "../../../../types"
 import { artistBackground } from "../../../card/HoloStyles"
 import { MotionCard } from "../../../card/MotionCard"
 import { randomCommon, randomRare } from "./randomCard"
+import { useCardStore } from "../../../../store/cardStore"
 
 const BASE_URL = import.meta.env.BASE_URL
 
@@ -43,6 +44,8 @@ export const Packaging: FC<{
     randomCommon(),
     randomCommon(),
   ])
+
+  const { addCard } = useCardStore()
 
   const [hoverCard, setHoverCard] = useState<null | number>(null)
 
@@ -199,6 +202,9 @@ export const Packaging: FC<{
   }, [])
 
   const openPack = () => {
+    addCard(rare.image)
+    commons.forEach((common) => addCard(common.image))
+
     if (floatAnimationXRef.current && floatAnimationYRef.current) {
       setPackState("opening")
       floatAnimationXRef.current.pause()

@@ -1,6 +1,6 @@
 import { FC, memo } from "react"
 import styled from "styled-components"
-import { useScrollStore } from "../../../../store"
+import { useScrollStore } from "../../../../store/scrollStore"
 import { scrollTo } from "../../../../utils"
 import { Button } from "./Button"
 

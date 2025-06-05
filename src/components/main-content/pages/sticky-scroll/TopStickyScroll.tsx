@@ -1,5 +1,5 @@
 import { FC, memo, RefObject } from "react"
-import { useScrollStore } from "../../../../store"
+import { useScrollStore } from "../../../../store/scrollStore"
 import { scrollTo } from "../../../../utils"
 import { ScrollButton, StickyScrollText } from "./commonStyles"
 import { StickyScrollWrapper } from "./StickyScrollSection"

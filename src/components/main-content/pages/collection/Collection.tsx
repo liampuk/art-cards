@@ -3,8 +3,13 @@ import styled from "styled-components"
 import { TitleSection } from "../TitleSection"
 import { Button } from "../hero-page/Button"
 import { CollectionCard } from "./CollectionCard"
+import { useCardStore } from "../../../../store/cardStore"
+import { cardsListFull } from "../../../../cardsList"
 
 export const Collection: FC = memo(() => {
+  const { cards } = useCardStore()
+  const collectionSize = [...cards.values()].filter((count) => count > 0).length
+
   return (
     <Container>
       <TitleSection title="Collection">
@@ -18,13 +23,17 @@ export const Collection: FC = memo(() => {
         <SideAccent src="side-accent.svg" $height="5vh" $margin="0 1vw" />
         <HeaderContent>
           <PackTitle>Pre-Raphaelite Pack</PackTitle>
-          <PackCount>45/45</PackCount>
+          <PackCount>{collectionSize}/45</PackCount>
         </HeaderContent>
         <SideAccent src="side-accent.svg" $flip $height="5vh" $margin="0 1vw" />
       </PackHeader>
       <CollectionSection>
         {Array.from({ length: 45 }).map((_, i) => (
-          <CollectionCard key={`collection-card-${i}`} index={i} />
+          <CollectionCard
+            key={`collection-card-${i}`}
+            index={i}
+            show={(cards.get(cardsListFull[i].image) ?? 0) > 0}
+          />
         ))}
       </CollectionSection>
       <FooterSection>
