@@ -48,23 +48,6 @@ export const MotionCard: FC<Props> = memo(
     const [cardWidth, setCardWidth] = useState(0)
     const [cardHeight, setCardHeight] = useState(0)
     const externalControlActive = !!(externalRotateX || externalRotateY)
-    const [showEffects, setShowEffects] = useState(false)
-    const showEffectsTimeoutRef = useRef<number | undefined>()
-
-    useEffect(() => {
-      if (hover || externalControlActive) {
-        setShowEffects(true)
-        clearTimeout(showEffectsTimeoutRef.current)
-        showEffectsTimeoutRef.current = undefined
-      } else {
-        if (!showEffectsTimeoutRef.current) {
-          showEffectsTimeoutRef.current = setTimeout(() => {
-            setShowEffects(false)
-            showEffectsTimeoutRef.current = undefined
-          }, 600)
-        }
-      }
-    }, [hover, externalControlActive])
 
     const cardRef = useRef<HTMLDivElement>(null)
 
@@ -110,7 +93,7 @@ export const MotionCard: FC<Props> = memo(
     useGSAP(() => {
       const cardAnimation = gsap.to(cardRef.current, {
         rotateX: reverseMod > 0 ? -rotateYSpring : rotateYSpring,
-        rotateY: reverseMod > 0 ? rotateXSpring : rotateXSpring,
+        rotateY: rotateXSpring,
         scale: (externalScale ?? 1) + (hover ? 0.1 : 0),
         duration: 0.8,
         ease: "power2.out",
@@ -172,34 +155,35 @@ export const MotionCard: FC<Props> = memo(
     }
 
     return (
-      <Container $cardMaskImage={`${cardImageMask}.jpg`}>
+      <Container
+        $cardMaskImage={cardImageMask ? `${cardImageMask}.jpg` : undefined}
+      >
         <CardContainer
           onClick={() => handleClick()}
           onMouseMove={(ev) => handleMouseMove(ev)}
           onMouseLeave={(ev) => handleMouseLeave(ev)}
           style={{
             width: externalCardWidth ?? `${CARD_WIDTH}vw`,
-            transition: "width 0.3s ease",
+            transition: "width 0.5s ease",
           }}
+          $defaultReversed={defaultReversed}
           ref={cardRef}
         >
           <FaceCardContainer>
             <FaceCardImage src={`${BASE_URL}${cardImage}.jpg`} />
-            {showEffects && (
-              <MotionCardEffects
-                rotateX={rotateX}
-                rotateY={rotateY}
-                cardWidth={cardWidth}
-                cardHeight={cardHeight}
-                cardImageMask={cardImageMask}
-                shineType={shineType}
-                backgroundPosX={backgroundPosX}
-                backgroundPosY={backgroundPosY}
-                cursorPosXPercentage={cursorPosXPercentage}
-                cursorPosYPercentage={cursorPosYPercentage}
-                showEffects={hover || externalControlActive}
-              />
-            )}
+            <MotionCardEffects
+              rotateX={rotateX}
+              rotateY={rotateY}
+              cardWidth={cardWidth}
+              cardHeight={cardHeight}
+              cardImageMask={cardImageMask}
+              shineType={shineType}
+              backgroundPosX={backgroundPosX}
+              backgroundPosY={backgroundPosY}
+              cursorPosXPercentage={cursorPosXPercentage}
+              cursorPosYPercentage={cursorPosYPercentage}
+              showEffects={hover || externalControlActive}
+            />
           </FaceCardContainer>
           {!disableClick && (
             <BackCardContainer
@@ -232,7 +216,7 @@ const FaceCardContainer = styled.div`
   overflow: hidden;
   backface-visibility: hidden;
   z-index: 1000;
-  border-radius: 4px;
+  border-radius: 8px;
   isolation: isolate;
 `
 
@@ -241,27 +225,30 @@ const BackCardContainer = styled.div`
   top: 0;
   left: 0;
   overflow: hidden;
-  border-radius: 4px;
+  border-radius: 8px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 0px 40px 15px;
   z-index: -1;
 `
 
 const Container = styled.div<{
-  $cardMaskImage: string
+  $cardMaskImage?: string
 }>`
   ${({ $cardMaskImage }) =>
-    `--card-mask-image: url("${BASE_URL}${$cardMaskImage}")`};
+    $cardMaskImage
+      ? `--card-mask-image: url("${BASE_URL}${$cardMaskImage}")`
+      : ""};
   perspective: 1200px;
   width: fit-content;
   height: fit-content;
   user-select: none;
 `
 
-const CardContainer = styled.div`
+const CardContainer = styled.div<{ $defaultReversed?: boolean }>`
   width: 25vw;
   cursor: pointer;
   transform-style: preserve-3d;
   transition: "width 0.3s ease";
+  ${({ $defaultReversed }) => $defaultReversed && "transform: rotateY(180deg);"}
 `
 
 const CardBackImage = styled.img`
@@ -279,7 +266,7 @@ const Glare = styled.div`
   position: absolute;
   top: 0;
   height: 100%;
-  border-radius: 4px;
+  border-radius: 8px;
   opacity: 0.3;
   mix-blend-mode: hard-light;
   filter: brightness(0.9) contrast(1.75);

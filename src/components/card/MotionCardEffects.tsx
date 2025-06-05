@@ -165,7 +165,7 @@ export const MotionCardEffects: FC<Props> = ({
           />
         </LinesShine>
       )}
-      {shineType === "diagonal" && (
+      {cardImageMask && shineType === "diagonal" && (
         <DiagonalShine
           ref={diagonalShineRef}
           style={{
@@ -195,7 +195,7 @@ export const MotionCardEffects: FC<Props> = ({
           />
         </DiagonalShine>
       )}
-      {shineType === "galaxy" && (
+      {cardImageMask && shineType === "galaxy" && (
         <GalaxyShine
           ref={galaxyShineRef}
           style={{
@@ -239,15 +239,17 @@ export const MotionCardEffects: FC<Props> = ({
         }}
       />
 
-      <BrightBackground
-        ref={brightBackgroundRef}
-        className="transition-opacity"
-        style={{
-          // opacity: 0.2,
-          opacity: 0,
-          width: "100%",
-        }}
-      />
+      {cardImageMask && (
+        <BrightBackground
+          ref={brightBackgroundRef}
+          className="transition-opacity"
+          style={{
+            // opacity: 0.2,
+            opacity: 0,
+            width: "100%",
+          }}
+        />
+      )}
 
       <Glare
         className="transition-opacity"

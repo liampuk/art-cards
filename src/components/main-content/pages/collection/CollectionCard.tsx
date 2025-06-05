@@ -71,7 +71,10 @@ export const CollectionCard: FC<Props> = memo(({ index }) => {
   return (
     <>
       <Barrier
-        style={{ display: cardFocussed ? "block" : "none" }}
+        style={{
+          opacity: cardFocussed ? "1" : "0",
+          pointerEvents: cardFocussed ? "all" : "none",
+        }}
         onClick={handleClick}
       />
       <BlankCard key={`blank-card-${index}`}>
@@ -97,6 +100,8 @@ const Barrier = styled.div`
   width: 100vw;
   height: 100vh;
   z-index: 5;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: all 0.5s ease;
 `
 
 const CardContainer = styled.div`

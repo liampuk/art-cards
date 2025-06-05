@@ -109,7 +109,7 @@ export const OpenPack: FC = memo(() => {
           <Text>
             Open packs to build your art collection. There are 4 cards per pack,
             including one rare. You can open three packs per day! This website
-            is free but if you’d like to say thanks, please do so here{" "}
+            is free but if you’d like to support it, please do so here{" "}
             <Arrow>➚</Arrow>
           </Text>
           <TipButtonContainer href="https://ko-fi.com/liampuk" target="_blank">
