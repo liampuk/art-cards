@@ -8,7 +8,9 @@ import { cardsListFull } from "../../../../cardsList"
 
 export const Collection: FC = memo(() => {
   const { cards } = useCardStore()
-  const collectionSize = [...cards.values()].filter((count) => count > 0).length
+  const collectionSize = Object.values(cards).filter(
+    (count) => count > 0
+  ).length
 
   return (
     <Container>
@@ -32,7 +34,7 @@ export const Collection: FC = memo(() => {
           <CollectionCard
             key={`collection-card-${i}`}
             index={i}
-            show={(cards.get(cardsListFull[i].image) ?? 0) > 0}
+            show={(cards[cardsListFull[i].image] ?? 0) > 0}
           />
         ))}
       </CollectionSection>
