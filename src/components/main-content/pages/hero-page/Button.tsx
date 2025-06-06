@@ -77,6 +77,7 @@ const LabelText = styled.p<{ $size?: string }>`
   font-weight: 400;
   color: #333;
   position: absolute;
+  user-select: none;
 `
 const AccountButton = styled.img<{ $width?: string }>`
   width: ${({ $width }) => $width ?? "14vw"};

@@ -74,6 +74,7 @@ const LabelText = styled.p`
   font-weight: 400;
   color: #333;
   z-index: 1;
+  user-select: none;
 `
 
 const ButtonBox = styled.div<{ $hover?: boolean }>`

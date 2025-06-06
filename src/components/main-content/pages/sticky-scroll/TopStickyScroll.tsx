@@ -1,9 +1,9 @@
 import { FC, memo, RefObject } from "react"
-import { useScrollStore } from "../../../../store/scrollStore"
 import { scrollTo } from "../../../../utils"
 import { ScrollButton, StickyScrollText } from "./commonStyles"
 import { StickyScrollWrapper } from "./StickyScrollSection"
 import { StickyTextButton } from "./StickyScrollTextButton"
+import { useScrollStore } from "../../../../store/scrollStore"
 
 export const TopStickyScroll: FC<{ triggerRef: RefObject<HTMLDivElement> }> =
   memo(({ triggerRef }) => {

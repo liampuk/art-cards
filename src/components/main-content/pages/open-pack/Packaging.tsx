@@ -13,6 +13,8 @@ import { artistBackground } from "../../../card/HoloStyles"
 import { MotionCard } from "../../../card/MotionCard"
 import { randomCommon, randomRare } from "./randomCard"
 import { useCardStore } from "../../../../store/cardStore"
+import { useScrollStore } from "../../../../store/scrollStore"
+import { scrollTo } from "../../../../utils"
 
 const BASE_URL = import.meta.env.BASE_URL
 
@@ -21,6 +23,7 @@ export const Packaging: FC<{
   setPackState: Dispatch<SetStateAction<PackState>>
   clickAction: () => void
 }> = ({ packState, setPackState, clickAction }) => {
+  const lenis = useScrollStore((state) => state.lenis)
   const containerRef = useRef<HTMLDivElement>(null)
   const flapContainerRef = useRef<HTMLDivElement>(null)
   const flapDownRef = useRef<HTMLDivElement>(null)
@@ -202,6 +205,7 @@ export const Packaging: FC<{
   }, [])
 
   const openPack = () => {
+    scrollTo(lenis, 3)
     addCard(rare.image)
     commons.forEach((common) => addCard(common.image))
 
