@@ -8,8 +8,10 @@ import { cardsListFull } from "../../../../cardsList"
 import { deflateSync, strToU8 } from "fflate"
 import { QRCodeSVG } from "qrcode.react"
 
-const encodeCards = (cards: CardsCount) => {
-  const compressed = deflateSync(strToU8(JSON.stringify(cards)))
+const encodeCards = (cards: CardsCount, date: Date, remaining: number) => {
+  const compressed = deflateSync(
+    strToU8(JSON.stringify({ cards: cards, date: date, remaining: remaining }))
+  )
   const base64 = btoa(String.fromCharCode(...compressed))
   const base64UrlSafe = base64
     .replace(/\+/g, "-")
@@ -19,18 +21,16 @@ const encodeCards = (cards: CardsCount) => {
 }
 
 export const Collection: FC = memo(() => {
-  const { cards } = useCardStore()
+  const { cards, lastOpenedDate, packsRemaining } = useCardStore()
   const collectionSize = Object.values(cards).filter(
     (count) => count > 0
   ).length
 
-  const urlEncodedCards = encodeCards(cards)
+  const urlEncodedCards = encodeCards(cards, lastOpenedDate, packsRemaining)
 
   const copyUrl = async () => {
     await navigator.clipboard.writeText(urlEncodedCards)
   }
-
-  console.log(cards)
 
   return (
     <Container>

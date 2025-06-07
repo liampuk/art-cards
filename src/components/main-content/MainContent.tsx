@@ -33,7 +33,9 @@ export const MainContent: FC = () => {
       setScrollRef: state.setScrollRef,
     }))
   )
-  const { setCards } = useCardStore()
+  const { lastOpenedDate, setCards, setLastOpenedDate, setPacksRemaining } =
+    useCardStore()
+  const storedDateLoaded = useRef(false)
 
   const [rotateX, setRotateX] = useState<null | number>(null)
   const [rotateY, setRotateY] = useState<null | number>(null)
@@ -154,15 +156,45 @@ export const MainContent: FC = () => {
       const binary = atob(base64)
       const byteArray = Uint8Array.from(binary, (c) => c.charCodeAt(0))
       const decompressed = inflateSync(byteArray) // Decompress
-      const storedCardsString = strFromU8(decompressed)
-      const storedCards = JSON.parse(storedCardsString) as CardsCount
-      setCards(storedCards)
+      const storedStateString = strFromU8(decompressed)
+      const storedState = JSON.parse(storedStateString) as {
+        cards: CardsCount
+        date: Date
+        remaining: number
+      }
+      setCards(storedState.cards)
+      setLastOpenedDate(new Date(storedState.date))
+      setPacksRemaining(storedState.remaining)
+      removeQueryParam()
+      if (
+        new Date(new Date(storedState.date).toDateString()) <
+        new Date(new Date().toDateString())
+      ) {
+        setPacksRemaining(3)
+        setLastOpenedDate(new Date())
+      }
+      storedDateLoaded.current = true
+    } else {
+      if (
+        !storedDateLoaded.current &&
+        new Date(new Date(lastOpenedDate).toDateString()) <
+          new Date(new Date().toDateString())
+      ) {
+        setPacksRemaining(3)
+        setLastOpenedDate(new Date())
+      }
     }
 
     return () => {
       newLenis.destroy()
     }
   }, [])
+
+  const removeQueryParam = () => {
+    const url = new URL(window.location.href)
+    url.searchParams.delete("cards")
+    window.history.replaceState({}, "", url.toString())
+  }
 
   return (
     <Container ref={fixedDivRef}>

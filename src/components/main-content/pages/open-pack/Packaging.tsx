@@ -22,7 +22,8 @@ export const Packaging: FC<{
   packState: PackState
   setPackState: Dispatch<SetStateAction<PackState>>
   clickAction: () => void
-}> = ({ packState, setPackState, clickAction }) => {
+  disabled: boolean
+}> = ({ packState, setPackState, clickAction, disabled }) => {
   const lenis = useScrollStore((state) => state.lenis)
   const containerRef = useRef<HTMLDivElement>(null)
   const flapContainerRef = useRef<HTMLDivElement>(null)
@@ -48,7 +49,8 @@ export const Packaging: FC<{
     randomCommon(),
   ])
 
-  const { addCard } = useCardStore()
+  const { packsRemaining, addCard, setLastOpenedDate, setPacksRemaining } =
+    useCardStore()
 
   const [hoverCard, setHoverCard] = useState<null | number>(null)
 
@@ -208,6 +210,8 @@ export const Packaging: FC<{
     scrollTo(lenis, 3)
     addCard(rare.id)
     commons.forEach((common) => addCard(common.id))
+    setLastOpenedDate(new Date())
+    setPacksRemaining(packsRemaining - 1)
 
     if (floatAnimationXRef.current && floatAnimationYRef.current) {
       setPackState("opening")
@@ -304,7 +308,7 @@ export const Packaging: FC<{
 
   return (
     <PerspectiveWrapper>
-      <Container ref={containerRef}>
+      <Container ref={containerRef} $disabled={disabled}>
         <MotionCardContainer
           ref={cardARef}
           onMouseMove={() => setHoverCard(0)}
@@ -381,12 +385,13 @@ export const Packaging: FC<{
               }}
             />
             <StickerButton
-              onClick={openPack}
+              onClick={() => !disabled && openPack()}
               style={{
                 width: cardWidth / 2.2,
                 height: cardHeight / 2.8,
                 top: cardHeight / 4.6,
                 right: cardWidth / 3.7,
+                cursor: disabled ? "not-allowed" : "pointer",
               }}
             />
           </div>
@@ -471,7 +476,8 @@ const PerspectiveWrapper = styled.div`
   margin-bottom: 6vh;
 `
 
-const Container = styled.div`
+const Container = styled.div<{ $disabled: boolean }>`
+  ${({ $disabled }) => $disabled && "filter: saturate(0);"}
   position: relative;
   width: fit-content;
   height: fit-content;

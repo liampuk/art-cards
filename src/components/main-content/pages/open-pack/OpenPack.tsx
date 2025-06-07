@@ -1,18 +1,27 @@
 import gsap from "gsap"
-import { FC, memo, useRef, useState } from "react"
+import { FC, memo, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import { PackState } from "../../../../types"
 import { Button } from "../hero-page/Button"
 import { TitleSection } from "../TitleSection"
 import { Packaging } from "./Packaging"
+import { useCardStore } from "../../../../store/cardStore"
 
 export const OpenPack: FC = memo(() => {
+  const { packsRemaining } = useCardStore()
   const [packState, setPackState] = useState<PackState>("closed")
   const packagingARef = useRef<HTMLImageElement>(null)
   const packagingBRef = useRef<HTMLImageElement>(null)
   const packagingCRef = useRef<HTMLImageElement>(null)
   const triggeredRef = useRef(false)
   const [cardClickCount, setCardClickCount] = useState(0)
+  const [packsRemainingLabel, setPacksRemainingLabel] = useState(packsRemaining)
+
+  useEffect(() => {
+    if (packState === "closed") {
+      setPacksRemainingLabel(packsRemaining)
+    }
+  }, [packsRemaining])
 
   const clickAction = () => {
     setCardClickCount((count) => count + 1)
@@ -21,6 +30,9 @@ export const OpenPack: FC = memo(() => {
   if (cardClickCount >= 2) {
     setCardClickCount(0)
     setPackState("resetting")
+    setTimeout(() => {
+      setPacksRemainingLabel(packsRemaining)
+    }, 500)
     triggeredRef.current = false
     gsap.fromTo(
       packagingARef.current,
@@ -70,7 +82,9 @@ export const OpenPack: FC = memo(() => {
   }
 
   const accentText = () => {
-    if (cardClickCount === 1) {
+    if (packsRemainingLabel === 0) {
+      return "No packs left, come back tomorrow!"
+    } else if (cardClickCount === 1) {
       return "Click to open another pack"
     } else if (packState === "open") {
       return "Click to reveal your rare card"
@@ -125,12 +139,15 @@ export const OpenPack: FC = memo(() => {
           packState={packState}
           setPackState={setPackState}
           clickAction={clickAction}
+          disabled={packsRemainingLabel === 0}
         />
 
-        <PacksRemaining
-          src="packs-remaining-temp.png"
+        <PacksRemainingContainer
           style={{ opacity: packState === "closed" ? 1 : 0 }}
-        />
+        >
+          <PacksRemaining src="packs-remaining-small.jpg" />
+          <RemainingCount>{packsRemainingLabel}</RemainingCount>
+        </PacksRemainingContainer>
       </PackagingContainer>
       <AccentBottomContainer>
         <AccentText>{accentText()}</AccentText>
@@ -141,11 +158,30 @@ export const OpenPack: FC = memo(() => {
 })
 
 const PacksRemaining = styled.img`
-  height: 14vh;
+  height: 9vh;
+  border-radius: 2px;
+`
+
+const PacksRemainingContainer = styled.div`
   margin-right: 2.5vw;
   margin-top: 2.5vh;
   transition: opacity 0.5s;
   align-self: start;
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+  transition: opacity 0.5s;
+`
+
+const RemainingCount = styled.p`
+  font-family: "Mucha";
+  font-size: 6vh;
+  color: #e8e2d0;
+  position: absolute;
+  bottom: -5vh;
+  right: 2.1vh;
+  width: 5vh;
+  text-align: center;
 `
 
 const ExtraPack = styled.img`
