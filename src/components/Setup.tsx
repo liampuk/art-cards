@@ -43,7 +43,7 @@ export const Setup = () => {
     cardsListFull.forEach((card) => {
       const img = new Image()
       img.src = `${BASE_URL}${card.artist}/${card.image}-m.jpg`
-      if (card.mask) {
+      if ("mask" in card) {
         const mask = new Image()
         mask.src = `${BASE_URL}${card.artist}/${card.mask}.jpg`
       }

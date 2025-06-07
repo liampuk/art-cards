@@ -9,6 +9,7 @@ const BASE_URL = import.meta.env.BASE_URL
 
 export const Mobile = () => {
   const [card, setCard] = useState<Card>({
+    id: 0,
     image: "proserpine-m",
     mask: "proserpine-mask",
     effect: "lines",
@@ -17,10 +18,14 @@ export const Mobile = () => {
 
   const randomiseCard = () => {
     setCard(
-      cardsListFull.filter((card) => card.effect === "lines")[
+      cardsListFull.filter(
+        (card) => "effect" in card && card.effect === "lines"
+      )[
         Math.floor(
           Math.random() *
-            cardsListFull.filter((card) => card.effect === "lines").length
+            cardsListFull.filter(
+              (card) => "effect" in card && card.effect === "lines"
+            ).length
         )
       ]
     )

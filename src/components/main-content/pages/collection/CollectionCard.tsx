@@ -83,8 +83,10 @@ export const CollectionCard: FC<Props> = memo(({ index, show }) => {
         <CardContainer onClick={handleClick} ref={cardRef} $show={show}>
           <MotionCard
             cardImage={`${card.artist}/${card.image}-m`}
-            cardImageMask={card.mask && `${card.artist}/${card.mask}`}
-            shineType={card?.effect}
+            cardImageMask={
+              "effect" in card ? `${card.artist}/${card.mask}` : undefined
+            }
+            shineType={"effect" in card ? card?.effect : undefined}
             externalCardWidth={cardFocussed ? "25vw" : cardWidth}
             disableClick
           />

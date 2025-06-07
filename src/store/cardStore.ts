@@ -3,22 +3,23 @@ import { CardId, cardsListFull } from "../cardsList"
 import { createJSONStorage, persist } from "zustand/middleware"
 
 type CardStore = {
-  cards: { [cardId in CardId]: number }
-  setCards: (newCards: { [cardId in CardId]: number }) => void
+  cards: CardsCount
+  setCards: (newCards: CardsCount) => void
   addCard: (id: CardId) => void
 }
+
+export type CardsCount = { [cardId in CardId]: number }
 
 export const useCardStore = create<CardStore>()(
   persist(
     (set, get) => ({
       cards: cardsListFull
-        .map((card) => card.image)
+        .map((card) => card.id)
         .reduce((obj, cardId) => {
           obj[cardId] = 0
           return obj
-        }, {} as { [cardId in CardId]: number }),
-      setCards: (newCards: { [cardId in CardId]: number }) =>
-        set({ cards: newCards }),
+        }, {} as CardsCount),
+      setCards: (newCards: CardsCount) => set({ cards: newCards }),
       addCard: (id: CardId) =>
         set(() => {
           const oldCards = get().cards

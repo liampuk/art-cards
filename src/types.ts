@@ -1,6 +1,7 @@
 export type Effect = "lines" | "diagonal" | "galaxy"
 
 interface BaseCard {
+  id: number
   artist: string
   image: string
 }

@@ -3,14 +3,34 @@ import styled from "styled-components"
 import { TitleSection } from "../TitleSection"
 import { Button } from "../hero-page/Button"
 import { CollectionCard } from "./CollectionCard"
-import { useCardStore } from "../../../../store/cardStore"
+import { CardsCount, useCardStore } from "../../../../store/cardStore"
 import { cardsListFull } from "../../../../cardsList"
+import { deflateSync, strToU8 } from "fflate"
+import { QRCodeSVG } from "qrcode.react"
+
+const encodeCards = (cards: CardsCount) => {
+  const compressed = deflateSync(strToU8(JSON.stringify(cards)))
+  const base64 = btoa(String.fromCharCode(...compressed))
+  const base64UrlSafe = base64
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "")
+  return `https://liamp.uk/gallery-quest?cards=${base64UrlSafe}`
+}
 
 export const Collection: FC = memo(() => {
   const { cards } = useCardStore()
   const collectionSize = Object.values(cards).filter(
     (count) => count > 0
   ).length
+
+  const urlEncodedCards = encodeCards(cards)
+
+  const copyUrl = async () => {
+    await navigator.clipboard.writeText(urlEncodedCards)
+  }
+
+  console.log(cards)
 
   return (
     <Container>
@@ -34,7 +54,7 @@ export const Collection: FC = memo(() => {
           <CollectionCard
             key={`collection-card-${i}`}
             index={i}
-            show={(cards[cardsListFull[i].image] ?? 0) > 0}
+            show={(cards[cardsListFull[i].id] ?? 0) > 0}
           />
         ))}
       </CollectionSection>
@@ -55,12 +75,15 @@ export const Collection: FC = memo(() => {
                   To load your collection on a new device or if data is lost, go
                   to the saved url and click ‘accept’ to load your collection.
                 </p>
-                <ButtonContainer>
-                  <Button label="Coming Soon..." />
+                <ButtonContainer onClick={copyUrl}>
+                  <Button label="Copy Link" />
                 </ButtonContainer>
               </FooterButtonSection>
             </FooterText>
-            <QrImage src="qr-placeholder.jpg" />
+            <QrImageWrapper>
+              <QrImage value={urlEncodedCards} bgColor="transparent" />
+            </QrImageWrapper>
+            {/* <QrImage src="qr-placeholder.jpg" /> */}
           </FooterContent>
         </FooterContentWrapper>
         <SideAccent
@@ -100,9 +123,14 @@ const FooterContent = styled.div`
   flex-direction: row;
 `
 
-const QrImage = styled.img`
-  height: 25vh;
-  width: 25vh;
+const QrImage = styled(QRCodeSVG)`
+  height: 22vh;
+  width: 22vh;
+`
+
+const QrImageWrapper = styled.div`
+  width: 22vh;
+  height: 22vh;
 `
 
 const FooterContentWrapper = styled.div`

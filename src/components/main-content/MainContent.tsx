@@ -12,6 +12,8 @@ import { OpenPack } from "./pages/open-pack/OpenPack"
 import { BottomStickyScroll } from "./pages/sticky-scroll/BottomStickyScroll"
 import { TopStickyScroll } from "./pages/sticky-scroll/TopStickyScroll"
 import { Tutorial } from "./pages/tutorial/Tutorial"
+import { inflateSync, strFromU8 } from "fflate"
+import { CardsCount, useCardStore } from "../../store/cardStore"
 
 const BASE_URL = import.meta.env.BASE_URL
 
@@ -31,6 +33,7 @@ export const MainContent: FC = () => {
       setScrollRef: state.setScrollRef,
     }))
   )
+  const { setCards } = useCardStore()
 
   const [rotateX, setRotateX] = useState<null | number>(null)
   const [rotateY, setRotateY] = useState<null | number>(null)
@@ -142,6 +145,19 @@ export const MainContent: FC = () => {
         ease: "power2",
       }
     )
+
+    const queryParams = new URLSearchParams(window.location.search)
+    const term = queryParams.get("cards")
+
+    if (term) {
+      const base64 = term.replace(/-/g, "+").replace(/_/g, "/")
+      const binary = atob(base64)
+      const byteArray = Uint8Array.from(binary, (c) => c.charCodeAt(0))
+      const decompressed = inflateSync(byteArray) // Decompress
+      const storedCardsString = strFromU8(decompressed)
+      const storedCards = JSON.parse(storedCardsString) as CardsCount
+      setCards(storedCards)
+    }
 
     return () => {
       newLenis.destroy()

@@ -206,8 +206,8 @@ export const Packaging: FC<{
 
   const openPack = () => {
     scrollTo(lenis, 3)
-    addCard(rare.image)
-    commons.forEach((common) => addCard(common.image))
+    addCard(rare.id)
+    commons.forEach((common) => addCard(common.id))
 
     if (floatAnimationXRef.current && floatAnimationYRef.current) {
       setPackState("opening")
