@@ -17,7 +17,7 @@ export const Tutorial: FC = memo(() => {
           <TextLink href="mailto:liampuk@gmail.com">liampuk@gmail.com</TextLink>
         </Text>
         <Text>
-          - Or find the rest of my work here:
+          - Find more of my work here:
           <TextLink href="https://liamp.uk">liamp.uk</TextLink>
         </Text>
       </TitleSection>
