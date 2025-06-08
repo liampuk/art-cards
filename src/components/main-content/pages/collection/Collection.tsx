@@ -72,8 +72,8 @@ export const Collection: FC = memo(() => {
               </p>
               <FooterButtonSection>
                 <p>
-                  To load your collection on a new device or if data is lost, go
-                  to the saved url and click ‘accept’ to load your collection.
+                  To load your collection on a new device or if data is lost,
+                  just open the saved url!
                 </p>
                 <ButtonContainer onClick={copyUrl}>
                   <Button label="Copy Link" />
