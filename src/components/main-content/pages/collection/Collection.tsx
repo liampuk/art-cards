@@ -83,7 +83,6 @@ export const Collection: FC = memo(() => {
             <QrImageWrapper>
               <QrImage value={urlEncodedCards} bgColor="transparent" />
             </QrImageWrapper>
-            {/* <QrImage src="qr-placeholder.jpg" /> */}
           </FooterContent>
         </FooterContentWrapper>
         <SideAccent

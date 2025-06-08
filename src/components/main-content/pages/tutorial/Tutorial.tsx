@@ -7,16 +7,18 @@ export const Tutorial: FC = memo(() => {
     <Container>
       <TitleSection title="About">
         <Text>
-          This website demonstrates the possibilities of using HDR effects on
-          the web. HDR is not widely supported, and the combination of HDR and
-          lots of layers used in the shine animations can be very slow on some
-          devices. I'm still working on adding features so for now you can open
-          as many packs as you like and explore the whole pre-raphaellite
-          collection!
+          I made this website to explore using art nouveau design on the web. I
+          also wanted to see how HDR can be used to enhance experiences. I'm
+          planning on putting together some tutorials for the techniques I used,
+          check back here soon for an update!
         </Text>
         <Text>
-          Tutorial coming soon - If you have any questions please contact me!{" "}
+          - If you have any questions please contact me!
           <TextLink href="mailto:liampuk@gmail.com">liampuk@gmail.com</TextLink>
+        </Text>
+        <Text>
+          - Or find the rest of my work here:
+          <TextLink href="https://liamp.uk">liamp.uk</TextLink>
         </Text>
       </TitleSection>
     </Container>
