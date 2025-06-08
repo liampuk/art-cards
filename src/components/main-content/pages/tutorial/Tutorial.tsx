@@ -7,7 +7,7 @@ export const Tutorial: FC = memo(() => {
     <Container>
       <TitleSection title="About">
         <Text>
-          I made this website to explore using art nouveau design on the web. I
+          I made this website to explore using Art Nouveau design on the web. I
           also wanted to see how HDR can be used to enhance experiences. I'm
           planning on putting together some tutorials for the techniques I used,
           check back here soon for an update!
