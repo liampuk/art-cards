@@ -35,10 +35,10 @@ img {
 
 @font-face {
   font-family: "Mucha";
-  src: url("./assets/AlphonseMucha.otf") format("opentype");
+  src: url("/AlphonseMucha.otf") format("opentype");
 }
 
 @font-face {
   font-family: "EB Garamond";
-  src: url("./assets/EBGaramond-Regular.ttf") format("truetype");
+  src: url("/EBGaramond-Regular.ttf") format("truetype");
 }

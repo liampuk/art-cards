@@ -12,7 +12,7 @@ import { PackState } from "../../../../types"
 import { artistBackground } from "../../../card/HoloStyles"
 import { MotionCard } from "../../../card/MotionCard"
 import { randomCommon, randomRare } from "./randomCard"
-import { useCardStore } from "../../../../store/cardStore"
+import { CardsCount, useCardStore } from "../../../../store/cardStore"
 import { useScrollStore } from "../../../../store/scrollStore"
 import { scrollTo } from "../../../../utils"
 
@@ -48,8 +48,9 @@ export const Packaging: FC<{
     randomCommon(),
     randomCommon(),
   ])
+  const [initialCounts, setInitialCounts] = useState<CardsCount | null>(null)
 
-  const { packsRemaining, addCard, setLastOpenedDate, setPacksRemaining } =
+  const { cards, packsRemaining, addCard, setLastOpenedDate, setPacksRemaining } =
     useCardStore()
 
   const [hoverCard, setHoverCard] = useState<null | number>(null)
@@ -208,6 +209,9 @@ export const Packaging: FC<{
 
   const openPack = () => {
     scrollTo(lenis, 3)
+    const snapshot: CardsCount = { ...cards }
+    setInitialCounts(snapshot)
+
     addCard(rare.id)
     commons.forEach((common) => addCard(common.id))
     setLastOpenedDate(new Date())
@@ -317,6 +321,9 @@ export const Packaging: FC<{
         >
           <MotionCard
             cardImage={`${commons[0].artist}/${commons[0].image}-m`}
+            showNewSticker={
+              !!initialCounts && (initialCounts[commons[0].id] ?? 0) === 0
+            }
             externalCardWidth="19vw"
             externalScale={0.95}
             externalRotateX={cardTilt}
@@ -331,6 +338,9 @@ export const Packaging: FC<{
         >
           <MotionCard
             cardImage={`${commons[1].artist}/${commons[1].image}-m`}
+            showNewSticker={
+              !!initialCounts && (initialCounts[commons[1].id] ?? 0) === 0
+            }
             externalCardWidth="19vw"
             externalScale={0.95}
             externalRotateX={cardTilt}
@@ -345,6 +355,9 @@ export const Packaging: FC<{
         >
           <MotionCard
             cardImage={`${commons[2].artist}/${commons[2].image}-m`}
+            showNewSticker={
+              !!initialCounts && (initialCounts[commons[2].id] ?? 0) === 0
+            }
             externalCardWidth="19vw"
             externalScale={0.95}
             externalRotateX={cardTilt}
@@ -355,6 +368,9 @@ export const Packaging: FC<{
           <MotionCard
             cardImage={`${rare.artist}/${rare.image}-m`}
             cardImageMask={`${rare.artist}/${rare.mask}`}
+            showNewSticker={
+              !!initialCounts && (initialCounts[rare.id] ?? 0) === 0
+            }
             externalCardWidth="19vw"
             shineType={rare.effect}
             defaultReversed

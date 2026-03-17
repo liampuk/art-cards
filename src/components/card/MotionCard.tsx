@@ -11,6 +11,7 @@ const CARD_WIDTH = 25
 type Props = {
   cardImage: string
   cardImageMask?: string
+  showNewSticker?: boolean
   externalCardWidth?: string
   defaultReversed?: boolean
   shineType?: Effect
@@ -30,6 +31,7 @@ export const MotionCard: FC<Props> = memo(
   ({
     cardImage,
     cardImageMask,
+    showNewSticker,
     externalCardWidth,
     defaultReversed,
     shineType,
@@ -170,6 +172,9 @@ export const MotionCard: FC<Props> = memo(
           ref={cardRef}
         >
           <FaceCardContainer>
+            {showNewSticker && (
+              <NewSticker src={`${BASE_URL}new.png`} alt="New" />
+            )}
             <FaceCardImage src={`${BASE_URL}${cardImage}.jpg`} />
             <MotionCardEffects
               rotateX={rotateX}
@@ -213,6 +218,7 @@ export const MotionCard: FC<Props> = memo(
 )
 
 const FaceCardContainer = styled.div`
+  position: relative;
   overflow: hidden;
   backface-visibility: hidden;
   z-index: 1000;
@@ -259,6 +265,16 @@ const CardBackImage = styled.img`
 
 const FaceCardImage = styled.img`
   width: 100%;
+`
+
+const NewSticker = styled.img`
+  position: absolute;
+  top: 16%;
+  right: 8%;
+  width: 22%;
+  rotate: 10deg;
+  pointer-events: none;
+  z-index: 1100;
 `
 
 const Glare = styled.div`
