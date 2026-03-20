@@ -26,15 +26,15 @@ export const Setup = () => {
         "color: green;",
         "color: magenta;",
         "color: green;",
-        "color: yellow;",
+        "color: orange;",
         "color: green;",
-        "color: white",
+        "color: magenta",
         "color: green;",
         "color: blue;",
         "color: green;",
         "color: red;",
         "color: green;",
-        "color: yellow;",
+        "color: orange;",
         "color: green;"
       )
       logged.current = true
